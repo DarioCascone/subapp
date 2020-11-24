@@ -1,9 +1,8 @@
 <template>
   <q-page class="flex flex-center">
-    <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-full.svg"
-    >
+    <q-btn class="bg-primary text-white">Tasto prova</q-btn>
+    <q-btn class="bg-secondary text-white">Tasto prova</q-btn>
+    <q-btn class="bg-accent text-white">Tasto prova</q-btn>
   </q-page>
 </template>
 
