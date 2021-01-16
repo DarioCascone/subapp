@@ -8,6 +8,8 @@
         <q-toolbar-title>
           subAPP
         </q-toolbar-title>
+
+        <!--<q-input v-model="name" :value="name"></q-input>-->
       </q-toolbar>
     </q-header>
 
@@ -32,7 +34,8 @@
 export default {
   data () {
     return {
-      left: false
+      left: false,
+      name: 'Antonio'
     }
   }
 }

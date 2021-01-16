@@ -43,6 +43,10 @@ export default {
     icon: {
       type: String,
       default: ''
+    },
+
+    name: {
+      type: String
     }
   }
 }
