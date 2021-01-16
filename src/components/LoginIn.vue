@@ -12,13 +12,21 @@
           <div>
             <q-form method="post" id="loginForm" @submit="onSubmit">
               <div>
-                <div class="form-group">
-                  <q-input outlined v-model="username" type="text" name="username" label="Username"  :autofocus=true />
-                  <div v-show="true" class="invalid-feedback">Inserire Username!</div>
+                <div :class="{'form-group--error': $v.username.$error }">
+                  <q-input outlined v-model="username" type="text" :name="username" label="Username"  :autofocus=true />
                 </div>
+                <div class="error" v-if="!$v.username.required">Field is required</div>
+                <div class="error" v-if="!$v.username.minLength">Name must have at least {{$v.username.$params.minLength.min}} letters.</div>
                 <div class="form-group">
-                  <q-input outlined v-model="password" type="password" name="password" label="Password" id="password"/>
-                  <div v-show="true" class="invalid-feedback">Inserire Password!</div>
+                  <q-input outlined label="Password" v-model="password" :name="password" :type="isPwd ? 'password' : 'text'" >
+                    <template v-slot:append>
+                      <q-icon
+                        :name="isPwd ? 'visibility_off' : 'visibility'"
+                        class="cursor-pointer"
+                        @click="isPwd = !isPwd"
+                      />
+                    </template>
+                  </q-input>
                 </div>
               </div>
               <div>
@@ -42,6 +50,7 @@
 
 <script>
 import SignIn from 'components/SignIn'
+import { required, minLength } from 'vuelidate/lib/validators'
 export default {
   name: 'PageSignIn',
   components: { SignIn },
@@ -49,13 +58,22 @@ export default {
     return {
       showAlert: false,
       username: '',
-      password: ''
+      password: '',
+      isPwd: true
     }
   },
   methods: {
     onSubmit () {
       console.log('Submitted')
+      this.$v.$touch()
+    }
+  },
+  validations: {
+    username: {
+      required: required,
+      minLength: minLength(6)
     }
   }
 }
+
 </script>
