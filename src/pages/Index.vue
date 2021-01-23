@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center">
+  <q-page class="login-page flex flex-center">
     <!-- Home Page -->
     <login-in></login-in>
   </q-page>
