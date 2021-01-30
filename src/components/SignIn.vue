@@ -90,7 +90,7 @@
                       <!-- Nazione -->
                       <div class="field-container">
                         <div class="form-group" :class="{'form-group--error': $v.country.$error }">
-                          <q-select option-label="name" option-value="code" outlined v-model="country" :options="countryOptions" label="Nazione" />
+                          <q-select @change="prova" outlined v-model="country" :options="nazioni" label="Nazione" />
                         </div>
                         <div v-if="$v.country.$dirty">
                           <div class="error" v-if="!$v.country.required">{{$t('signin.required')}}</div>
@@ -100,7 +100,7 @@
                       <!-- Regione -->
                       <div class="field-container">
                         <div class="form-group" :class="{'form-group--error': $v.region.$error }">
-                          <q-select option-label="name" option-value="code" outlined v-model="region" :options="regionOptions" label="Regione" />
+                          <q-select option-label="name" option-value="code" outlined v-model="region" :options="regioni" label="Regione" />
                         </div>
                         <div v-if="$v.region.$dirty">
                           <div class="error" v-if="!$v.region.required">{{$t('signin.required')}}</div>
@@ -114,16 +114,6 @@
                         </div>
                         <div v-if="$v.province.$dirty">
                           <div class="error" v-if="!$v.province.required">{{$t('signin.required')}}</div>
-                        </div>
-                      </div>
-
-                      <!-- Regione -->
-                      <div class="field-container">
-                        <div class="form-group" :class="{'form-group--error': $v.region.$error }">
-                          <q-select option-label="name" option-value="code" outlined v-model="region" :options="regionOptions" label="Nazione" />
-                        </div>
-                        <div v-if="$v.region.$dirty">
-                          <div class="error" v-if="!$v.region.required">{{$t('signin.required')}}</div>
                         </div>
                       </div>
 
@@ -288,7 +278,11 @@ export default {
       isPostalCode: isPostalCode,
       isWebSite: isWebSite,
       isTelephoneNumber: isTelephoneNumber,
-      isPassword: isPassword
+      isPassword: isPassword,
+      nazioni: ['italia', 'germania', 'francia'],
+      regioni: ['campania', 'lombardia', 'veneto'],
+      provinceOptions: ['Napoli', 'Salerno', 'Avellino'],
+      cityOptions: ['Giugliano in Campania', 'Qualiano', 'Villaricca']
     }
   },
   props: ['showAlert'],
@@ -303,6 +297,9 @@ export default {
       } else {
 
       }
+    },
+    prova () {
+      console.log(this.country)
     }
   },
   watch: {
