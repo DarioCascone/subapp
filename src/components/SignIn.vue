@@ -269,9 +269,13 @@
                   </q-step>
 
                   <template v-slot:navigation>
-                    <q-stepper-navigation>
-                      <q-btn @click="$refs.stepper.next()" :type="step === 3 ? 'submit' : 'button'" color="primary" :label="step === 3 ? 'Registrati' : 'Continua'" />
-                      <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Indietro" class="q-ml-sm" />
+                    <q-stepper-navigation class="flex justify-between">
+                      <div>
+                        <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Indietro" class="q-ml-sm" />
+                      </div>
+                      <div>
+                        <q-btn @click="$refs.stepper.next()" :type="step === 3 ? 'submit' : 'button'"  color="primary" :label="step === 3 ? 'Registrati' : 'Continua'" />
+                      </div>
                     </q-stepper-navigation>
                   </template>
                 </q-stepper>
