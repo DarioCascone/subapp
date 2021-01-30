@@ -17,7 +17,7 @@ const isVatNumber = (param) => {
 
 const isPostalCode = (param) => {
   if (param) {
-    const pattern = new RegExp('\d{5}')
+    const pattern = new RegExp('(?<!\\d)\\d{5}(?!\\d)')
     return pattern.test(param)
   }
   return false
