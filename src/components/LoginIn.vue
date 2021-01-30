@@ -60,6 +60,8 @@
 <script>
 import SignIn from 'components/SignIn'
 import { required, minLength } from 'vuelidate/lib/validators'
+import { mapActions } from 'vuex'
+
 export default {
   name: 'PageSignIn',
   components: { SignIn },
@@ -72,9 +74,15 @@ export default {
     }
   },
   methods: {
-    onSubmit () {
+    ...mapActions([
+      'login' // map `this.increment()` to `this.$store.dispatch('increment')` `mapActions` also supports payloads:
+    ]),
+    async onSubmit () {
       console.log('Submitted')
-      this.$v.$touch()
+      const response = await this.login()
+      console.log('LoginComponent', response)
+      alert(response.message)
+      // this.$v.$touch()
     }
   },
   validations: {
