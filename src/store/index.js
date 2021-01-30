@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
-// import example from './module-example'
+import authModule from './modules/auth/index'
+import rootActions from './actions.js'
+import rootGetters from './getters.js'
+import rootMutations from './mutations.js'
 
 Vue.use(Vuex)
 
@@ -15,15 +17,18 @@ Vue.use(Vuex)
  */
 
 export default function (/* { ssrContext } */) {
-  const Store = new Vuex.Store({
+  return new Vuex.Store({
     modules: {
-      // example
+      authModule
     },
-
-    // enable strict mode (adds overhead!)
-    // for dev mode only
+    state () {
+      return {
+        isLoggedIn: false
+      }
+    },
+    mutation: rootMutations,
+    actions: rootActions,
+    getters: rootGetters,
     strict: process.env.DEBUGGING
   })
-
-  return Store
 }
