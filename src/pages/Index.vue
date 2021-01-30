@@ -1,13 +1,18 @@
 <template>
-  <q-page class="flex flex-center">
-    <q-btn class="bg-primary text-white">Tasto prova</q-btn>
-    <q-btn class="bg-secondary text-white">Tasto prova</q-btn>
-    <q-btn class="bg-accent text-white">Tasto prova</q-btn>
+  <q-page class="login-page flex flex-center">
+    <!-- Home Page -->
+    <login-in></login-in>
   </q-page>
 </template>
 
 <script>
+import LoginIn from 'components/LoginIn'
 export default {
-  name: 'PageIndex'
+  name: 'PageIndex',
+  components: { LoginIn },
+  data () {
+    return {
+    }
+  }
 }
 </script>
