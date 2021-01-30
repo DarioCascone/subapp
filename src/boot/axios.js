@@ -1,4 +1,3 @@
-import Vue from 'vue'
-import axios from 'axios'
+import ApiService from 'src/common/api/apiService'
 
-Vue.prototype.$axios = axios
+ApiService.init()
