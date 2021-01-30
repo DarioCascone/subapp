@@ -13,16 +13,20 @@
               <div>
                 <div class="form-group">
                   <div  :class="{'form-group--error': $v.username.$error }">
-                    <q-input outlined v-model="username" type="text" :name="username" label="Username"  :autofocus=true />
+                    <q-input outlined v-model="username" type="text" :name="username"  label="Username"  :autofocus=true
+                             lazy-rules
+                             :rules="[ val => (val && $v.username.required) || 'Field is required!', val => (val && $v.username.email) || 'Username not valid!']" />
                   </div>
-                  <div v-if="$v.username.$dirty">
+                  <!--<div v-if="$v.username.$dirty">
                     <div class="error" v-if="!$v.username.required">Field is required</div>
                     <div class="error" v-if="!$v.username.minLength">Name must have at least {{$v.username.$params.minLength.min}} letters.</div>
-                  </div>
+                  </div>-->
                 </div>
                 <div class="form-group" >
                   <div :class="{'form-group--error': $v.password.$error }">
-                    <q-input outlined label="Password" v-model="password" :name="password" :type="isPwd ? 'password' : 'text'" >
+                    <q-input outlined label="Password" v-model="password" :name="password" :type="isPwd ? 'password' : 'text'"
+                             lazy-rules
+                             :rules="[ val => (val && $v.password.required) || 'Field is required!', val => (val && $v.password.isPassword) || 'Password not valid!']" >
                       <template v-slot:append>
                         <q-icon
                           :name="isPwd ? 'visibility_off' : 'visibility'"
@@ -32,10 +36,10 @@
                       </template>
                     </q-input>
                   </div>
-                  <div v-if="$v.username.$dirty">
+                  <!--<div v-if="$v.username.$dirty">
                     <div class="error" v-if="!$v.password.required">Field is required</div>
                     <div class="error" v-if="!$v.password.minLength">Password must have at least {{$v.password.$params.minLength.min}} letters.</div>
-                  </div>
+                  </div>-->
                 </div>
               </div>
               <div class="button-container">
@@ -59,8 +63,9 @@
 
 <script>
 import SignIn from 'components/SignIn'
-import { required, minLength } from 'vuelidate/lib/validators'
+import { required, email } from 'vuelidate/lib/validators'
 import { mapActions } from 'vuex'
+import { isPassword } from 'src/validations/validator'
 
 export default {
   name: 'PageSignIn',
@@ -70,6 +75,7 @@ export default {
       showAlert: false,
       username: '',
       password: '',
+      isPassword: isPassword,
       isPwd: true
     }
   },
@@ -78,21 +84,21 @@ export default {
       'login' // map `this.increment()` to `this.$store.dispatch('increment')` `mapActions` also supports payloads:
     ]),
     async onSubmit () {
-      console.log('Submitted')
+      /* console.log('Submitted')
       const response = await this.login()
       console.log('LoginComponent', response)
-      alert(response.message)
-      // this.$v.$touch()
+      alert(response.message) */
+      this.$v.$touch()
     }
   },
   validations: {
     username: {
       required: required,
-      minLength: minLength(6)
+      email
     },
     password: {
       required: required,
-      minLength: minLength(6)
+      isPassword
     }
   }
 }
