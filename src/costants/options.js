@@ -1,4 +1,4 @@
-const formaGiuridicaOptions = [
+const legalFormOptions = [
   'SS – Società semplice',
   'SNC - Società in Nome Collettivo',
   'SAS - Società in Accomandita Semplice',
@@ -8,4 +8,4 @@ const formaGiuridicaOptions = [
   'Società cooperative'
 ]
 
-exports.formaGiuridicaOptions = formaGiuridicaOptions
+exports.legalFormOptions = legalFormOptions
