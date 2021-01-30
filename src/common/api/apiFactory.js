@@ -1,7 +1,7 @@
-import draftService from 'src/common/api/authService'
+import authService from 'src/common/api/authService'
 
 const services = {
-  draft: draftService
+  auth: authService
 }
 
 export const ApiFactory = {

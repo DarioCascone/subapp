@@ -3,7 +3,6 @@ import authActions from './actions.js'
 import authGetters from './getters.js'
 
 export default {
-  namespaced: true,
   state () {
     // inital state
     return {

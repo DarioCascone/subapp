@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import authModule from './modules/auth/index'
-import rootActions from './actions.js'
-import rootGetters from './getters.js'
-import rootMutations from './mutations.js'
 
 Vue.use(Vuex)
 
@@ -21,14 +18,6 @@ export default function (/* { ssrContext } */) {
     modules: {
       authModule
     },
-    state () {
-      return {
-        isLoggedIn: false
-      }
-    },
-    mutation: rootMutations,
-    actions: rootActions,
-    getters: rootGetters,
-    strict: process.env.DEBUGGING
+    strict: process.env.NODE_ENV !== 'production'
   })
 }
