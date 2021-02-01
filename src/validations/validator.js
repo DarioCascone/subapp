@@ -7,6 +7,14 @@ const isFiscalCode = (param) => {
   return false
 }
 
+const isSDICode = (param) => {
+  if (param) {
+    const pattern = new RegExp('^[a-zA-Z0-9]{7,}$')
+    return pattern.test(param)
+  }
+  return false
+}
+
 const isVatNumber = (param) => {
   if (param) {
     const pattern = new RegExp('^[0-9]{11}$')
@@ -48,7 +56,66 @@ const isPassword = (param) => {
   return false
 }
 
+const isValid = (input, val, validator) => {
+  console.log(validator.$error)
+  if (validator.$error) {
+    if (!validator[input].required) {
+      return false || 'Campo obbligatorio!'
+    }
+    switch (input) {
+      case 'username':
+        if (!validator[input].email) {
+          return false || 'Username: ' + val + ' non valida!'
+        }
+        break
+      case 'password':
+        if (!validator[input].isPassword) {
+          return false || 'Password non valida!'
+        }
+        break
+      case 'SDICode':
+        if (!validator[input].isSDICode) {
+          return false || 'Codice: ' + val + ' non valido!'
+        }
+        break
+      case 'vatNumber':
+        if (!validator[input].isVatNumber) {
+          return false || 'P.iva: ' + val + ' non valida!'
+        }
+        break
+      case 'fiscalCode':
+        if (!validator[input].isFiscalCode) {
+          return false || 'Codice: ' + val + ' non valido!'
+        }
+        break
+      case 'postalCode':
+        if (!validator[input].isPostalCode) {
+          return false || 'CAP: ' + val + ' non valido!'
+        }
+        break
+      case 'webSite':
+        if (!validator[input].isWebSite) {
+          return false || 'Sito: ' + val + ' non valido!'
+        }
+        break
+      case 'PEC':
+        if (!validator[input].email) {
+          return false || 'PEC: ' + val + ' non valida!'
+        }
+        break
+      case 'telephoneNumber':
+        if (!validator[input].isTelephoneNumber) {
+          return false || 'Numero: ' + val + ' non valido!'
+        }
+        break
+    }
+  }
+  return true
+}
+
+exports.isValid = isValid
 exports.isFiscalCode = isFiscalCode
+exports.isSDICode = isSDICode
 exports.isVatNumber = isVatNumber
 exports.isPostalCode = isPostalCode
 exports.isWebSite = isWebSite
