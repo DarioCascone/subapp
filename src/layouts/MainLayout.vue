@@ -35,7 +35,7 @@ export default {
   data () {
     return {
       left: false,
-      name: 'Antonio'
+      name: 'MainLayout'
     }
   }
 }
