@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import authModule from './modules/auth/index'
+import geoModule from './modules/geo/index'
 
 Vue.use(Vuex)
 
@@ -16,7 +17,8 @@ Vue.use(Vuex)
 export default function (/* { ssrContext } */) {
   return new Vuex.Store({
     modules: {
-      authModule
+      authModule,
+      geoModule
     },
     strict: process.env.NODE_ENV !== 'production'
   })
