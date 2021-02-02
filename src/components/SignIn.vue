@@ -47,7 +47,7 @@
                       <!-- Forma Giuridica -->
                       <div class="field-container col-lg-4 col-md-6">
                         <div class="form-group" >
-                          <q-select outlined v-model="legalForm" name="legalForm" :options="legalFormOptions" label="Forma Giuridica"
+                          <q-select outlined option-dense v-model="legalForm" name="legalForm" :options="legalFormOptions" label="Forma Giuridica"
                                     reactive-rules
                                     :rules="[ (val) => isValid('legalForm', val, $v) ]" />
                         </div>
@@ -91,8 +91,9 @@
                       <!-- Nazione -->
                       <div class="field-container col-lg-4 col-md-6">
                         <div class="form-group" >
-                          <q-select @input="getRegions" outlined v-model="country" :options="countryOptions" label="Nazione"  option-label="name" option-value="code"
-                                    reactive-rules name="country"
+                          <q-select @input="getRegionOptions" outlined :options-dense="true" v-model="country" :options="countryOptions" label="Nazione"
+                                    option-label="description" option-value="_id"
+                                    reactive-rules name="country" emit-value map-options
                                     :rules="[ (val) => isValid('country', val, $v) ]" />
                         </div>
                       </div>
@@ -100,10 +101,10 @@
                       <!-- Regione -->
                       <div class="field-container col-lg-4 col-md-6">
                         <div class="form-group" >
-                          <q-select @input="getProvinces" :disable="!(country && regionOptions.length>0)" :readonly="!(country && regionOptions.length>0)"
-                                    option-label="name" option-value="code" outlined
-                                    v-model="region" :options="regionOptions" label="Regione"
-                                    reactive-rules name="region"
+                          <q-select @input="getProvinceOptions" :disable="!(country && regionOptions.length>0)" :readonly="!(country && regionOptions.length>0)"
+                                    option-label="description" option-value="_id" outlined :options-dense="true"
+                                    v-model="region" :options="regionOptions" label="Regione" emit-value
+                                    reactive-rules name="region" map-options
                                     :rules="[ (val) => isValid('region', val, $v) ]" />
                         </div>
                       </div>
@@ -111,9 +112,9 @@
                       <!-- Province -->
                       <div class="field-container col-lg-4 col-md-6">
                         <div class="form-group">
-                          <q-select @input="getCities" :disable="!(region && provinceOptions.length>0)" :readonly="!(region && provinceOptions.length>0)"
-                                    option-label="name" option-value="code" outlined v-model="province" :options="provinceOptions" label="Provincia"
-                                    reactive-rules name="region"
+                          <q-select @input="getCityOptions" :disable="!(region && provinceOptions.length>0)" :readonly="!(region && provinceOptions.length>0)"
+                                    option-label="description" option-value="_id" outlined option-dense v-model="province" :options="provinceOptions" label="Provincia"
+                                    reactive-rules name="region" emit-value map-options
                                     :rules="[ (val) => isValid('province', val, $v) ]" />
                         </div>
                       </div>
@@ -121,9 +122,9 @@
                       <!-- Città -->
                       <div class="field-container col-lg-4 col-md-6">
                         <div class="form-group">
-                          <q-select :disable="!(province && cityOptions.length>0)" :readonly="!(province && cityOptions.length>0)" option-label="name"
-                                    option-value="code" outlined v-model="city" :options="cityOptions" label="Città"
-                                    reactive-rules name="city"
+                          <q-select :disable="!(province && cityOptions.length>0)" :readonly="!(province && cityOptions.length>0)"
+                                    option-label="description" option-value="_id" outlined option-dense v-model="city" :options="cityOptions" label="Città"
+                                    reactive-rules name="city" :options-dense="true" map-options
                                     :rules="[ (val) => isValid('city', val, $v) ]" />
                         </div>
                       </div>
@@ -210,7 +211,59 @@
                     :done="step > 2"
                   >
                     <div class="step-container">
+                      <template>
+                        <div class="q-pa-md column items-start q-gutter-y-md">
+                          <q-file
+                            :value="files"
+                            @input="updateFiles"
+                            label="Pick files"
+                            outlined
+                            multiple
+                            :clearable="!isUploading"
+                            style="max-width: 400px"
+                          >
+                            <template v-slot:file="{ index, file }">
+                              <q-chip
+                                class="full-width q-my-xs"
+                                :removable="isUploading && uploadProgress[index].percent < 1"
+                                square
+                                @remove="cancelFile(index)"
+                              >
+                                <q-linear-progress
+                                  class="absolute-full full-height"
+                                  :value="uploadProgress[index].percent"
+                                  :color="uploadProgress[index].color"
+                                  track-color="grey-2"
+                                />
 
+                                <q-avatar>
+                                  <q-icon :name="uploadProgress[index].icon" />
+                                </q-avatar>
+
+                                <div class="ellipsis relative-position">
+                                  {{ file.name }}
+                                </div>
+
+                                <q-tooltip>
+                                  {{ file.name }}
+                                </q-tooltip>
+                              </q-chip>
+                            </template>
+
+                            <template v-slot:after v-if="canUpload">
+                              <q-btn
+                                color="primary"
+                                dense
+                                icon="cloud_upload"
+                                round
+                                @click="upload"
+                                :disable="!canUpload"
+                                :loading="isUploading"
+                              />
+                            </template>
+                          </q-file>
+                        </div>
+                      </template>
                     </div>
                   </q-step>
 
@@ -248,6 +301,7 @@
 <script>
 import { required, email } from 'vuelidate/lib/validators'
 import { legalFormOptions } from '../costants/options'
+import { mapActions } from 'vuex'
 import {
   isFiscalCode,
   isSDICode,
@@ -265,6 +319,9 @@ export default {
     return {
       step: 1,
       alert: false,
+      files: null,
+      uploadProgress: [],
+      uploading: null,
       isPsw: true,
       companyName: '',
       legalForm: '',
@@ -291,14 +348,29 @@ export default {
       isWebSite: isWebSite,
       isTelephoneNumber: isTelephoneNumber,
       isPassword: isPassword,
-      countryOptions: ['italia', 'germania', 'francia'],
-      regionOptions: ['campania', 'lombardia', 'veneto'],
-      provinceOptions: ['Napoli', 'Salerno', 'Avellino'],
-      cityOptions: ['Giugliano in Campania', 'Qualiano', 'Villaricca']
+      countryOptions: [],
+      regionOptions: [],
+      provinceOptions: [],
+      cityOptions: []
     }
   },
   props: ['showAlert'],
+  computed: {
+    isUploading () {
+      return this.uploading !== null
+    },
+
+    canUpload () {
+      return this.files !== null
+    }
+  },
   methods: {
+    ...mapActions([
+      'getCountries',
+      'getRegions',
+      'getProvinces',
+      'getCities'
+    ]),
     hideDialog () {
       this.$emit('update:showAlert', this.alert)
     },
@@ -306,15 +378,105 @@ export default {
       this.$v.$touch()
       this.$forceUpdate()
     },
-    getRegions () {
-
+    async getRegionOptions () {
+      this.regionOptions = []
+      this.provinceOptions = []
+      this.cityOptions = []
+      this.region = undefined
+      this.province = undefined
+      this.city = undefined
+      const resp = await this.getRegions(this.country)
+      this.regionOptions = resp.regions
     },
-    getProvinces () {
-
+    async getProvinceOptions () {
+      this.provinceOptions = []
+      this.cityOptions = []
+      this.province = undefined
+      this.city = undefined
+      const resp = await this.getProvinces(this.region)
+      this.provinceOptions = resp.provinces
     },
-    getCities () {
+    async getCityOptions () {
+      this.cityOptions = []
+      this.city = undefined
+      const resp = await this.getCities(this.province)
+      this.cityOptions = resp.cities
+    },
+    cancelFile (index) {
+      this.uploadProgress[index] = {
+        ...this.uploadProgress[index],
+        error: true,
+        color: 'orange-2'
+      }
+    },
 
+    updateFiles (files) {
+      this.files = files
+      this.uploadProgress = (files || []).map(file => ({
+        error: false,
+        color: 'green-2',
+        percent: 0,
+        icon: file.type.indexOf('video/') === 0
+          ? 'movie'
+          : (file.type.indexOf('image/') === 0
+            ? 'photo'
+            : (file.type.indexOf('audio/') === 0
+              ? 'audiotrack'
+              : 'insert_drive_file'
+            )
+          )
+      }))
+    },
+
+    upload () {
+      clearTimeout(this.uploading)
+
+      const allDone = this.uploadProgress.every(progress => progress.percent === 1)
+
+      this.uploadProgress = this.uploadProgress.map(progress => ({
+        ...progress,
+        error: false,
+        color: 'green-2',
+        percent: allDone === true ? 0 : progress.percent
+      }))
+
+      this.__updateUploadProgress()
+    },
+
+    __updateUploadProgress () {
+      let done = true
+
+      this.uploadProgress = this.uploadProgress.map(progress => {
+        if (progress.percent === 1 || progress.error === true) {
+          return progress
+        }
+
+        const percent = Math.min(1, progress.percent + Math.random() / 10)
+        const error = percent < 1 && Math.random() > 0.95
+
+        if (error === false && percent < 1 && done === true) {
+          done = false
+        }
+
+        return {
+          ...progress,
+          error,
+          color: error === true ? 'red-2' : 'green-2',
+          percent
+        }
+      })
+
+      this.uploading = done !== true
+        ? setTimeout(this.__updateUploadProgress, 300)
+        : null
     }
+  },
+  async created () {
+    const resp = await this.getCountries()
+    this.countryOptions = resp.countries
+  },
+  beforeDestroy () {
+    clearTimeout(this.uploading)
   },
   watch: {
     showAlert (newValue, oldValue) {
