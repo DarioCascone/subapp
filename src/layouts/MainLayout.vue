@@ -1,12 +1,12 @@
 <template>
-  <q-layout view="hhh lpR fff">
-
-    <q-header reveal bordered class="bg-primary text-white" height-hint="98">
-      <q-toolbar class="q-pa-sm">
+  <q-layout view="lHh lpr lFf">
+    <q-header class="q-py-sm bg-primary" :style="'border-bottom: 2px solid #165081'">
+      <q-toolbar>
+        <span :style="'font-size: 35px'" class="my-font text-h6 q-mr-md cursor-pointer">Subapp</span>
+        <q-space ></q-space>
         <q-tabs>
-          <q-route-tab to="/page1" label="Page One" />
-          <q-route-tab to="/page2" label="Page Two" />
-          <q-route-tab to="/page3" label="Page Three" />
+          <q-tab class="q-mr-sm q-py-xs custom_tab" @click="scrollToElement('id_about_us')" style="width:120px;min-height:auto !important;color: white" label="About Us" />
+          <q-tab class="q-mr-sm q-py-xs custom_tab" @click="scrollToElement('id_pricing')" style="width:120px;min-height:auto !important;color: white" label="Prezzi" />
         </q-tabs>
       </q-toolbar>
     </q-header>
@@ -30,11 +30,23 @@
 </template>
 
 <script>
+import { scroll } from 'quasar'
+const { getScrollTarget, setScrollPosition } = scroll
+
 export default {
   data () {
     return {
       left: false,
       name: 'MainLayout'
+    }
+  },
+  methods: {
+    scrollToElement (id) {
+      const el = document.getElementById(id)
+      const target = getScrollTarget(el)
+      const offset = el.offsetTop + 3
+      const duration = 900
+      setScrollPosition(target, offset, duration)
     }
   }
 }

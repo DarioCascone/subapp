@@ -302,16 +302,7 @@
 import { required, email } from 'vuelidate/lib/validators'
 import { legalFormOptions } from '../costants/options'
 import { mapActions } from 'vuex'
-import {
-  isFiscalCode,
-  isSDICode,
-  isVatNumber,
-  isPostalCode,
-  isWebSite,
-  isTelephoneNumber,
-  isPassword,
-  isValid
-} from '../validations/validator'
+import { validator } from '../validations/validator'
 
 export default {
   name: 'SignIn',
@@ -340,14 +331,14 @@ export default {
       telephoneNumber: '',
       username: '',
       password: '',
-      isValid: isValid,
-      isFiscalCode: isFiscalCode,
-      isSDICode: isSDICode,
-      isVatNumber: isVatNumber,
-      isPostalCode: isPostalCode,
-      isWebSite: isWebSite,
-      isTelephoneNumber: isTelephoneNumber,
-      isPassword: isPassword,
+      isValid: validator.isValid,
+      isFiscalCode: validator.isFiscalCode,
+      isSDICode: validator.isSDICode,
+      isVatNumber: validator.isVatNumber,
+      isPostalCode: validator.isPostalCode,
+      isWebSite: validator.isWebSite,
+      isTelephoneNumber: validator.isTelephoneNumber,
+      isPassword: validator.isPassword,
       countryOptions: [],
       regionOptions: [],
       provinceOptions: [],
@@ -494,15 +485,15 @@ export default {
     },
     SDICode: {
       required,
-      isSDICode
+      isSDICode: validator.isSDICode
     },
     vatNumber: {
       required,
-      isVatNumber
+      isVatNumber: validator.isVatNumber
     },
     fiscalCode: {
       required,
-      isFiscalCode
+      isFiscalCode: validator.isFiscalCode
     },
     country: {
       required
@@ -521,11 +512,11 @@ export default {
     },
     postalCode: {
       required,
-      isPostalCode
+      isPostalCode: validator.isPostalCode
     },
     webSite: {
       required,
-      isWebSite
+      isWebSite: validator.isWebSite
     },
     PEC: {
       required,
@@ -533,7 +524,7 @@ export default {
     },
     telephoneNumber: {
       required,
-      isTelephoneNumber
+      isTelephoneNumber: validator.isTelephoneNumber
     },
     username: {
       required,
@@ -541,7 +532,7 @@ export default {
     },
     password: {
       required,
-      isPassword
+      isPassword: validator.isPassword
     }
   }
 }
