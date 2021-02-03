@@ -59,52 +59,52 @@ const isPassword = (param) => {
 const isValid = (input, val, validator) => {
   if (validator.$error) {
     if (!validator[input].required) {
-      return false || 'Campo obbligatorio!'
+      return 'Campo obbligatorio!'
     }
     switch (input) {
       case 'username':
         if (!validator[input].email) {
-          return false || 'Username: ' + val + ' non valida!'
+          return 'Username: ' + val + ' non valida!'
         }
         break
       case 'password':
         if (!validator[input].isPassword) {
-          return false || 'Password non valida!'
+          return 'Password non valida!'
         }
         break
       case 'SDICode':
         if (!validator[input].isSDICode) {
-          return false || 'Codice: ' + val + ' non valido!'
+          return 'Codice: ' + val + ' non valido!'
         }
         break
       case 'vatNumber':
         if (!validator[input].isVatNumber) {
-          return false || 'P.iva: ' + val + ' non valida!'
+          return 'P.iva: ' + val + ' non valida!'
         }
         break
       case 'fiscalCode':
         if (!validator[input].isFiscalCode) {
-          return false || 'Codice: ' + val + ' non valido!'
+          return 'Codice: ' + val + ' non valido!'
         }
         break
       case 'postalCode':
         if (!validator[input].isPostalCode) {
-          return false || 'CAP: ' + val + ' non valido!'
+          return 'CAP: ' + val + ' non valido!'
         }
         break
       case 'webSite':
         if (!validator[input].isWebSite) {
-          return false || 'Sito: ' + val + ' non valido!'
+          return 'Sito: ' + val + ' non valido!'
         }
         break
       case 'PEC':
         if (!validator[input].email) {
-          return false || 'PEC: ' + val + ' non valida!'
+          return 'PEC: ' + val + ' non valida!'
         }
         break
       case 'telephoneNumber':
         if (!validator[input].isTelephoneNumber) {
-          return false || 'Numero: ' + val + ' non valido!'
+          return 'Numero: ' + val + ' non valido!'
         }
         break
     }
