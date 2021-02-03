@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'login' // map `this.increment()` to `this.$store.dispatch('increment')` `mapActions` also supports payloads:
+      'login'
     ]),
     async onSubmit () {
       console.log('Submitted')
@@ -85,26 +85,6 @@ export default {
       alert(response.message) */
       this.$forceUpdate()
       this.$v.$touch()
-    },
-    isValida (input, val) {
-      if (this.$v.$error) {
-        if (!this.$v[input].required) {
-          return false || 'Campo obbligatorio!'
-        }
-        switch (input) {
-          case 'username':
-            if (!this.$v[input].email) {
-              return false || 'Username: ' + val + ' non valida!'
-            }
-            break
-          case 'password':
-            if (!this.$v[input].isPassword) {
-              return false || 'Password non valida!'
-            }
-            break
-        }
-      }
-      return true
     }
   },
   validations: {
