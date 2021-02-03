@@ -57,7 +57,6 @@ const isPassword = (param) => {
 }
 
 const isValid = (input, val, validator) => {
-  console.log(validator.$error)
   if (validator.$error) {
     if (!validator[input].required) {
       return false || 'Campo obbligatorio!'

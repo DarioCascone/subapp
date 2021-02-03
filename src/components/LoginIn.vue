@@ -13,26 +13,26 @@
               <div>
                 <div class="form-group">
                   <div>
-                    <q-input v-model="username"
+                    <q-input v-model="user.username"
                              type="text"
                              name="username"
                              label="Username"
                              autocomplete="none"
                              outlined
                              reactive-rules
-                             :rules="[ (val) => isValid('username', val, $v) ]"
+                             :rules="[ (val) => isValid('username', val, $v.user) ]"
                     />
                   </div>
                 </div>
                 <div class="form-group">
                  <div>
-                    <q-input v-model="password"
+                    <q-input v-model="user.password"
                              :type="isPwd ? 'password' : 'text'"
                              name="password"
                              label="Password"
                              outlined
                              reactive-rules
-                             :rules="[ (val) => isValid('password', val, $v) ]" >
+                             :rules="[ (val) => isValid('password', val, $v.user) ]" >
                       <template v-slot:append>
                         <q-icon
                           :name="isPwd ? 'visibility_off' : 'visibility'"
@@ -87,8 +87,10 @@ export default {
   data () {
     return {
       showAlert: false,
-      username: '',
-      password: '',
+      user: {
+        username: '',
+        password: ''
+      },
       isValid: isValid,
       isPassword: isPassword,
       isPwd: true
@@ -101,16 +103,22 @@ export default {
     async onSubmit () {
       this.$forceUpdate()
       this.$v.$touch()
+      if (!this.$v.$invalid) {
+        console.log('done')
+        // TODO agganciare chiamate alla login
+      }
     }
   },
   validations: {
-    username: {
-      required: required,
-      email
-    },
-    password: {
-      required: required,
-      isPassword
+    user: {
+      username: {
+        required: required,
+        email
+      },
+      password: {
+        required: required,
+        isPassword
+      }
     }
   }
 }
