@@ -12,15 +12,25 @@
             <q-form id="loginForm" @submit="onSubmit">
               <div>
                 <div class="form-group">
-                  <div >
-                    <q-input outlined v-model="username" type="text" name="username"  label="Username" autocomplete="none"
+                  <div>
+                    <q-input v-model="username"
+                             type="text"
+                             name="username"
+                             label="Username"
+                             autocomplete="none"
+                             outlined
                              reactive-rules
-                             :rules="[ (val) => isValid('username', val, $v) ]" />
+                             :rules="[ (val) => isValid('username', val, $v) ]"
+                    />
                   </div>
                 </div>
-                <div class="form-group" >
+                <div class="form-group">
                  <div>
-                    <q-input outlined label="Password" v-model="password" name="password" :type="isPwd ? 'password' : 'text'"
+                    <q-input v-model="password"
+                             :type="isPwd ? 'password' : 'text'"
+                             name="password"
+                             label="Password"
+                             outlined
                              reactive-rules
                              :rules="[ (val) => isValid('password', val, $v) ]" >
                       <template v-slot:append>
@@ -35,14 +45,24 @@
                 </div>
               </div>
               <div class="button-container">
-                <q-btn class="button-login" label="Log In" color="secondary" type="submit"/>
+                <q-btn push
+                       :ripple="false"
+                       class="button-login"
+                       label="Log In"
+                       color="secondary"
+                       type='submit'/>
               </div>
               <div class="link-container">
                 <a class="forgot-psw">Password dimenticata?</a>
               </div>
               <div class="line-separator" />
               <div class="button-container">
-                <q-btn label="Registrati" color="accent" @click="showAlert = true" />
+                <q-btn push
+                       label="Registrati"
+                       :ripple="false"
+                       color="accent"
+                       class="glossy"
+                       @click="showAlert = true" />
               </div>
             </q-form>
           </div>
@@ -79,10 +99,6 @@ export default {
       'login'
     ]),
     async onSubmit () {
-      console.log('Submitted')
-      /* const response = await this.login()
-      console.log('LoginComponent', response)
-      alert(response.message) */
       this.$forceUpdate()
       this.$v.$touch()
     }
