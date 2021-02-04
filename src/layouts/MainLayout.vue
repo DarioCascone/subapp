@@ -1,41 +1,52 @@
 <template>
-  <q-layout view="lHh lpR fff">
-
-    <q-header reveal elevated class="bg-primary text-white">
+  <q-layout view="lHh lpr lFf">
+    <q-header class="q-py-sm bg-primary" :style="'border-bottom: 2px solid #165081'">
       <q-toolbar>
-        <q-btn dense flat round icon="menu" @click="left = !left" />
-
-        <q-toolbar-title>
-          subAPP
-        </q-toolbar-title>
-
-        <!--<q-input v-model="name" :value="name"></q-input>-->
+        <span :style="'font-size: 35px'" class="my-font text-h6 q-mr-md cursor-pointer">Subapp</span>
+        <q-space ></q-space>
+        <q-tabs>
+          <q-tab class="q-mr-sm q-py-xs custom_tab" @click="scrollToElement('id_how_works')" label="Come Funziona" />
+          <q-tab class="q-mr-sm q-py-xs custom_tab" @click="scrollToElement('id_pricing')" label="Prezzi" />
+        </q-tabs>
       </q-toolbar>
     </q-header>
-
-    <q-drawer v-model="left" side="left" behavior="mobile" bordered>
-      <!-- drawer content -->
-    </q-drawer>
 
     <q-page-container>
       <router-view />
     </q-page-container>
 
-    <q-footer elevated class="bg-primary text-white q-py-lg">
-      <div class="text-center">
-        FOOTER
-      </div>
+    <q-footer bordered class="bg-primary text-white">
+      <!-- q-toolbar>
+        <q-toolbar-title>
+          <q-avatar>
+            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
+          </q-avatar>
+          Title
+        </q-toolbar-title>
+      </q-toolbar -->
     </q-footer>
 
   </q-layout>
 </template>
 
 <script>
+import { scroll } from 'quasar'
+const { getScrollTarget, setScrollPosition } = scroll
+
 export default {
   data () {
     return {
       left: false,
       name: 'MainLayout'
+    }
+  },
+  methods: {
+    scrollToElement (id) {
+      const el = document.getElementById(id)
+      const target = getScrollTarget(el)
+      const offset = el.offsetTop + 3
+      const duration = 900
+      setScrollPosition(target, offset, duration)
     }
   }
 }

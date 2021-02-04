@@ -12,17 +12,27 @@
             <q-form id="loginForm" @submit="onSubmit">
               <div>
                 <div class="form-group">
-                  <div >
-                    <q-input outlined v-model="username" type="text" name="username"  label="Username" autocomplete="none"
+                  <div>
+                    <q-input v-model="user.username"
+                             type="text"
+                             name="username"
+                             label="Username"
+                             autocomplete="none"
+                             outlined
                              reactive-rules
-                             :rules="[ (val) => isValid('username', val, $v) ]" />
+                             :rules="[ (val) => isValid('username', val, $v.user) ]"
+                    />
                   </div>
                 </div>
-                <div class="form-group" >
+                <div class="form-group">
                  <div>
-                    <q-input outlined label="Password" v-model="password" name="password" :type="isPwd ? 'password' : 'text'"
+                    <q-input v-model="user.password"
+                             :type="isPwd ? 'password' : 'text'"
+                             name="password"
+                             label="Password"
+                             outlined
                              reactive-rules
-                             :rules="[ (val) => isValid('password', val, $v) ]" >
+                             :rules="[ (val) => isValid('password', val, $v.user) ]" >
                       <template v-slot:append>
                         <q-icon
                           :name="isPwd ? 'visibility_off' : 'visibility'"
@@ -35,14 +45,24 @@
                 </div>
               </div>
               <div class="button-container">
-                <q-btn class="button-login" label="Log In" color="secondary" type="submit"/>
+                <q-btn push
+                       :ripple="false"
+                       class="button-login"
+                       label="Log In"
+                       color="secondary"
+                       type='submit'/>
               </div>
               <div class="link-container">
                 <a class="forgot-psw">Password dimenticata?</a>
               </div>
               <div class="line-separator" />
               <div class="button-container">
-                <q-btn label="Registrati" color="accent" @click="showAlert = true" />
+                <q-btn push
+                       label="Registrati"
+                       :ripple="false"
+                       color="accent"
+                       class="glossy"
+                       @click="showAlert = true" />
               </div>
             </q-form>
           </div>
@@ -67,8 +87,10 @@ export default {
   data () {
     return {
       showAlert: false,
-      username: '',
-      password: '',
+      user: {
+        username: '',
+        password: ''
+      },
       isValid: isValid,
       isPassword: isPassword,
       isPwd: true
@@ -76,45 +98,27 @@ export default {
   },
   methods: {
     ...mapActions([
-      'login' // map `this.increment()` to `this.$store.dispatch('increment')` `mapActions` also supports payloads:
+      'login'
     ]),
     async onSubmit () {
-      console.log('Submitted')
-      /* const response = await this.login()
-      console.log('LoginComponent', response)
-      alert(response.message) */
       this.$forceUpdate()
       this.$v.$touch()
-    },
-    isValida (input, val) {
-      if (this.$v.$error) {
-        if (!this.$v[input].required) {
-          return false || 'Campo obbligatorio!'
-        }
-        switch (input) {
-          case 'username':
-            if (!this.$v[input].email) {
-              return false || 'Username: ' + val + ' non valida!'
-            }
-            break
-          case 'password':
-            if (!this.$v[input].isPassword) {
-              return false || 'Password non valida!'
-            }
-            break
-        }
+      if (!this.$v.$invalid) {
+        console.log('done')
+        // TODO agganciare chiamate alla login
       }
-      return true
     }
   },
   validations: {
-    username: {
-      required: required,
-      email
-    },
-    password: {
-      required: required,
-      isPassword
+    user: {
+      username: {
+        required: required,
+        email
+      },
+      password: {
+        required: required,
+        isPassword
+      }
     }
   }
 }
