@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-lg">
-    <q-form @submit="onSubmit">
+    <q-form @submit.prevent.stop="onSubmit" class="q-gutter-sm">
       <q-input v-model="user.username"
                type="text"
                name="username"
@@ -8,14 +8,14 @@
                autocomplete="none"
                outlined
                reactive-rules
-               :rules="[ (val) => isValid('username', val, $v.user) ]"/>
+               :rules="[ (val) => isValid('username', val, $v.user) ]" />
       <q-input v-model="user.password"
                :type="isPwd ? 'password' : 'text'"
                name="password"
                label="Password"
                outlined
                reactive-rules
-               :rules="[ (val) => isValid('password', val, $v.user) ]" >
+               :rules="[ (val) => isValid('password', val, $v.user) ]">
         <template v-slot:append>
           <q-icon
             :name="isPwd ? 'visibility_off' : 'visibility'"
@@ -24,7 +24,7 @@
           />
         </template>
       </q-input>
-      <div class="q-pt-md">
+      <div>
         <q-btn push
                :ripple="false"
                class="button-login full-width"
