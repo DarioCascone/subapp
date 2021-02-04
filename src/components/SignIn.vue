@@ -211,59 +211,80 @@
                     :done="step > 2"
                   >
                     <div class="step-container">
-                      <template>
-                        <div class="q-pa-md column items-start q-gutter-y-md">
-                          <q-file
-                            :value="files"
-                            @input="updateFiles"
-                            label="Pick files"
-                            outlined
-                            multiple
-                            :clearable="!isUploading"
-                            style="max-width: 400px"
-                          >
-                            <template v-slot:file="{ index, file }">
-                              <q-chip
-                                class="full-width q-my-xs"
-                                :removable="isUploading && uploadProgress[index].percent < 1"
-                                square
-                                @remove="cancelFile(index)"
-                              >
-                                <q-linear-progress
-                                  class="absolute-full full-height"
-                                  :value="uploadProgress[index].percent"
-                                  :color="uploadProgress[index].color"
-                                  track-color="grey-2"
-                                />
 
-                                <q-avatar>
-                                  <q-icon :name="uploadProgress[index].icon" />
-                                </q-avatar>
+                      <div class="first-panel panel-container row">
 
-                                <div class="ellipsis relative-position">
-                                  {{ file.name }}
-                                </div>
-
-                                <q-tooltip>
-                                  {{ file.name }}
-                                </q-tooltip>
-                              </q-chip>
+                        <!-- Certificato -->
+                        <div class="row col-6 justify-between">
+                          <p>Certificato o Visura camerale</p>
+                          <q-input label="Data Scadenza" outlined v-model="certificateDate" mask="##/##/####">
+                            <template v-slot:append>
+                              <q-icon name="event" class="cursor-pointer">
+                                <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                                  <q-date :locale="currentLocale" v-model="certificateDate" :options="calendarOption"  mask="DD/MM/YYYY">
+                                    <div class="row items-center justify-end q-gutter-sm">
+                                      <q-btn label="Annulla" color="primary" flat v-close-popup />
+                                      <q-btn label="OK" color="primary" flat v-close-popup />
+                                    </div>
+                                  </q-date>
+                                </q-popup-proxy>
+                              </q-icon>
                             </template>
-
-                            <template v-slot:after v-if="canUpload">
-                              <q-btn
-                                color="primary"
-                                dense
-                                icon="cloud_upload"
-                                round
-                                @click="upload"
-                                :disable="!canUpload"
-                                :loading="isUploading"
-                              />
-                            </template>
-                          </q-file>
+                          </q-input>
                         </div>
-                      </template>
+
+                        <!-- Regolarità Durc -->
+
+                        <!-- file picker -->
+                        <template>
+                          <div class="q-pa-md column items-start q-gutter-y-md col-12">
+                            <q-file
+                              :value="files"
+                              @input="updateFiles"
+                              label="Carica quì i documenti richiesti"
+                              outlined
+                              multiple
+                              max-files="3"
+                              counter
+                              :clearable="!isUploading"
+                              style="max-width: 400px"
+                            >
+                              <template v-slot:prepend>
+                                <q-icon name="attach_file" />
+                              </template>
+                              <template v-slot:file="{ index, file }">
+                                <q-chip
+                                  class="full-width q-my-xs"
+                                  :removable="isUploading && uploadProgress[index].percent < 1"
+                                  square
+                                  @remove="cancelFile(index)"
+                                >
+                                  <q-linear-progress
+                                    class="absolute-full full-height"
+                                    :value="uploadProgress[index].percent"
+                                    :color="uploadProgress[index].color"
+                                    track-color="grey-2"
+                                  />
+
+                                  <q-avatar>
+                                    <q-icon :name="uploadProgress[index].icon" />
+                                  </q-avatar>
+
+                                  <div class="ellipsis relative-position">
+                                    {{ file.name }}
+                                  </div>
+
+                                  <q-tooltip>
+                                    {{ file.name }}
+                                  </q-tooltip>
+                                </q-chip>
+                              </template>
+
+                            </q-file>
+                          </div>
+                        </template>
+                      </div>
+
                     </div>
                   </q-step>
 
@@ -351,7 +372,16 @@ export default {
       countryOptions: [],
       regionOptions: [],
       provinceOptions: [],
-      cityOptions: []
+      cityOptions: [],
+      currentLocale: {
+        days: '_Lunedì_Martedì_Mercoledì_Giovedì_Sabato_Domenica'.split('_'),
+        daysShort: 'Lun_Mar_Mer_Gio_Ven_Sab_Dom'.split('_'),
+        months: 'Gennaio_Febbraio_Marzo_Aprile_Maggio_Giugno_Luglio_Agosto_Settembre_Ottobre_Novembre_Dicembre'.split('_'),
+        monthsShort: 'Gen_Feb_Mar_Apr_Mag_Giu_Lug_Ago_Set_Ott_Nov_Dic'.split('_'),
+        firstDayOfWeek: 0
+      },
+      certificateDate: '',
+      proxycertificateDate: ''
     }
   },
   props: ['showAlert'],
@@ -373,6 +403,11 @@ export default {
     ]),
     hideDialog () {
       this.$emit('update:showAlert', this.alert)
+    },
+    calendarOption (date) {
+      const currentTime = new Date()
+      console.log(currentTime)
+      return date >= currentTime.toLocaleDateString('fr-CA').replaceAll('-', '/')
     },
     onSignin () {
       this.$v.$touch()
