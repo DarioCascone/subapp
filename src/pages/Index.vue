@@ -32,8 +32,6 @@
     </q-carousel>
     <div class="row" id="id_how_works">
       <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 text-center">
-        <h5 class="">Come Funziona <span :style="'color:'+theme_color">SUBAPP</span> </h5>
-        <span class="text-center text-grey text-h6">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
       </div>
     </div>
     <div class="row text-center flex flex-center">
@@ -332,7 +330,4 @@ export default {
   background-position: center
   background-attachment: fixed
   background-repeat: no-repeat
-
-.custom_tab
-  width: 130px
 </style>

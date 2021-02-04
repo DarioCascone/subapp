@@ -1,73 +1,39 @@
 <template>
-  <div class="home-container">
-    <div class="row justify-around">
-      <div class="logo-container">
-        <div>
-          <q-img/>
-        </div>
-        <h4>{{$t('login.title')}}</h4>
+  <div class="q-pa-lg">
+    <q-form @submit="onSubmit">
+      <q-input v-model="user.username"
+               type="text"
+               name="username"
+               label="Username"
+               autocomplete="none"
+               outlined
+               reactive-rules
+               :rules="[ (val) => isValid('username', val, $v.user) ]"/>
+      <q-input v-model="user.password"
+               :type="isPwd ? 'password' : 'text'"
+               name="password"
+               label="Password"
+               outlined
+               reactive-rules
+               :rules="[ (val) => isValid('password', val, $v.user) ]" >
+        <template v-slot:append>
+          <q-icon
+            :name="isPwd ? 'visibility_off' : 'visibility'"
+            class="cursor-pointer"
+            @click="isPwd = !isPwd"
+          />
+        </template>
+      </q-input>
+      <div class="q-pt-md">
+        <q-btn push
+               :ripple="false"
+               class="button-login full-width"
+               label="Log In"
+               color="secondary"
+               type='submit'/>
+        <a class="q-pt-md block text-center cursor-pointer text-accent bold text-weight-bold">Password dimenticata?</a>
       </div>
-      <div class="form-container">
-          <div>
-            <q-form id="loginForm" @submit="onSubmit">
-              <div>
-                <div class="form-group">
-                  <div>
-                    <q-input v-model="user.username"
-                             type="text"
-                             name="username"
-                             label="Username"
-                             autocomplete="none"
-                             outlined
-                             reactive-rules
-                             :rules="[ (val) => isValid('username', val, $v.user) ]"
-                    />
-                  </div>
-                </div>
-                <div class="form-group">
-                 <div>
-                    <q-input v-model="user.password"
-                             :type="isPwd ? 'password' : 'text'"
-                             name="password"
-                             label="Password"
-                             outlined
-                             reactive-rules
-                             :rules="[ (val) => isValid('password', val, $v.user) ]" >
-                      <template v-slot:append>
-                        <q-icon
-                          :name="isPwd ? 'visibility_off' : 'visibility'"
-                          class="cursor-pointer"
-                          @click="isPwd = !isPwd"
-                        />
-                      </template>
-                    </q-input>
-                  </div>
-                </div>
-              </div>
-              <div class="button-container">
-                <q-btn push
-                       :ripple="false"
-                       class="button-login"
-                       label="Log In"
-                       color="secondary"
-                       type='submit'/>
-              </div>
-              <div class="link-container">
-                <a class="forgot-psw">Password dimenticata?</a>
-              </div>
-              <div class="line-separator" />
-              <div class="button-container">
-                <q-btn push
-                       label="Registrati"
-                       :ripple="false"
-                       color="accent"
-                       class="glossy"
-                       @click="showAlert = true" />
-              </div>
-            </q-form>
-          </div>
-      </div>
-    </div>
+    </q-form>
     <!-- Registration Dialog -->
     <sign-in  :showAlert.sync="showAlert"></sign-in>
   </div>
