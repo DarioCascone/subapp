@@ -5,8 +5,8 @@
         <span :style="'font-size: 35px'" class="my-font text-h6 q-mr-md cursor-pointer">Subapp</span>
         <q-space ></q-space>
         <q-tabs>
-          <q-tab class="q-mr-sm q-py-xs custom_tab" @click="scrollToElement('id_about_us')" style="width:120px;min-height:auto !important;color: white" label="About Us" />
-          <q-tab class="q-mr-sm q-py-xs custom_tab" @click="scrollToElement('id_pricing')" style="width:120px;min-height:auto !important;color: white" label="Prezzi" />
+          <q-tab class="q-mr-sm q-py-xs custom_tab" @click="scrollToElement('id_how_works')" label="Come Funziona" />
+          <q-tab class="q-mr-sm q-py-xs custom_tab" @click="scrollToElement('id_pricing')" label="Prezzi" />
         </q-tabs>
       </q-toolbar>
     </q-header>

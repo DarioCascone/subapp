@@ -7,13 +7,13 @@
       swipeable
       navigation
       infinite
-      autoplay="true"
+      :autoplay="true"
       control-color="white"
       transition-prev="slide-right"
       transition-next="slide-left"
       height="639px"
     >
-      <q-carousel-slide class="q-pa-none" :name="1" img-src="/statics/images/image_1.jpg">
+      <q-carousel-slide class="q-pa-none" :name="1">
         <div class="full-height full-width flex flex-center" style="background-color: rgba(0, 0, 0, 0.68) !important;">
           <div class="custom-caption">
             <div class="text-h2 main_line animation_2">WELCOME TO <span :style="'color:'+theme_color">SUBAPP</span></div><br><br><br>
@@ -21,7 +21,7 @@
           </div>
         </div>
       </q-carousel-slide>
-      <q-carousel-slide class="q-pa-none" :name="2" img-src="/statics/images/image_2.jpg">
+      <q-carousel-slide class="q-pa-none" :name="2">
         <div class="full-height full-width flex flex-center" style="background-color: rgba(0, 0, 0, 0.68) !important;">
           <div class="custom-caption">
             <div class="text-h2 main_line animation_2" style="font-size:65px;"><span :style="'color:'+theme_color">SUBAPP</span> FOR THE BEST</div><br><br><br>
@@ -30,23 +30,16 @@
         </div>
       </q-carousel-slide>
     </q-carousel>
-    <div class="row" id="id_about_us">
-      <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-        <h5 class="text-center">About Us
-          <br>
-          <span
-            class="text-center text-grey text-h6">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
-        </h5>
+    <div class="row" id="id_how_works">
+      <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12 text-center">
+        <h5 class="">Come Funziona <span :style="'color:'+theme_color">SUBAPP</span> </h5>
+        <span class="text-center text-grey text-h6">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
       </div>
     </div>
     <div class="row text-center flex flex-center">
       <div class="col-md-12 col-lg-12 col-sx-12 col-sm-12 q-gutter-md flex flex-center">
         <div class="col-md-4 col-lg-4 col-sx-12 col-sm-12">
           <q-card @mouseover="hoverOver(1)" @mouseout="hoverOutTimeout(1)" style="border: none;" class="my-card text-center box-shadow" flat bordered>
-            <q-img
-              src="/statics/images/about_1.jpg"
-            />
-
             <q-card-section>
               <div class="text-overline text-orange-9">Overline</div>
               <div :class="about_heading_1" :style="'color: ' + about_heading_color_1" class="about_heading_1 text-h6 q-mt-sm q-mb-xs">OFFICE PHILOSOPHY</div>
@@ -58,10 +51,6 @@
         </div>
         <div class="col-md-4 col-lg-4 col-sx-12 col-sm-12">
           <q-card @mouseover="hoverOver(2)" @mouseout="hoverOutTimeout(2)" :style="'color: ' + about_heading_color_2" style="border: none;" class="my-card text-center box-shadow" flat bordered>
-            <q-img
-              src="/statics/images/about_2.jpg"
-            />
-
             <q-card-section>
               <div class="text-overline text-orange-9">Overline</div>
               <div :class="about_heading_2" :style="'color: ' + about_heading_color_2" class="text-h6 q-mt-sm q-mb-xs">OFFICE MISSION</div>
@@ -73,10 +62,6 @@
         </div>
         <div class="col-md-4 col-lg-4 col-sx-12 col-sm-12">
           <q-card @mouseover="hoverOver(3)" @mouseout="hoverOutTimeout(3)" style="border: none;" class="my-card text-center box-shadow" flat bordered>
-            <q-img
-              src="/statics/images/about_3.jpg"
-            />
-
             <q-card-section>
               <div class="text-overline text-orange-9">Overline</div>
               <div :class="about_heading_3" :style="'color: ' + about_heading_color_3" class="text-h6 q-mt-sm q-mb-xs">OFFICE VALUE & RULES</div>
@@ -103,7 +88,7 @@
           </div>
         </div>
         <div class="row q-col-gutter-sm q-px-xl">
-          <div class="col-lg-3 col-md-3 col-xs-12 col-sm-6 q-px-lg">
+          <div class="col-lg-3 offset-lg-3 offset-md-3 col-md-3 col-xs-12 col-sm-6 q-px-lg">
             <q-card>
               <q-card-section class="text-white" style="background: #ec982f">
                 <div class="text-h6 text-center">
@@ -181,84 +166,6 @@
               </q-card-section>
             </q-card>
           </div>
-          <div class="col-lg-3 col-md-3 col-xs-12 col-sm-6 q-px-lg">
-            <q-card>
-              <q-card-section class="text-white q-pa-md" style="background: #8b3bbd">
-                <div class="text-h6 text-center">
-                  PREMIUM
-                </div>
-              </q-card-section>
-              <q-card-section class="q-pa-md">
-                <q-list dense padding style="border-bottom: 1px solid lightgrey;">
-                  <q-item><span class="text-weight-bold">For average companies</span></q-item>
-                  <q-item>
-                    50 GB storage
-                  </q-item>
-                  <q-item>
-                    10 Domains
-                  </q-item>
-                  <q-item>
-                    15 Projects
-                  </q-item>
-                  <q-item>
-                    Free Deployment
-                  </q-item>
-                </q-list>
-              </q-card-section>
-              <q-card-section class="q-pa-none" style="color: #8b3bbd">
-                <div class="text-center">
-                  <span class="text-h2 text-center">$250</span>/mo
-                </div>
-              </q-card-section>
-              <q-card-section>
-                <div class="text-center q-px-lg">
-                  <q-btn size="md" class="full-width q-pa-xs"
-                         :style="'background: #8b3bbd; color: white'" label="Choose Plan"/>
-                  <br>
-                  <div class="q-mt-md">Terms and Conditions apply</div>
-                </div>
-              </q-card-section>
-            </q-card>
-          </div>
-          <div class="col-lg-3 col-md-3 col-xs-12 col-sm-6 q-px-lg">
-            <q-card>
-              <q-card-section class="text-white" style="background: #3b97d1">
-                <div class="text-h6 text-center">
-                  PROFESSIONAL
-                </div>
-              </q-card-section>
-              <q-card-section class="q-pa-md">
-                <q-list dense padding style="border-bottom: 1px solid lightgrey;">
-                  <q-item><span class="text-weight-bold">For large companies</span></q-item>
-                  <q-item>
-                    50 GB storage
-                  </q-item>
-                  <q-item>
-                    10 Domains
-                  </q-item>
-                  <q-item>
-                    15 Projects
-                  </q-item>
-                  <q-item>
-                    Free Deployment
-                  </q-item>
-                </q-list>
-              </q-card-section>
-              <q-card-section class="q-pa-none" style="color: #3b97d1">
-                <div class="text-center">
-                  <span class="text-h2 text-center">$500</span>/mo
-                </div>
-              </q-card-section>
-              <q-card-section>
-                <div class="text-center q-px-lg">
-                  <q-btn size="md" class="full-width q-pa-xs"
-                         style="background:#3b97d1; color: white" label="Choose Plan"/>
-                  <br>
-                  <div class="q-mt-md">Terms and Conditions apply</div>
-                </div>
-              </q-card-section>
-            </q-card>
-          </div>
         </div>
         <br>
         <br>
@@ -277,7 +184,7 @@ export default {
       bg_color: 'rgb(0, 163, 82)',
       hover: false,
       active: false,
-      theme_color: 'rgb(0, 163, 82)',
+      theme_color: '#29ABF4',
       background_style: 'background-color:rgba(0, 163, 82, 0.7);',
       about_heading_1: [],
       about_heading_2: [],
@@ -288,32 +195,8 @@ export default {
     }
   },
   computed: {
-    style () {
-      return {
-        width: '340px',
-        height: '263px',
-        backgroundImage: `url('https://raw.githubusercontent.com/quasarframework/quasar-ui-qflashcard/dev/demo/src/statics/bgimg.jpg')`, // eslint-disable-line
-        textAlign: 'center',
-        boxShadow: '1px 1px 2px #e6e6e6',
-        display: 'inline-block'
-      }
-    },
-    team_style () {
-      return {
-        width: '260px',
-        height: '263px',
-        backgroundImage: `url('https://raw.githubusercontent.com/quasarframework/quasar-ui-qflashcard/dev/demo/src/statics/bgimg.jpg')`, // eslint-disable-line
-        textAlign: 'center',
-        boxShadow: '1px 1px 2px #e6e6e6',
-        display: 'inline-block'
-      }
-    }
   },
   methods: {
-    changeBgColor () {
-      this.theme_color = this.bg_color
-      this.background_style = 'background-color:' + this.bg_color.split(')')[0] + ',0.7)'
-    },
     hoverOver: function (index) {
       this['about_heading_color_' + index] = this.theme_color
       this['about_heading_' + index] = ['animated', 'bounceIn']
