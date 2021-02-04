@@ -7,6 +7,7 @@
         <q-tabs>
           <q-tab class="q-mr-sm q-py-xs custom_tab" @click="scrollToElement('id_how_works')" label="Come Funziona" />
           <q-tab class="q-mr-sm q-py-xs custom_tab" @click="scrollToElement('id_pricing')" label="Prezzi" />
+          <q-tab class="q-mr-sm q-py-xs custom_tab" @click="modal = true" label="Accedi"  />
         </q-tabs>
       </q-toolbar>
     </q-header>
@@ -26,18 +27,24 @@
       </q-toolbar -->
     </q-footer>
 
+    <modal :modal.sync="modal" component="login" />
+
   </q-layout>
+
 </template>
 
 <script>
 import { scroll } from 'quasar'
+import Modal from 'components/Modal'
 const { getScrollTarget, setScrollPosition } = scroll
 
 export default {
+  components: { Modal },
   data () {
     return {
       left: false,
-      name: 'MainLayout'
+      name: 'MainLayout',
+      modal: false
     }
   },
   methods: {
@@ -48,6 +55,7 @@ export default {
       const duration = 900
       setScrollPosition(target, offset, duration)
     }
+
   }
 }
 </script>

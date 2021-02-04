@@ -79,10 +79,10 @@
 import SignIn from 'components/SignIn'
 import { required, email } from 'vuelidate/lib/validators'
 import { mapActions } from 'vuex'
-import { isValid, isPassword } from 'src/validations/validator'
+import validator from 'src/validations/validator'
 
 export default {
-  name: 'PageSignIn',
+  name: 'Login',
   components: { SignIn },
   data () {
     return {
@@ -91,8 +91,8 @@ export default {
         username: '',
         password: ''
       },
-      isValid: isValid,
-      isPassword: isPassword,
+      isValid: validator.isValid,
+      isPassword: validator.isPassword,
       isPwd: true
     }
   },
@@ -117,7 +117,7 @@ export default {
       },
       password: {
         required: required,
-        isPassword
+        isPassword: validator.isPassword
       }
     }
   }
