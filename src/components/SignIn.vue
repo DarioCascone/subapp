@@ -32,7 +32,7 @@
                         <div class="form-group">
                           <q-input outlined v-model="companyName" type="text" name="companyName" label="Ragione sociale"
                                    reactive-rules
-                                   :rules="[ (val) => isValid('companyName', val, $v.validator) ]" >
+                                   :rules="[ (val) => isValid('companyName', val, $v) ]" >
                             <template v-slot:append>
                               <q-icon name="info">
                                 <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
@@ -49,7 +49,7 @@
                         <div class="form-group" >
                           <q-select outlined option-dense v-model="legalForm" name="legalForm" :options="legalFormOptions" label="Forma Giuridica"
                                     reactive-rules
-                                    :rules="[ (val) => isValid('legalForm', val, $v.validator) ]" />
+                                    :rules="[ (val) => isValid('legalForm', val, $v) ]" />
                         </div>
                       </div>
 
@@ -58,7 +58,7 @@
                         <div class="form-group">
                           <q-input outlined v-model="SDICode" type="text" label="Codice SDI"
                                    reactive-rules name="SDICode"
-                                   :rules="[ (val) => isValid('SDICode', val, $v.validator) ]" >
+                                   :rules="[ (val) => isValid('SDICode', val, $v) ]" >
                             <template v-slot:append>
                               <q-icon name="info">
                                 <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
@@ -75,7 +75,7 @@
                         <div class="form-group" >
                           <q-input outlined v-model="vatNumber" type="text" label="Partita IVA"
                                    reactive-rules name="vatNumber"
-                                   :rules="[ (val) => isValid('vatNumber', val, $v.validator) ]" />
+                                   :rules="[ (val) => isValid('vatNumber', val, $v) ]" />
                         </div>
                       </div>
 
@@ -84,7 +84,7 @@
                         <div class="form-group" >
                           <q-input outlined v-model="fiscalCode" type="text" label="Codice Fiscale"
                                    reactive-rules name="fiscalCode"
-                                   :rules="[ (val) => isValid('fiscalCode', val, $v.validator) ]" />
+                                   :rules="[ (val) => isValid('fiscalCode', val, $v) ]" />
                         </div>
                       </div>
 
@@ -94,7 +94,7 @@
                           <q-select @input="getRegionOptions" outlined :options-dense="true" v-model="country" :options="countryOptions" label="Nazione"
                                     option-label="description" option-value="_id"
                                     reactive-rules name="country" emit-value map-options
-                                    :rules="[ (val) => isValid('country', val, $v.validator) ]" />
+                                    :rules="[ (val) => isValid('country', val, $v) ]" />
                         </div>
                       </div>
 
@@ -105,7 +105,7 @@
                                     option-label="description" option-value="_id" outlined :options-dense="true"
                                     v-model="region" :options="regionOptions" label="Regione" emit-value
                                     reactive-rules name="region" map-options
-                                    :rules="[ (val) => isValid('region', val, $v.validator) ]" />
+                                    :rules="[ (val) => isValid('region', val, $v) ]" />
                         </div>
                       </div>
 
@@ -115,7 +115,7 @@
                           <q-select @input="getCityOptions" :disable="!(region && provinceOptions.length>0)" :readonly="!(region && provinceOptions.length>0)"
                                     option-label="description" option-value="_id" outlined option-dense v-model="province" :options="provinceOptions" label="Provincia"
                                     reactive-rules name="region" emit-value map-options
-                                    :rules="[ (val) => isValid('province', val, $v.validator) ]" />
+                                    :rules="[ (val) => isValid('province', val, $v) ]" />
                         </div>
                       </div>
 
@@ -125,7 +125,7 @@
                           <q-select :disable="!(province && cityOptions.length>0)" :readonly="!(province && cityOptions.length>0)"
                                     option-label="description" option-value="_id" outlined option-dense v-model="city" :options="cityOptions" label="Città"
                                     reactive-rules name="city" :options-dense="true" map-options
-                                    :rules="[ (val) => isValid('city', val, $v.validator) ]" />
+                                    :rules="[ (val) => isValid('city', val, $v) ]" />
                         </div>
                       </div>
 
@@ -134,7 +134,7 @@
                         <div class="form-group">
                           <q-input outlined v-model="registeredOfficeAddress" type="text" label="Indirizzo sede legale"
                                    reactive-rules name="registeredOfficeAddress"
-                                   :rules="[ (val) => isValid('registeredOfficeAddress', val, $v.validator) ]" />
+                                   :rules="[ (val) => isValid('registeredOfficeAddress', val, $v) ]" />
                         </div>
                       </div>
 
@@ -143,7 +143,7 @@
                         <div class="form-group">
                           <q-input outlined v-model="postalCode" type="number" label="CAP"
                                    reactive-rules name="postalCode"
-                                   :rules="[ (val) => isValid('postalCode', val, $v.validator) ]" />
+                                   :rules="[ (val) => isValid('postalCode', val, $v) ]" />
                         </div>
                       </div>
 
@@ -152,7 +152,7 @@
                         <div class="form-group" >
                           <q-input outlined v-model="webSite" type="text" label="Sito Web"
                                    reactive-rules name="webSite"
-                                   :rules="[ (val) => isValid('webSite', val, $v.validator) ]" />
+                                   :rules="[ (val) => isValid('webSite', val, $v) ]" />
                         </div>
                       </div>
 
@@ -161,7 +161,7 @@
                         <div class="form-group" >
                           <q-input outlined v-model="PEC" type="text" label="email PEC"
                                    reactive-rules name="PEC"
-                                   :rules="[ (val) => isValid('PEC', val, $v.validator) ]" />
+                                   :rules="[ (val) => isValid('PEC', val, $v) ]" />
                         </div>
                       </div>
 
@@ -170,7 +170,7 @@
                         <div class="form-group" >
                           <q-input outlined v-model="telephoneNumber" type="number" label="Telefono"
                                    reactive-rules name="telephoneNumber"
-                                   :rules="[ (val) => isValid('telephoneNumber', val, $v.validator) ]" />
+                                   :rules="[ (val) => isValid('telephoneNumber', val, $v) ]" />
                         </div>
                       </div>
 
@@ -179,7 +179,7 @@
                         <div class="form-group" :class="{'form-group--error': $v.username.$error }">
                           <q-input outlined v-model="username" type="text" label="Username"
                                    reactive-rules name="username"
-                                   :rules="[ (val) => isValid('username', val, $v.validator) ]" />
+                                   :rules="[ (val) => isValid('username', val, $v) ]" />
                         </div>
                       </div>
 
@@ -188,7 +188,7 @@
                         <div class="form-group" :class="{'form-group--error': $v.password.$error }">
                           <q-input outlined v-model="password" label="Password" :type="isPsw ? 'password' : 'text'"
                                    reactive-rules name="password"
-                                   :rules="[ (val) => isValid('password', val, $v.validator) ]" >
+                                   :rules="[ (val) => isValid('password', val, $v) ]" >
                             <template v-slot:append>
                               <q-icon
                                 :name="isPsw ? 'visibility_off' : 'visibility'"
@@ -212,38 +212,42 @@
                   >
                     <div class="step-container">
 
-                      <div class="first-panel panel-container row">
-                        <p class="col-md-3">Certificato o Visura camerale</p>
-
-                        <q-input class="col-md-3" label="Data Scadenza" outlined v-model="certificateDate" mask="##/##/####">
-                          <template v-slot:append>
-                            <q-icon name="event" class="cursor-pointer">
-                              <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                                <q-date :locale="currentLocale" v-model="certificateDate" :options="calendarOption"  mask="DD/MM/YYYY">
-                                  <div class="row items-center justify-end q-gutter-sm">
-                                    <q-btn label="Annulla" color="primary" flat v-close-popup />
-                                    <q-btn label="OK" color="primary" flat v-close-popup />
-                                  </div>
-                                </q-date>
-                              </q-popup-proxy>
-                            </q-icon>
-                          </template>
-                        </q-input>
-
-                        <template>
-                          <div class=" offset-md-3">
-                            <q-file
-                              v-model="files"
-                              label="Carica quì i documenti richiesti"
-                              outlined
-                              use-chips
-                            >
-                              <template v-slot:prepend>
-                                <q-icon name="attach_file" />
-                              </template>
-                            </q-file>
+                      <div class="first-panel panel-container">
+                        <div class="row">
+                          <div class="q-pa-md column items-start q-gutter-y-md col-md-3">
+                            <p class="col-md-3">Certificato o Visura camerale</p>
                           </div>
-                        </template>
+
+                          <q-input class="q-pa-md column items-start q-gutter-y-md col-md-3" label="Data Scadenza" outlined v-model="certificateDate" mask="##/##/####">
+                            <template v-slot:append>
+                              <q-icon name="event" class="cursor-pointer">
+                                <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                                  <q-date :locale="currentLocale" v-model="certificateDate" :options="calendarOption"  mask="DD/MM/YYYY">
+                                    <div class="row items-center justify-end q-gutter-sm">
+                                      <q-btn label="Annulla" color="primary" flat v-close-popup />
+                                      <q-btn label="OK" color="primary" flat v-close-popup />
+                                    </div>
+                                  </q-date>
+                                </q-popup-proxy>
+                              </q-icon>
+                            </template>
+                          </q-input>
+
+                          <template>
+                            <div class="q-pa-md column items-start q-gutter-y-md offset-md-3 col-md-3">
+                              <q-file
+                                v-model="files"
+                                label="Carica quì i documenti richiesti"
+                                outlined
+                                use-chips
+                              >
+                                <template v-slot:prepend>
+                                  <q-icon name="attach_file" />
+                                </template>
+                              </q-file>
+                            </div>
+                          </template>
+                        </div>
 
                       </div>
 
