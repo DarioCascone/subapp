@@ -5,7 +5,7 @@
             transition-show="slide-up"
             transition-hide="slide-down"
             @hide="hideDialog">
-      <q-card>
+      <q-card :class="{'bg-secondary': component === 'login'}">
         <q-card-section class="relative-position bg-secondary ">
           <div class="text-h6 text-white text-center text-capitalize">{{ title }}</div>
           <div class="absolute-top-right z-max">
