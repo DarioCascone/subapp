@@ -3,14 +3,12 @@
     <q-stepper
       v-model="step"
       ref="stepper"
-      class="full-width"
       alternative-labels
       done-color="positive"
       error-color="negative"
       active-color="accent"
       transition-prev="fade"
       transition-next="fade"
-      header-class=""
       animated
       flat
       keep-alive
