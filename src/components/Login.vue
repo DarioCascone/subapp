@@ -34,22 +34,16 @@
         <a class="q-pt-md block text-center cursor-pointer text-accent bold text-weight-bold">Password dimenticata?</a>
       </div>
     </q-form>
-    <!-- Registration Dialog -->
-    <sign-in  :showAlert.sync="showAlert"></sign-in>
   </div>
 </template>
 
 <script>
-/* eslint-disable dot-notation */
-
-import SignIn from 'components/SignIn'
 import { required, email } from 'vuelidate/lib/validators'
 import { mapActions } from 'vuex'
 import validator from 'src/validations/validator'
 
 export default {
   name: 'Login',
-  components: { SignIn },
   data () {
     return {
       showAlert: false,

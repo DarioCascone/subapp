@@ -8,8 +8,8 @@
                 :breakpoint="0">
           <q-tab  @click="scrollToElement('id_how_works')" label="Come Funziona" />
           <q-tab  @click="scrollToElement('id_pricing')" label="Prezzi" />
-          <q-tab  @click="openModal('login', 'accedi')" label="Accedi"/>
-          <q-tab  @click="openModal('', 'registrati')" label="Registrati"/>
+          <q-tab  @click="openModal('login', 'accedi', false, loginClassObj)" label="Accedi"/>
+          <q-tab  @click="openModal('sign-in', 'registrati', true, singInClassObj)" label="Registrati"/>
         </q-tabs>
       </div>
     </q-header>
@@ -29,7 +29,7 @@
       </q-toolbar>
     </q-footer -->
 
-    <modal :modal.sync="modal" :component="modalComponent" :title="modalTitle"/>
+    <modal :class-obj="classObj" :modal.sync="modal" :is-maximized="isMaximized" :component="modalComponent" :title="modalTitle"/>
 
   </q-layout>
 
@@ -47,7 +47,15 @@ export default {
       name: 'MainLayout',
       modal: false,
       modalComponent: undefined,
-      modalTitle: undefined
+      modalTitle: undefined,
+      isMaximized: false,
+      classObj: {},
+      loginClassObj: {
+        'bg-white': true
+      },
+      singInClassObj: {
+        'q-pa-none': true
+      }
     }
   },
   methods: {
@@ -58,10 +66,13 @@ export default {
       const duration = 900
       setScrollPosition(target, offset, duration)
     },
-    openModal (component, title) {
+    openModal (component, title, isMaximized, classObj) {
       this.modalComponent = component
+      console.log(this.modalComponent)
       this.modalTitle = title
+      this.isMaximized = isMaximized
       this.modal = true
+      this.classObj = classObj
     }
   }
 }
