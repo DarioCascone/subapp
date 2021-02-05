@@ -3,9 +3,14 @@
     <q-stepper
       v-model="step"
       ref="stepper"
+      class="full-width"
       alternative-labels
       done-color="positive"
       error-color="negative"
+      active-color="accent"
+      transition-prev="fade"
+      transition-next="fade"
+      header-class=""
       animated
       flat
       keep-alive
@@ -15,183 +20,132 @@
         :name="1"
         title="Informazioni generali"
         icon="settings"
-        :done="step > 1"
-      >
-        <div class="step-container row">
+        :done="step > 1">
+        <div class="row wrap justify-center content-center no-padding no-margin q-gutter-x-md q-gutter-y-xs">
+          <q-input outlined v-model="username" type="text" label="Username *"
+                     class="col-12 col-md-3"
+                     reactive-rules name="username"
+                     :rules="[ (val) => isValid('username', val, $v) ]" />
 
-          <!-- Ragione Sociale -->
-          <div class="field-container col-lg-4 col-md-6">
-            <div class="form-group">
-              <q-input outlined v-model="companyName" type="text" name="companyName" label="Ragione sociale"
-                       reactive-rules
-                       :rules="[ (val) => isValid('companyName', val, $v) ]" >
-                <template v-slot:append>
-                  <q-icon name="info">
-                    <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
-                      {{$t('signin.tooltip.companyName')}}
-                    </q-tooltip>
-                  </q-icon>
-                </template>
-              </q-input>
-            </div>
-          </div>
+            <q-input outlined v-model="password" label="Password *" :type="isPsw ? 'password' : 'text'"
+                     class="col-12 col-md-3"
+                     reactive-rules name="password"
+                     :rules="[ (val) => isValid('password', val, $v) ]" >
+              <template v-slot:append>
+                <q-icon
+                  :name="isPsw ? 'visibility_off' : 'visibility'"
+                  class="cursor-pointer"
+                  @click="isPsw = !isPsw"
+                />
+              </template>
+            </q-input>
 
-          <!-- Forma Giuridica -->
-          <div class="field-container col-lg-4 col-md-6">
-            <div class="form-group" >
-              <q-select outlined option-dense v-model="legalForm" name="legalForm" :options="legalFormOptions" label="Forma Giuridica"
-                        reactive-rules
-                        :rules="[ (val) => isValid('legalForm', val, $v) ]" />
-            </div>
-          </div>
+          <q-input outlined v-model="PEC" type="text" label="email PEC"
+                   class="col-12 col-md-3"
+                   reactive-rules name="PEC"
+                   :rules="[ (val) => isValid('PEC', val, $v) ]" />
 
-          <!-- Codice SDI -->
-          <div class="field-container col-lg-4 col-md-6">
-            <div class="form-group">
-              <q-input outlined v-model="SDICode" type="text" label="Codice SDI"
-                       reactive-rules name="SDICode"
-                       :rules="[ (val) => isValid('SDICode', val, $v) ]" >
-                <template v-slot:append>
-                  <q-icon name="info">
-                    <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
-                      {{$t('signin.tooltip.SDICode')}}
-                    </q-tooltip>
-                  </q-icon>
-                </template>
-              </q-input>
-            </div>
-          </div>
+          <q-select v-model="legalForm"
+                    :options="legalFormOptions"
+                    name="legalForm"
+                    outlined
+                    class="col-12 col-md-3"
+                    option-dense
+                    label="Forma Giuridica *"
+                    reactive-rules
+                    :rules="[ (val) => isValid('legalForm', val, $v) ]" />
 
-          <!-- P.IVA -->
-          <div class="field-container col-lg-4 col-md-6">
-            <div class="form-group" >
-              <q-input outlined v-model="vatNumber" type="text" label="Partita IVA"
-                       reactive-rules name="vatNumber"
-                       :rules="[ (val) => isValid('vatNumber', val, $v) ]" />
-            </div>
-          </div>
+          <q-input outlined v-model="telephoneNumber" type="number" label="Telefono *"
+                   class="col-12 col-md-3"
+                   reactive-rules name="telephoneNumber"
+                   :rules="[ (val) => isValid('telephoneNumber', val, $v) ]" />
 
-          <!-- CF -->
-          <div class="field-container col-lg-4 col-md-6">
-            <div class="form-group" >
-              <q-input outlined v-model="fiscalCode" type="text" label="Codice Fiscale"
-                       reactive-rules name="fiscalCode"
-                       :rules="[ (val) => isValid('fiscalCode', val, $v) ]" />
-            </div>
-          </div>
+          <q-select @input="getRegionOptions"  class="col-12 col-md-3" outlined :options-dense="true" v-model="country" :options="countryOptions" label="Nazione*"
+                    option-label="description" option-value="_id"
+                    reactive-rules name="country" emit-value map-options
+                    :rules="[ (val) => isValid('country', val, $v) ]" />
 
-          <!-- Nazione -->
-          <div class="field-container col-lg-4 col-md-6">
-            <div class="form-group" >
-              <q-select @input="getRegionOptions" outlined :options-dense="true" v-model="country" :options="countryOptions" label="Nazione"
-                        option-label="description" option-value="_id"
-                        reactive-rules name="country" emit-value map-options
-                        :rules="[ (val) => isValid('country', val, $v) ]" />
-            </div>
-          </div>
+          <q-select @input="getProvinceOptions"  class="col-12 col-md-3" :disable="!(country && regionOptions.length>0)" :readonly="!(country && regionOptions.length>0)"
+                    option-label="description" option-value="_id" outlined :options-dense="true"
+                    v-model="region" :options="regionOptions" label="Regione *" emit-value
+                    reactive-rules name="region" map-options
+                    :rules="[ (val) => isValid('region', val, $v) ]" />
 
-          <!-- Regione -->
-          <div class="field-container col-lg-4 col-md-6">
-            <div class="form-group" >
-              <q-select @input="getProvinceOptions" :disable="!(country && regionOptions.length>0)" :readonly="!(country && regionOptions.length>0)"
-                        option-label="description" option-value="_id" outlined :options-dense="true"
-                        v-model="region" :options="regionOptions" label="Regione" emit-value
-                        reactive-rules name="region" map-options
-                        :rules="[ (val) => isValid('region', val, $v) ]" />
-            </div>
-          </div>
+          <q-select @input="getCityOptions"  class="col-12 col-md-3" :disable="!(region && provinceOptions.length>0)" :readonly="!(region && provinceOptions.length>0)"
+                    option-label="description" option-value="_id" outlined option-dense v-model="province" :options="provinceOptions" label="Provincia *"
+                    reactive-rules name="region" emit-value map-options
+                    :rules="[ (val) => isValid('province', val, $v) ]" />
 
-          <!-- Province -->
-          <div class="field-container col-lg-4 col-md-6">
-            <div class="form-group">
-              <q-select @input="getCityOptions" :disable="!(region && provinceOptions.length>0)" :readonly="!(region && provinceOptions.length>0)"
-                        option-label="description" option-value="_id" outlined option-dense v-model="province" :options="provinceOptions" label="Provincia"
-                        reactive-rules name="region" emit-value map-options
-                        :rules="[ (val) => isValid('province', val, $v) ]" />
-            </div>
-          </div>
+          <q-select :disable="!(province && cityOptions.length>0)" :readonly="!(province && cityOptions.length>0)"  class="col-12 col-md-3"
+                    option-label="description" option-value="_id" outlined option-dense v-model="city" :options="cityOptions" label="Città *"
+                    reactive-rules name="city" :options-dense="true" map-options
+                    :rules="[ (val) => isValid('city', val, $v) ]" />
 
-          <!-- Città -->
-          <div class="field-container col-lg-4 col-md-6">
-            <div class="form-group">
-              <q-select :disable="!(province && cityOptions.length>0)" :readonly="!(province && cityOptions.length>0)"
-                        option-label="description" option-value="_id" outlined option-dense v-model="city" :options="cityOptions" label="Città"
-                        reactive-rules name="city" :options-dense="true" map-options
-                        :rules="[ (val) => isValid('city', val, $v) ]" />
-            </div>
-          </div>
+          <q-input outlined
+                   v-model="vatNumber"
+                   class="col-12 col-md-3"
+                   type="text"
+                   label="Partita IVA *"
+                   reactive-rules name="vatNumber"
+                   :rules="[ (val) => isValid('vatNumber', val, $v) ]" />
 
-          <!-- Indirizzo -->
-          <div class="field-container col-lg-4 col-md-6">
-            <div class="form-group">
-              <q-input outlined v-model="registeredOfficeAddress" type="text" label="Indirizzo sede legale"
-                       reactive-rules name="registeredOfficeAddress"
-                       :rules="[ (val) => isValid('registeredOfficeAddress', val, $v) ]" />
-            </div>
-          </div>
+          <q-input outlined
+                   v-model="fiscalCode"
+                   type="text"
+                   class="col-12 col-md-3"
+                   label="Codice Fiscale *"
+                   reactive-rules name="fiscalCode"
+                   :rules="[ (val) => isValid('fiscalCode', val, $v) ]" />
 
-          <!-- Cap -->
-          <div class="field-container col-lg-4 col-md-6">
-            <div class="form-group">
-              <q-input outlined v-model="postalCode" type="number" label="CAP"
-                       reactive-rules name="postalCode"
-                       :rules="[ (val) => isValid('postalCode', val, $v) ]" />
-            </div>
-          </div>
+          <q-input outlined v-model="registeredOfficeAddress" type="text" label="Indirizzo sede legale *"
+                   reactive-rules name="registeredOfficeAddress"
+                   class="col-12 col-md-3"
+                   :rules="[ (val) => isValid('registeredOfficeAddress', val, $v) ]" />
 
-          <!-- Sito web -->
-          <div class="field-container col-lg-4 col-md-6">
-            <div class="form-group" >
-              <q-input outlined v-model="webSite" type="text" label="Sito Web"
-                       reactive-rules name="webSite"
-                       :rules="[ (val) => isValid('webSite', val, $v) ]" />
-            </div>
-          </div>
+          <q-input outlined v-model="postalCode" type="number" label="CAP *"
+                   class="col-12 col-md-3"
+                   reactive-rules name="postalCode"
+                   :rules="[ (val) => isValid('postalCode', val, $v) ]" />
 
-          <!-- Pec -->
-          <div class="field-container col-lg-4 col-md-6">
-            <div class="form-group" >
-              <q-input outlined v-model="PEC" type="text" label="email PEC"
-                       reactive-rules name="PEC"
-                       :rules="[ (val) => isValid('PEC', val, $v) ]" />
-            </div>
-          </div>
+          <q-input outlined v-model="webSite" type="text" label="Sito Web"
+                   class="col-12 col-md-3"
+                   reactive-rules name="webSite"
+                   :rules="[ (val) => isValid('webSite', val, $v) ]" />
 
-          <!-- Telefono -->
-          <div class="field-container col-lg-4 col-md-6">
-            <div class="form-group" >
-              <q-input outlined v-model="telephoneNumber" type="number" label="Telefono"
-                       reactive-rules name="telephoneNumber"
-                       :rules="[ (val) => isValid('telephoneNumber', val, $v) ]" />
-            </div>
-          </div>
+          <q-input v-model="companyName"
+                   outlined
+                   type="text"
+                   class="col-12 col-md-3"
+                   name="companyName"
+                   label="Ragione sociale *"
+                   reactive-rules
+                   :rules="[ (val) => isValid('companyName', val, $v) ]" >
+            <template v-slot:append>
+              <q-icon class="desktop-only text-secondary" name="info">
+                <q-tooltip anchor="top middle" self="bottom middle" content-class="bg-accent"  :offset="[10, 10]">
+                  {{$t('signin.tooltip.companyName')}}
+                </q-tooltip>
+              </q-icon>
+            </template>
+          </q-input>
 
-          <!-- Username -->
-          <div class="field-container col-lg-4 col-md-6">
-            <div class="form-group" :class="{'form-group--error': $v.username.$error }">
-              <q-input outlined v-model="username" type="text" label="Username"
-                       reactive-rules name="username"
-                       :rules="[ (val) => isValid('username', val, $v) ]" />
-            </div>
-          </div>
-
-          <!-- Password -->
-          <div class="field-container col-lg-4 col-md-6">
-            <div class="form-group" :class="{'form-group--error': $v.password.$error }">
-              <q-input outlined v-model="password" label="Password" :type="isPsw ? 'password' : 'text'"
-                       reactive-rules name="password"
-                       :rules="[ (val) => isValid('password', val, $v) ]" >
-                <template v-slot:append>
-                  <q-icon
-                    :name="isPsw ? 'visibility_off' : 'visibility'"
-                    class="cursor-pointer"
-                    @click="isPsw = !isPsw"
-                  />
-                </template>
-              </q-input>
-            </div>
-          </div>
-
+          <q-input outlined
+                   v-model="SDICode"
+                   class="col-12 col-md-3"
+                   type="text"
+                   label="Codice SDI *"
+                   reactive-rules name="SDICode"
+                   :rules="[ (val) => isValid('SDICode', val, $v) ]" >
+            <template v-slot:append>
+              <q-icon name="info" class="desktop-only text-secondary">
+                <q-tooltip anchor="top middle" self="bottom middle" content-class="bg-accent" :offset="[10, 10]">
+                  {{$t('signin.tooltip.SDICode')}}
+                </q-tooltip>
+              </q-icon>
+            </template>
+          </q-input>
+          <div class="desktop-only col-md-3"></div>
+          <div class="desktop-only col-md-3"></div>
         </div>
       </q-step>
 
@@ -206,11 +160,11 @@
 
           <div class="first-panel panel-container">
             <div class="row">
-              <div class="q-pa-md column items-start q-gutter-y-md col-md-3">
-                <p class="col-md-3">Certificato o Visura camerale</p>
+              <div class="q-pa-md column items-start q-gutter-y-md col-12 col-md-3">
+                <p class="col-12 col-md-3">Certificato o Visura camerale</p>
               </div>
 
-              <q-input class="q-pa-md column items-start q-gutter-y-md col-md-3" label="Data Scadenza" outlined v-model="certificateDate" mask="##/##/####">
+              <q-input class="q-pa-md column items-start q-gutter-y-md col-12 col-md-3" label="Data Scadenza" outlined v-model="certificateDate" mask="##/##/####">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -226,7 +180,7 @@
               </q-input>
 
               <template>
-                <div class="q-pa-md column items-start q-gutter-y-md offset-md-3 col-md-3">
+                <div class="q-pa-md column items-start q-gutter-y-md offset-md-3 col-12 col-md-3">
                   <q-file
                     v-model="files"
                     label="Carica quì i documenti richiesti"
@@ -261,8 +215,7 @@
             <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Indietro" class="q-ml-sm" />
           </div>
           <div>
-           <!--<q-btn @click="$refs.stepper.next()" :type="step === 3 ? 'submit' : 'button'"  color="primary" :label="step === 3 ? 'Registrati' : 'Continua'" />
--->
+           <!--<q-btn @click="$refs.stepper.next()" :type="step === 3 ? 'submit' : 'button'"  color="primary" :label="step === 3 ? 'Registrati' : 'Continua'" />-->
             <q-btn @click="$refs.stepper.next()" type="submit"  color="primary" :label="step === 3 ? 'Registrati' : 'Continua'" />
           </div>
         </q-stepper-navigation>
