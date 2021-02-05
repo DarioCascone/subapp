@@ -154,48 +154,186 @@
         icon="create_new_folder"
         :done="step > 2"
       >
-        <div class="step-container">
 
-          <div class="first-panel panel-container">
-            <div class="row">
-              <div class="q-pa-md column items-start q-gutter-y-md col-12 col-md-3">
-                <p class="col-12 col-md-3">Certificato o Visura camerale</p>
-              </div>
+        <div class="row wrap justify-center content-center no-padding no-margin q-gutter-x-md q-gutter-y-xs">
 
-              <q-input class="q-pa-md column items-start q-gutter-y-md col-12 col-md-3" label="Data Scadenza" outlined v-model="certificateDate" mask="##/##/####">
-                <template v-slot:append>
-                  <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                      <q-date :locale="currentLocale" v-model="certificateDate" :options="calendarOption"  mask="DD/MM/YYYY">
-                        <div class="row items-center justify-end q-gutter-sm">
-                          <q-btn label="Annulla" color="primary" flat v-close-popup />
-                          <q-btn label="OK" color="primary" flat v-close-popup />
-                        </div>
-                      </q-date>
-                    </q-popup-proxy>
-                  </q-icon>
-                </template>
-              </q-input>
+          <!--riga-->
+          <div class="col-md-3">
+            <span>SOA</span>
+            <q-toggle
+              v-model="soa"
+              checked-icon="check"
+              color="accent"
+              unchecked-icon="clear"
+            />
+          </div>
+          <div class="col-md-3">
 
-              <template>
-                <div class="q-pa-md column items-start q-gutter-y-md offset-md-3 col-12 col-md-3">
-                  <q-file
-                    v-model="files"
-                    label="Carica quì i documenti richiesti"
-                    outlined
-                    use-chips
-                  >
-                    <template v-slot:prepend>
-                      <q-icon name="attach_file" />
-                    </template>
-                  </q-file>
-                </div>
-              </template>
-            </div>
+            <span>ISO</span>
+            <q-toggle
+              v-model="iso"
+              checked-icon="check"
+              color="accent"
+              unchecked-icon="clear"
+            />
 
           </div>
+          <div class="col-md-3">
+
+            <span>Patentino Fgas</span>
+            <q-toggle
+              v-model="fgas"
+              checked-icon="check"
+              color="accent"
+              unchecked-icon="clear"
+            />
+
+          </div>
+          <!--riga-->
+          <div class="col-md-3">
+            <q-file
+              :disable="!soa"
+              v-model="isoFile"
+              label="Carica quì il documento richiesto"
+              outlined
+              use-chips
+            >
+              <template v-slot:prepend>
+                <q-icon name="attach_file" />
+              </template>
+            </q-file>
+          </div>
+          <div class="col-md-3">
+            <q-file
+              :disable="!iso"
+              v-model="isoFile"
+              label="Carica quì il documento richiesto"
+              outlined
+              use-chips
+            >
+              <template v-slot:prepend>
+                <q-icon name="attach_file" />
+              </template>
+            </q-file>
+          </div>
+          <div class="col-md-3">
+            <q-file
+              :disable="!fgas"
+              v-model="fgasFile"
+              label="Carica quì il documento richiesto"
+              outlined
+              use-chips
+            >
+              <template v-slot:prepend>
+                <q-icon name="attach_file" />
+              </template>
+            </q-file>
+          </div>
+          <!--riga-->
+          <div class="col-md-3 q-pt-md">
+            Dichiarazione sostitutiva comunicazione antimafia
+          </div>
+          <div class="col-md-3 q-pt-md">
+            Prestazione
+          </div>
+          <div class="desktop-only col-md-3"></div>
+          <!--riga-->
+          <div class="col-md-3">
+            <q-file
+              v-model="antimafiaFile"
+              label="Carica quì il documento richiesto"
+              outlined
+              use-chips
+            >
+              <template v-slot:prepend>
+                <q-icon name="attach_file" />
+              </template>
+            </q-file>
+          </div>
+          <div class="col-md-3">
+            <q-file
+              v-model="presentationFile"
+              label="Carica quì il documento richiesto"
+              outlined
+              use-chips
+            >
+              <template v-slot:prepend>
+                <q-icon name="attach_file" />
+              </template>
+            </q-file>
+          </div>
+          <div class="desktop-only col-md-3"></div>
+          <!--riga-->
+          <div class="col-md-3 q-pt-md">
+            Certificato o Visura Camerale
+          </div>
+          <div class="desktop-only col-md-3"></div>
+          <div class="desktop-only col-md-3"></div>
+          <!--riga-->
+          <div class="col-md-3">
+            <q-file
+              v-model="certificateFile"
+              label="Carica quì il documento richiesto"
+              outlined
+              use-chips
+            >
+              <template v-slot:prepend>
+                <q-icon name="attach_file" />
+              </template>
+            </q-file>
+          </div>
+          <q-input class="col-md-2" label="Data Scadenza" outlined v-model="certificateDate" mask="##/##/####">
+            <template v-slot:append>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                  <q-date :locale="currentLocale" v-model="certificateDate" :options="calendarOption"  mask="DD/MM/YYYY">
+                    <div class="row items-center justify-end q-gutter-sm">
+                      <q-btn label="Annulla" color="primary" flat v-close-popup />
+                      <q-btn label="OK" color="primary" flat v-close-popup />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+          <div class="desktop-only col-md-4"></div>
+          <!--riga-->
+          <div class="col-md-3 q-pt-md">
+            Regolarità Durc
+          </div>
+          <div class="desktop-only col-md-3"></div>
+          <div class="desktop-only col-md-3"></div>
+          <!--riga-->
+          <div class="col-md-3">
+            <q-file
+              v-model="durcRegolarityFile"
+              label="Carica quì il documento richiesto"
+              outlined
+              use-chips
+            >
+              <template v-slot:prepend>
+                <q-icon name="attach_file" />
+              </template>
+            </q-file>
+          </div>
+          <q-input class="col-md-2" label="Data Scadenza" outlined v-model="durcRegolarityDate" mask="##/##/####">
+            <template v-slot:append>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                  <q-date :locale="currentLocale" v-model="durcRegolarityDate" :options="calendarOption"  mask="DD/MM/YYYY">
+                    <div class="row items-center justify-end q-gutter-sm">
+                      <q-btn label="Annulla" color="primary" flat v-close-popup />
+                      <q-btn label="OK" color="primary" flat v-close-popup />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+          <div class="desktop-only col-md-4"></div>
 
         </div>
+
       </q-step>
 
       <q-step
@@ -234,9 +372,6 @@ export default {
     return {
       step: 1,
       alert: false,
-      files: null,
-      uploadProgress: [],
-      uploading: null,
       isPsw: true,
       companyName: '',
       legalForm: '',
@@ -275,7 +410,17 @@ export default {
         firstDayOfWeek: 0
       },
       certificateDate: '',
-      proxycertificateDate: ''
+      certificateFile: null,
+      durcRegolarityDate: '',
+      durcRegolarityFile: null,
+      antimafiaFile: null,
+      presentationFile: null,
+      soa: false,
+      iso: false,
+      fgas: false,
+      isoFile: null,
+      soaFile: null,
+      fgasFile: null
     }
   },
   props: ['showAlert'],
@@ -326,9 +471,6 @@ export default {
   async created () {
     const resp = await this.getCountries()
     this.countryOptions = resp.countries
-  },
-  beforeDestroy () {
-    clearTimeout(this.uploading)
   },
   watch: {
     showAlert (newValue, oldValue) {
