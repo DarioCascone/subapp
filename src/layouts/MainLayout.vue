@@ -8,8 +8,8 @@
                 :breakpoint="0">
           <q-tab  @click="scrollToElement('id_how_works')" label="Come Funziona" />
           <q-tab  @click="scrollToElement('id_pricing')" label="Prezzi" />
-          <q-tab  @click="modal = true" label="Accedi"/>
-          <q-tab  label="Registrati"/>
+          <q-tab  @click="openModal('login', 'accedi')" label="Accedi"/>
+          <q-tab  @click="openModal('', 'registrati')" label="Registrati"/>
         </q-tabs>
       </div>
     </q-header>
@@ -29,7 +29,7 @@
       </q-toolbar>
     </q-footer -->
 
-    <modal :modal.sync="modal" component="login" />
+    <modal :modal.sync="modal" :component="modalComponent" :title="modalTitle"/>
 
   </q-layout>
 
@@ -45,7 +45,9 @@ export default {
   data () {
     return {
       name: 'MainLayout',
-      modal: false
+      modal: false,
+      modalComponent: undefined,
+      modalTitle: undefined
     }
   },
   methods: {
@@ -55,6 +57,11 @@ export default {
       const offset = el.offsetTop + 3
       const duration = 900
       setScrollPosition(target, offset, duration)
+    },
+    openModal (component, title) {
+      this.modalComponent = component
+      this.modalTitle = title
+      this.modal = true
     }
   }
 }
