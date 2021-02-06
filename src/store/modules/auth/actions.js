@@ -3,10 +3,13 @@ const AuthService = ApiFactory.get('auth')
 
 export default {
   async login ({ commit }) {
-    const { data } = await AuthService.get()
+    const { data } = await AuthService.login()
     console.log('response', data)
     commit('SET_AUTH', { isAuth: true })
-    // rimuovere successivamente il return data è solo per esempio per tonino
+    return data
+  },
+  async signin ({ commit }, user) {
+    const { data } = await AuthService.signin(user)
     return data
   }
 }
