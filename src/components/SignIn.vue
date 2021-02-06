@@ -68,15 +68,13 @@
                     v-model="user.region" :options="regions" label="Regione *" emit-value
                     reactive-rules name="region" map-options
                     :rules="[ (val) => isValid('region', val, $v.user) ]" />
-
           <q-select @input="getCityOptions"  class="col-12 col-md-3" :disable="!(user.region && provinces.length>0)" :readonly="!(user.region && provinces.length>0)"
                     option-label="description" option-value="_id" outlined option-dense v-model="user.province" :options="provinces" label="Provincia *"
                     reactive-rules name="region" emit-value map-options
                     :rules="[ (val) => isValid('province', val, $v.user) ]" />
-
           <q-select :disable="!(user.province && cities.length>0)" :readonly="!(user.province && cities.length>0)"  class="col-12 col-md-3"
                     option-label="description" option-value="_id" outlined option-dense v-model="user.city" :options="cities" label="Città *"
-                    reactive-rules name="city" :options-dense="true" map-options
+                    reactive-rules name="city" map-options emit-value
                     :rules="[ (val) => isValid('city', val, $v.user) ]" />
 
           <q-input outlined
@@ -351,8 +349,7 @@
             <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Indietro" class="q-ml-sm" />
           </div>
           <div>
-           <!--<q-btn @click="$refs.stepper.next()" :type="step === 3 ? 'submit' : 'button'"  color="primary" :label="step === 3 ? 'Registrati' : 'Continua'" />-->
-            <q-btn @click="$refs.stepper.next()" type="submit"  color="primary" :label="step === 3 ? 'Registrati' : 'Continua'" />
+            <q-btn id='signinBtn' type="submit"  color="primary" :label="step === 3 ? 'Registrati' : 'Continua'" />
           </div>
         </q-stepper-navigation>
       </template>
@@ -410,7 +407,7 @@ export default {
       'getRegions',
       'getProvinces',
       'getCities',
-      'signin',
+      'signup',
       'getRdos'
     ]),
     hideDialog () {
@@ -424,8 +421,18 @@ export default {
       this.$v.$touch()
       this.$forceUpdate()
       if (!this.$v.$invalid && this.step === 3) {
-        await this.signin(this.user)
+        this.$q.loading.show({
+          spinnerColor: 'accent'
+        })
+        try {
+          await this.signup(this.user)
+          this.$q.loading.hide()
+        } catch (error) {
+          this.$q.loading.hide()
+          console.log(error)
+        }
       }
+      this.$refs.stepper.next()
     },
     async getRegionOptions () {
       this.user.region = undefined
