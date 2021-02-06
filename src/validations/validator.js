@@ -58,7 +58,7 @@ export default {
 
   isValid: (input, val, validator) => {
     if (validator.$error) {
-      if (!validator[input].required.isEmpty && !validator[input].required) {
+      if (validator[input].required === false) {
         return 'Campo obbligatorio!'
       }
       switch (input) {
@@ -93,11 +93,11 @@ export default {
           }
           break
         case 'webSite':
-          if (!validator[input].isWebSite) {
+          if (val && !validator[input].isWebSite) {
             return 'Sito: ' + val + ' non valido!'
           }
           break
-        case 'PEC':
+        case 'pec':
           if (!validator[input].email) {
             return 'PEC: ' + val + ' non valida!'
           }
