@@ -3,7 +3,11 @@ import ApiService from 'src/common/api/apiService'
 const resource = '/auth'
 
 export default {
-  get () {
+  login () {
     return ApiService.get(resource)
+  },
+
+  signin (user) {
+    return ApiService.post(resource, user)
   }
 }

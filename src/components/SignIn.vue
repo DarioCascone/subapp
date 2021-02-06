@@ -132,7 +132,8 @@
                    class="col-12 col-md-3"
                    type="text"
                    label="Codice SDI *"
-                   reactive-rules name="SDICode"
+                   reactive-rules
+                   name="SDICode"
                    :rules="[ (val) => isValid('SDICode', val, $v.user) ]" >
             <template v-slot:append>
               <q-icon name="info" class="desktop-only text-secondary">
@@ -344,7 +345,6 @@
       >
         Leggi e accetta i consensi per proseguire con la registrazione.
       </q-step>
-
       <template v-slot:navigation>
         <q-stepper-navigation class="flex justify-between">
           <div>
@@ -413,7 +413,8 @@ export default {
       'getCountries',
       'getRegions',
       'getProvinces',
-      'getCities'
+      'getCities',
+      'signin'
     ]),
     hideDialog () {
       this.$emit('update:showAlert', this.alert)
@@ -422,9 +423,12 @@ export default {
       const currentTime = new Date()
       return date >= currentTime.toLocaleDateString('fr-CA').replaceAll('-', '/')
     },
-    onSignin () {
+    async onSignin () {
       this.$v.$touch()
       this.$forceUpdate()
+      if (!this.$v.$invalid && this.step === 3) {
+        await this.signin(this.user)
+      }
     },
     async getRegionOptions () {
       this.regionOptions = []

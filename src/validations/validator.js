@@ -41,7 +41,7 @@ export default {
 
   isTelephoneNumber: (param) => {
     if (param) {
-      const pattern = new RegExp('^(([+]|00)39)?((3[1-6][0-9]))(\\d{7})$')
+      const pattern = new RegExp('^(([+]|00)39)?((3[1-9][0-9]))(\\d{7})$')
       return pattern.test(param)
     }
     return false
