@@ -18,6 +18,9 @@ export default class user {
     this._telephoneNumber = ''
     this._certificateDate = ''
     this._durcRegolarityDate = ''
+    this._rdo = []
+    this._imports = []
+    this._regionsOfInterest = []
   }
 
   get username () {
@@ -92,6 +95,18 @@ export default class user {
     return this._durcRegolarityDate
   }
 
+  get rdo () {
+    return this._rdo
+  }
+
+  get imports () {
+    return this._imports
+  }
+
+  get regionsOfInterest () {
+    return this._regionsOfInterest
+  }
+
   set username (username) {
     this._username = username
   }
@@ -162,5 +177,17 @@ export default class user {
 
   set durcRegolarityDate (durcRegolarityDate) {
     this._durcRegolarityDate = durcRegolarityDate
+  }
+
+  set rdo (rdo) {
+    this._rdo = rdo
+  }
+
+  set imports (imports) {
+    this._imports = imports
+  }
+
+  set regionsOfInterest (regionsOfInterest) {
+    this._regionsOfInterest = regionsOfInterest
   }
 }

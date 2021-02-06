@@ -51,7 +51,10 @@
                     option-dense
                     label="Forma Giuridica *"
                     reactive-rules
-                    :rules="[ (val) => isValid('legalForm', val, $v.user) ]" />
+                    :rules="[ (val) => isValid('legalForm', val, $v.user) ]"
+                    transition-show="scale"
+                    transition-hide="scale"
+          />
 
           <q-input outlined v-model="user.telephoneNumber" type="number" label="Telefono *"
                    class="col-12 col-md-3"
@@ -61,23 +64,35 @@
           <q-select @input="getRegionOptions"  class="col-12 col-md-3" outlined :options-dense="true" v-model="user.country" :options="countries" label="Nazione*"
                     option-label="description" option-value="_id"
                     reactive-rules name="country" emit-value map-options
-                    :rules="[ (val) => isValid('country', val, $v.user) ]" />
+                    :rules="[ (val) => isValid('country', val, $v.user) ]"
+                    transition-show="scale"
+                    transition-hide="scale"
+          />
 
           <q-select @input="getProvinceOptions"  class="col-12 col-md-3" :disable="!(user.country && regions.length>0)" :readonly="!(user.country && regions.length>0)"
                     option-label="description" option-value="_id" outlined :options-dense="true"
                     v-model="user.region" :options="regions" label="Regione *" emit-value
                     reactive-rules name="region" map-options
-                    :rules="[ (val) => isValid('region', val, $v.user) ]" />
+                    :rules="[ (val) => isValid('region', val, $v.user) ]"
+                    transition-show="scale"
+                    transition-hide="scale"
+          />
 
           <q-select @input="getCityOptions"  class="col-12 col-md-3" :disable="!(user.region && provinces.length>0)" :readonly="!(user.region && provinces.length>0)"
                     option-label="description" option-value="_id" outlined option-dense v-model="user.province" :options="provinces" label="Provincia *"
                     reactive-rules name="region" emit-value map-options
-                    :rules="[ (val) => isValid('province', val, $v.user) ]" />
+                    :rules="[ (val) => isValid('province', val, $v.user) ]"
+                    transition-show="scale"
+                    transition-hide="scale"
+          />
 
           <q-select :disable="!(user.province && cities.length>0)" :readonly="!(user.province && cities.length>0)"  class="col-12 col-md-3"
                     option-label="description" option-value="_id" outlined option-dense v-model="user.city" :options="cities" label="Città *"
                     reactive-rules name="city" :options-dense="true" map-options
-                    :rules="[ (val) => isValid('city', val, $v.user) ]" />
+                    :rules="[ (val) => isValid('city', val, $v.user) ]"
+                    transition-show="scale"
+                    transition-hide="scale"
+          />
 
           <q-input outlined
                    v-model="user.vatNumber"
@@ -232,6 +247,54 @@
           </div>
           <!--riga-->
           <div class="col-md-3 q-pt-md">
+            Richieste di offerta
+          </div>
+          <div class="desktop-only col-md-3"></div>
+          <div class="desktop-only col-md-3"></div>
+          <!--riga-->
+          <q-select @input="getRdoValues"  class="col-md-3" multiple use-chips
+                    outlined option-dense v-model="rdoCategories" :options="rdosOptions" label="Categoria"
+                    name="category"
+                    transition-show="scale"
+                    transition-hide="scale"
+          />
+          <q-select class="col-md-3" :disable="!rdoCategories.length>0" :readonly="!rdoCategories.length>0" outlined :options-dense="true" v-model="user.rdo" :options="rdoSubcatgories" label="Sottocategoria"
+                    option-label="value" multiple use-chips
+                    reactive-rules name="country" emit-value map-options
+                    transition-show="scale"
+                    transition-hide="scale"
+          />
+          <div class="desktop-only col-md-3"></div>
+          <!--riga-->
+          <div class="col-md-3 q-pt-md">
+            Importi
+          </div>
+          <div class="col-md-3 q-pt-md">
+            Regioni di interesse
+          </div>
+          <div class="desktop-only col-md-3"></div>
+          <!--riga-->
+          <q-select v-model="user.imports"
+                    :options="imports"
+                    name="imports"
+                    outlined
+                    class="col-md-3"
+                    option-dense
+                    multiple
+                    label="Importi"
+                    use-chips
+                    transition-show="scale"
+                    transition-hide="scale"
+          />
+
+          <q-select  class="col-md-3" :disable="!regions.length>0" :readonly="!regions.length>0" outlined :options-dense="true" v-model="user.regionsOfInterest" :options="regions" label="Regioni di interesse"
+                     option-label="value" multiple use-chips name="country" emit-value map-options transition-show="scale"
+                     transition-hide="scale"
+          />
+
+          <div class="desktop-only col-md-3"></div>
+          <!--riga-->
+          <div class="col-md-3 q-pt-md">
             Dichiarazione sostitutiva comunicazione antimafia
           </div>
           <div class="col-md-3 q-pt-md">
@@ -351,8 +414,8 @@
             <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Indietro" class="q-ml-sm" />
           </div>
           <div>
-           <!--<q-btn @click="$refs.stepper.next()" :type="step === 3 ? 'submit' : 'button'"  color="primary" :label="step === 3 ? 'Registrati' : 'Continua'" />-->
-            <q-btn @click="$refs.stepper.next()" type="submit"  color="primary" :label="step === 3 ? 'Registrati' : 'Continua'" />
+           <q-btn @click="$refs.stepper.next()" :type="step === 3 ? 'submit' : 'button'"  color="primary" :label="step === 3 ? 'Registrati' : 'Continua'" />
+            <!--<q-btn @click="$refs.stepper.next()" type="submit"  color="primary" :label="step === 3 ? 'Registrati' : 'Continua'" /> --->
           </div>
         </q-stepper-navigation>
       </template>
@@ -362,8 +425,8 @@
 
 <script>
 import { required, email } from 'vuelidate/lib/validators'
-import { legalFormOptions } from '../costants/options'
-import { mapActions, mapGetters } from 'vuex'
+import { legalFormOptions, imports } from '../costants/options'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import validator from '../validations/validator'
 import User from '../model/user'
 
@@ -373,6 +436,7 @@ export default {
     return {
       user: new User(),
       legalFormOptions: legalFormOptions,
+      imports: imports,
       step: 1,
       alert: false,
       isPsw: true,
@@ -400,7 +464,10 @@ export default {
       fgasFile: null,
       soaToggle: false,
       isoToggle: false,
-      fgasToggle: false
+      fgasToggle: false,
+      rdoCategories: [],
+      rdoSubcatgories: [],
+      rdosOptions: []
     }
   },
   props: ['showAlert'],
@@ -413,6 +480,22 @@ export default {
       'signin',
       'getRdos'
     ]),
+    ...mapMutations([{
+      setCountries: 'SET_COUNTRIES'
+    }
+    ]),
+    filterNation (val, update) {
+      if (val === '') {
+        update(() => {
+          this.options = this.countries
+        })
+        return
+      }
+      update(() => {
+        const needle = val.toLowerCase()
+        this.options = this.countries.description.filter(v => v.toLowerCase().indexOf(needle) > -1)
+      })
+    },
     hideDialog () {
       this.$emit('update:showAlert', this.alert)
     },
@@ -441,11 +524,28 @@ export default {
     async getCityOptions () {
       this.user.city = undefined
       await this.getCities(this.user.province)
+    },
+    getRdoValues () {
+      this.rdoSubcatgories = []
+
+      this.rdoCategories.forEach((cat) => {
+        const categories = this.rdos.filter(rdo => {
+          return rdo.description === cat
+        })
+        categories[0].values.forEach(value => {
+          this.rdoSubcatgories.push({ code: categories[0].code, value: value })
+        })
+      })
+
+      console.log(this.rdoSubcatgories)
     }
   },
   async created () {
     await this.getCountries()
     await this.getRdos()
+    this.rdosOptions = this.rdos.map((val) => {
+      return val.description
+    })
   },
   computed: {
     ...mapGetters([

@@ -16,7 +16,7 @@
       <q-carousel-slide class="q-pa-none" :name="1">
         <div class="full-height full-width flex flex-center" style="background-color: rgba(0, 0, 0, 0.68) !important;">
           <div class="custom-caption">
-            <div class="text-h2 main_line animation_2">WELCOME TO <span :style="'color:'+theme_color">SUBAPP</span></div><br><br><br>
+            <div class="text-h2 main_line animation_2">BENVENUTO IN <span :style="'color:'+theme_color">SUBAPP</span></div><br><br><br>
             <div class="text-h4 animation_1">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum<br> Lorem ipsum.</div><br><br><br>
           </div>
         </div>
@@ -24,7 +24,7 @@
       <q-carousel-slide class="q-pa-none" :name="2">
         <div class="full-height full-width flex flex-center" style="background-color: rgba(0, 0, 0, 0.68) !important;">
           <div class="custom-caption">
-            <div class="text-h2 main_line animation_2" style="font-size:65px;"><span :style="'color:'+theme_color">SUBAPP</span> FOR THE BEST</div><br><br><br>
+            <div class="text-h2 main_line animation_2" style="font-size:65px;"><span :style="'color:'+theme_color">SUBAPP</span> PER IL MEGLIO</div><br><br><br>
             <div class="text-h4 animation_1">Lorem ipsum Lorem ipsum Lorem ipsum <br>Lorem ipsum.</div><br><br><br>
           </div>
         </div>
@@ -39,8 +39,8 @@
         <div class="col-md-4 col-lg-4 col-sx-12 col-sm-12">
           <q-card @mouseover="hoverOver(1)" @mouseout="hoverOutTimeout(1)" style="border: none;" class="my-card text-center box-shadow" flat bordered>
             <q-card-section>
-              <div class="text-overline text-orange-9">Overline</div>
-              <div :class="about_heading_1" :style="'color: ' + about_heading_color_1" class="about_heading_1 text-h6 q-mt-sm q-mb-xs">OFFICE PHILOSOPHY</div>
+              <div class="text-overline text-orange-9"></div>
+              <div :class="about_heading_1" :style="'color: ' + about_heading_color_1" class="about_heading_1 text-h6 q-mt-sm q-mb-xs">LA NOSTRA FILOSOFIA</div>
               <div class="text-caption text-grey-9">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
               </div>
@@ -50,8 +50,8 @@
         <div class="col-md-4 col-lg-4 col-sx-12 col-sm-12">
           <q-card @mouseover="hoverOver(2)" @mouseout="hoverOutTimeout(2)" :style="'color: ' + about_heading_color_2" style="border: none;" class="my-card text-center box-shadow" flat bordered>
             <q-card-section>
-              <div class="text-overline text-orange-9">Overline</div>
-              <div :class="about_heading_2" :style="'color: ' + about_heading_color_2" class="text-h6 q-mt-sm q-mb-xs">OFFICE MISSION</div>
+              <div class="text-overline text-orange-9"></div>
+              <div :class="about_heading_2" :style="'color: ' + about_heading_color_2" class="text-h6 q-mt-sm q-mb-xs">LA NOSTRA MISSIONE</div>
               <div class="text-caption text-grey-9">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
               </div>
@@ -61,8 +61,8 @@
         <div class="col-md-4 col-lg-4 col-sx-12 col-sm-12">
           <q-card @mouseover="hoverOver(3)" @mouseout="hoverOutTimeout(3)" style="border: none;" class="my-card text-center box-shadow" flat bordered>
             <q-card-section>
-              <div class="text-overline text-orange-9">Overline</div>
-              <div :class="about_heading_3" :style="'color: ' + about_heading_color_3" class="text-h6 q-mt-sm q-mb-xs">OFFICE VALUE & RULES</div>
+              <div class="text-overline text-orange-9"></div>
+              <div :class="about_heading_3" :style="'color: ' + about_heading_color_3" class="text-h6 q-mt-sm q-mb-xs">I NOSTRI VALORI E LE REGOLE</div>
               <div class="text-caption text-grey-9">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
                 et dolore magna aliqua.
@@ -78,7 +78,7 @@
       <div class="" style="background-color: #000000ad !important;">
         <div class="row">
           <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-            <h5 class="text-center text-white">Our Pricing Plan
+            <h5 class="text-center text-white">I Nostri Piani
               <br>
               <span
                 class="text-center text-grey text-h6">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
@@ -88,78 +88,78 @@
         <div class="row q-col-gutter-sm q-px-xl">
           <div class="col-lg-3 offset-lg-3 offset-md-3 col-md-3 col-xs-12 col-sm-6 q-px-lg">
             <q-card>
-              <q-card-section class="text-white" style="background: #ec982f">
+              <q-card-section class="text-white" style="background: #21BA45">
                 <div class="text-h6 text-center">
                   FREE
                 </div>
               </q-card-section>
               <q-card-section class="q-pa-md">
                 <q-list dense padding style="border-bottom: 1px solid lightgrey;">
-                  <q-item><span class="text-weight-bold">For small size companies</span></q-item>
+                  <q-item><span class="text-weight-bold">Per piccole imprese</span></q-item>
                   <q-item>
-                    50 GB storage
+                    Puoi solo consultare la tua scrivania
                   </q-item>
                   <q-item>
-                    10 Domains
+                    Puoi accedere ai tuoi dati
                   </q-item>
                   <q-item>
-                    15 Projects
+
                   </q-item>
                   <q-item>
-                    Free Deployment
+
                   </q-item>
                 </q-list>
               </q-card-section>
-              <q-card-section class="q-pa-none" style="color: #ec982f">
+              <q-card-section class="q-pa-none" style="color: #444444">
                 <div class="text-center">
-                  <span class="text-h2 text-center">$0</span>/mo
+                  <span class="text-h2 text-center">€0</span>/anno
                 </div>
               </q-card-section>
               <q-card-section>
                 <div class="text-center q-px-lg">
                   <q-btn size="md" class="full-width q-pa-xs"
-                         style="background: #ec982f; color: white" label="Choose Plan"/>
+                         style="background: #21BA45; color: white" label="Scegli il piano"/>
                   <br>
-                  <div class="q-mt-md">Terms and Conditions apply</div>
+                  <div class="q-mt-md">Termini e Condizioni</div>
                 </div>
               </q-card-section>
             </q-card>
           </div>
           <div class="col-lg-3 col-md-3 col-xs-12 col-sm-6 q-px-lg">
             <q-card>
-              <q-card-section class="text-white" style="background: #f4655f">
+              <q-card-section class="text-white" style="background: #29ABF4">
                 <div class="text-h6 text-center">
                   STANDARD
                 </div>
               </q-card-section>
               <q-card-section class="q-pa-md">
                 <q-list dense padding style="border-bottom: 1px solid lightgrey;">
-                  <q-item><span class="text-weight-bold">For medium companies</span></q-item>
+                  <q-item><span class="text-weight-bold">Per medie e grandi imprese</span></q-item>
                   <q-item>
-                    50 GB storage
+                    Puoi consultare la tua scrivania
                   </q-item>
                   <q-item>
-                    10 Domains
+                    Puoi pubblicare la tua gara d'appalto
                   </q-item>
                   <q-item>
-                    15 Projects
+                    Puoi filtrare le tue ricerche
                   </q-item>
                   <q-item>
-                    Free Deployment
+                    Puoi accedere ai tuoi dati
                   </q-item>
                 </q-list>
               </q-card-section>
-              <q-card-section class="q-pa-none" style="color: #f4655f">
+              <q-card-section class="q-pa-none" style="color: #444444">
                 <div class="text-center">
-                  <span class="text-h2 text-center">$50</span>/mo
+                  <span class="text-h2 text-center">€100</span>/anno
                 </div>
               </q-card-section>
               <q-card-section>
                 <div class="text-center q-px-lg">
                   <q-btn size="md" class="full-width q-pa-xs"
-                         style="background: #f4655f; color: white" label="Choose Plan"/>
+                         style="background: #29ABF4; color: white" label="Scegli il piano"/>
                   <br>
-                  <div class="q-mt-md">Terms and Conditions apply</div>
+                  <div class="q-mt-md">Termini e condizioni</div>
                 </div>
               </q-card-section>
             </q-card>
