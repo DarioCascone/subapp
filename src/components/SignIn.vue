@@ -20,15 +20,15 @@
         icon="settings"
         :done="step > 1">
         <div class="row wrap justify-center content-center no-padding no-margin q-gutter-x-md q-gutter-y-xs">
-          <q-input outlined v-model="username" type="text" label="Username *"
+          <q-input outlined v-model="user.username" type="text" label="Username *"
                      class="col-12 col-md-3"
                      reactive-rules name="username"
-                     :rules="[ (val) => isValid('username', val, $v) ]" />
+                     :rules="[ (val) => isValid('username', val, $v.user) ]" />
 
-            <q-input outlined v-model="password" label="Password *" :type="isPsw ? 'password' : 'text'"
+            <q-input outlined v-model="user.password" label="Password *" :type="isPsw ? 'password' : 'text'"
                      class="col-12 col-md-3"
                      reactive-rules name="password"
-                     :rules="[ (val) => isValid('password', val, $v) ]" >
+                     :rules="[ (val) => isValid('password', val, $v.user) ]" >
               <template v-slot:append>
                 <q-icon
                   :name="isPsw ? 'visibility_off' : 'visibility'"
@@ -38,12 +38,12 @@
               </template>
             </q-input>
 
-          <q-input outlined v-model="PEC" type="text" label="email PEC"
+          <q-input outlined v-model="user.pec" type="text" label="email PEC"
                    class="col-12 col-md-3"
-                   reactive-rules name="PEC"
-                   :rules="[ (val) => isValid('PEC', val, $v) ]" />
+                   reactive-rules name="pec"
+                   :rules="[ (val) => isValid('pec', val, $v.user) ]" />
 
-          <q-select v-model="legalForm"
+          <q-select v-model="user.legalForm"
                     :options="legalFormOptions"
                     name="legalForm"
                     outlined
@@ -51,73 +51,73 @@
                     option-dense
                     label="Forma Giuridica *"
                     reactive-rules
-                    :rules="[ (val) => isValid('legalForm', val, $v) ]" />
+                    :rules="[ (val) => isValid('legalForm', val, $v.user) ]" />
 
-          <q-input outlined v-model="telephoneNumber" type="number" label="Telefono *"
+          <q-input outlined v-model="user.telephoneNumber" type="number" label="Telefono *"
                    class="col-12 col-md-3"
                    reactive-rules name="telephoneNumber"
-                   :rules="[ (val) => isValid('telephoneNumber', val, $v) ]" />
+                   :rules="[ (val) => isValid('telephoneNumber', val, $v.user) ]" />
 
-          <q-select @input="getRegionOptions"  class="col-12 col-md-3" outlined :options-dense="true" v-model="country" :options="countries" label="Nazione*"
+          <q-select @input="getRegionOptions"  class="col-12 col-md-3" outlined :options-dense="true" v-model="user.country" :options="countries" label="Nazione*"
                     option-label="description" option-value="_id"
                     reactive-rules name="country" emit-value map-options
-                    :rules="[ (val) => isValid('country', val, $v) ]" />
+                    :rules="[ (val) => isValid('country', val, $v.user) ]" />
 
-          <q-select @input="getProvinceOptions"  class="col-12 col-md-3" :disable="!(country && regions.length>0)" :readonly="!(country && regions.length>0)"
+          <q-select @input="getProvinceOptions"  class="col-12 col-md-3" :disable="!(user.country && regions.length>0)" :readonly="!(user.country && regions.length>0)"
                     option-label="description" option-value="_id" outlined :options-dense="true"
-                    v-model="region" :options="regions" label="Regione *" emit-value
+                    v-model="user.region" :options="regions" label="Regione *" emit-value
                     reactive-rules name="region" map-options
-                    :rules="[ (val) => isValid('region', val, $v) ]" />
+                    :rules="[ (val) => isValid('region', val, $v.user) ]" />
 
-          <q-select @input="getCityOptions"  class="col-12 col-md-3" :disable="!(region && provinces.length>0)" :readonly="!(region && provinces.length>0)"
+          <q-select @input="getCityOptions"  class="col-12 col-md-3" :disable="!(user.region && provinces.length>0)" :readonly="!(user.region && provinces.length>0)"
                     option-label="description" option-value="_id" outlined option-dense v-model="province" :options="provinces" label="Provincia *"
                     reactive-rules name="region" emit-value map-options
-                    :rules="[ (val) => isValid('province', val, $v) ]" />
+                    :rules="[ (val) => isValid('province', val, $v.user) ]" />
 
-          <q-select :disable="!(province && cities.length>0)" :readonly="!(province && cities.length>0)"  class="col-12 col-md-3"
-                    option-label="description" option-value="_id" outlined option-dense v-model="city" :options="cities" label="Città *"
+          <q-select :disable="!(user.province && cities.length>0)" :readonly="!(user.province && cities.length>0)"  class="col-12 col-md-3"
+                    option-label="description" option-value="_id" outlined option-dense v-model="user.city" :options="cities" label="Città *"
                     reactive-rules name="city" :options-dense="true" map-options
-                    :rules="[ (val) => isValid('city', val, $v) ]" />
+                    :rules="[ (val) => isValid('city', val, $v.user) ]" />
 
           <q-input outlined
-                   v-model="vatNumber"
+                   v-model="user.vatNumber"
                    class="col-12 col-md-3"
                    type="text"
                    label="Partita IVA *"
                    reactive-rules name="vatNumber"
-                   :rules="[ (val) => isValid('vatNumber', val, $v) ]" />
+                   :rules="[ (val) => isValid('vatNumber', val, $v.user) ]" />
 
           <q-input outlined
-                   v-model="fiscalCode"
+                   v-model="user.fiscalCode"
                    type="text"
                    class="col-12 col-md-3"
                    label="Codice Fiscale *"
                    reactive-rules name="fiscalCode"
-                   :rules="[ (val) => isValid('fiscalCode', val, $v) ]" />
+                   :rules="[ (val) => isValid('fiscalCode', val, $v.user) ]" />
 
-          <q-input outlined v-model="registeredOfficeAddress" type="text" label="Indirizzo sede legale *"
+          <q-input outlined v-model="user.registeredOfficeAddress" type="text" label="Indirizzo sede legale *"
                    reactive-rules name="registeredOfficeAddress"
                    class="col-12 col-md-3"
-                   :rules="[ (val) => isValid('registeredOfficeAddress', val, $v) ]" />
+                   :rules="[ (val) => isValid('registeredOfficeAddress', val, $v.user) ]" />
 
-          <q-input outlined v-model="postalCode" type="number" label="CAP *"
+          <q-input outlined v-model="user.postalCode" type="number" label="CAP *"
                    class="col-12 col-md-3"
                    reactive-rules name="postalCode"
-                   :rules="[ (val) => isValid('postalCode', val, $v) ]" />
+                   :rules="[ (val) => isValid('postalCode', val, $v.user) ]" />
 
-          <q-input outlined v-model="webSite" type="text" label="Sito Web"
+          <q-input outlined v-model="user.webSite" type="text" label="Sito Web"
                    class="col-12 col-md-3"
                    reactive-rules name="webSite"
-                   :rules="[ (val) => isValid('webSite', val, $v) ]" />
+                   :rules="[ (val) => isValid('webSite', val, $v.user) ]" />
 
-          <q-input v-model="companyName"
+          <q-input v-model="user.companyName"
                    outlined
                    type="text"
                    class="col-12 col-md-3"
                    name="companyName"
                    label="Ragione sociale *"
                    reactive-rules
-                   :rules="[ (val) => isValid('companyName', val, $v) ]" >
+                   :rules="[ (val) => isValid('companyName', val, $v.user) ]" >
             <template v-slot:append>
               <q-icon class="desktop-only text-secondary" name="info">
                 <q-tooltip anchor="top middle" self="bottom middle" content-class="bg-accent"  :offset="[10, 10]">
@@ -128,12 +128,12 @@
           </q-input>
 
           <q-input outlined
-                   v-model="SDICode"
+                   v-model="user.SDICode"
                    class="col-12 col-md-3"
                    type="text"
                    label="Codice SDI *"
                    reactive-rules name="SDICode"
-                   :rules="[ (val) => isValid('SDICode', val, $v) ]" >
+                   :rules="[ (val) => isValid('SDICode', val, $v.user) ]" >
             <template v-slot:append>
               <q-icon name="info" class="desktop-only text-secondary">
                 <q-tooltip anchor="top middle" self="bottom middle" content-class="bg-accent" :offset="[10, 10]">
@@ -161,7 +161,7 @@
           <div class="col-md-3">
             <span>SOA</span>
             <q-toggle
-              v-model="soa"
+              v-model="soaToggle"
               checked-icon="check"
               color="accent"
               unchecked-icon="clear"
@@ -171,7 +171,7 @@
 
             <span>ISO</span>
             <q-toggle
-              v-model="iso"
+              v-model="isoToggle"
               checked-icon="check"
               color="accent"
               unchecked-icon="clear"
@@ -182,7 +182,7 @@
 
             <span>Patentino Fgas</span>
             <q-toggle
-              v-model="fgas"
+              v-model="fgasToggle"
               checked-icon="check"
               color="accent"
               unchecked-icon="clear"
@@ -192,7 +192,7 @@
           <!--riga-->
           <div class="col-md-3">
             <q-file
-              :disable="!soa"
+              :disable="!soaToggle"
               v-model="isoFile"
               label="Carica quì il documento richiesto"
               outlined
@@ -205,7 +205,7 @@
           </div>
           <div class="col-md-3">
             <q-file
-              :disable="!iso"
+              :disable="!isoToggle"
               v-model="isoFile"
               label="Carica quì il documento richiesto"
               outlined
@@ -218,7 +218,7 @@
           </div>
           <div class="col-md-3">
             <q-file
-              :disable="!fgas"
+              :disable="!fgasToggle"
               v-model="fgasFile"
               label="Carica quì il documento richiesto"
               outlined
@@ -282,11 +282,11 @@
               </template>
             </q-file>
           </div>
-          <q-input class="col-md-2" label="Data Scadenza" outlined v-model="certificateDate" mask="##/##/####">
+          <q-input class="col-md-2" label="Data Scadenza" outlined v-model="user.certificateDate" mask="##/##/####">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                  <q-date :locale="currentLocale" v-model="certificateDate" :options="calendarOption"  mask="DD/MM/YYYY">
+                  <q-date :locale="currentLocale" v-model="user.certificateDate" :options="calendarOption"  mask="DD/MM/YYYY">
                     <div class="row items-center justify-end q-gutter-sm">
                       <q-btn label="Annulla" color="primary" flat v-close-popup />
                       <q-btn label="OK" color="primary" flat v-close-popup />
@@ -316,11 +316,11 @@
               </template>
             </q-file>
           </div>
-          <q-input class="col-md-2" label="Data Scadenza" outlined v-model="durcRegolarityDate" mask="##/##/####">
+          <q-input class="col-md-2" label="Data Scadenza" outlined v-model="user.durcRegolarityDate" mask="##/##/####">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                  <q-date :locale="currentLocale" v-model="durcRegolarityDate" :options="calendarOption"  mask="DD/MM/YYYY">
+                  <q-date :locale="currentLocale" v-model="user.durcRegolarityDate" :options="calendarOption"  mask="DD/MM/YYYY">
                     <div class="row items-center justify-end q-gutter-sm">
                       <q-btn label="Annulla" color="primary" flat v-close-popup />
                       <q-btn label="OK" color="primary" flat v-close-popup />
@@ -365,31 +365,17 @@ import { required, email } from 'vuelidate/lib/validators'
 import { legalFormOptions } from '../costants/options'
 import { mapActions, mapGetters } from 'vuex'
 import validator from '../validations/validator'
+import User from '../model/user'
 
 export default {
   name: 'SignIn',
   data () {
     return {
+      user: new User(),
+      legalFormOptions: legalFormOptions,
       step: 1,
       alert: false,
       isPsw: true,
-      companyName: '',
-      legalForm: '',
-      legalFormOptions: legalFormOptions,
-      SDICode: '',
-      vatNumber: '',
-      fiscalCode: '',
-      country: '',
-      region: '',
-      province: '',
-      city: '',
-      registeredOfficeAddress: '',
-      postalCode: '',
-      webSite: '',
-      PEC: '',
-      telephoneNumber: '',
-      username: '',
-      password: '',
       isValid: validator.isValid,
       isFiscalCode: validator.isFiscalCode,
       isSDICode: validator.isSDICode,
@@ -405,18 +391,16 @@ export default {
         monthsShort: 'Gen_Feb_Mar_Apr_Mag_Giu_Lug_Ago_Set_Ott_Nov_Dic'.split('_'),
         firstDayOfWeek: 0
       },
-      certificateDate: '',
       certificateFile: null,
-      durcRegolarityDate: '',
       durcRegolarityFile: null,
       antimafiaFile: null,
       presentationFile: null,
-      soa: false,
-      iso: false,
-      fgas: false,
       isoFile: null,
       soaFile: null,
-      fgasFile: null
+      fgasFile: null,
+      soaToggle: false,
+      isoToggle: false,
+      fgasToggle: false
     }
   },
   props: ['showAlert'],
@@ -433,7 +417,6 @@ export default {
     },
     calendarOption (date) {
       const currentTime = new Date()
-      console.log(currentTime)
       return date >= currentTime.toLocaleDateString('fr-CA').replaceAll('-', '/')
     },
     onSignin () {
@@ -441,19 +424,19 @@ export default {
       this.$forceUpdate()
     },
     async getRegionOptions () {
-      this.region = undefined
-      this.province = undefined
-      this.city = undefined
-      await this.getRegions(this.country)
+      this.user.region = undefined
+      this.user.province = undefined
+      this.user.city = undefined
+      await this.getRegions(this.user.country)
     },
     async getProvinceOptions () {
-      this.province = undefined
-      this.city = undefined
-      await this.getProvinces(this.region)
+      this.user.province = undefined
+      this.user.city = undefined
+      await this.getProvinces(this.user.region)
     },
     async getCityOptions () {
-      this.city = undefined
-      await this.getCities(this.province)
+      this.user.city = undefined
+      await this.getCities(this.user.province)
     }
   },
   async created () {
@@ -477,62 +460,62 @@ export default {
     }
   },
   validations: {
-    companyName: {
-      required
-    },
-    legalForm: {
-      required
-    },
-    SDICode: {
-      required,
-      isSDICode: validator.isSDICode
-    },
-    vatNumber: {
-      required,
-      isVatNumber: validator.isVatNumber
-    },
-    fiscalCode: {
-      required,
-      isFiscalCode: validator.isFiscalCode
-    },
-    country: {
-      required
-    },
-    region: {
-      required
-    },
-    province: {
-      required
-    },
-    city: {
-      required
-    },
-    registeredOfficeAddress: {
-      required
-    },
-    postalCode: {
-      required,
-      isPostalCode: validator.isPostalCode
-    },
-    webSite: {
-      required,
-      isWebSite: validator.isWebSite
-    },
-    PEC: {
-      required,
-      email
-    },
-    telephoneNumber: {
-      required,
-      isTelephoneNumber: validator.isTelephoneNumber
-    },
-    username: {
-      required,
-      email
-    },
-    password: {
-      required,
-      isPassword: validator.isPassword
+    user: {
+      companyName: {
+        required
+      },
+      legalForm: {
+        required
+      },
+      SDICode: {
+        required,
+        isSDICode: validator.isSDICode
+      },
+      vatNumber: {
+        required,
+        isVatNumber: validator.isVatNumber
+      },
+      fiscalCode: {
+        required,
+        isFiscalCode: validator.isFiscalCode
+      },
+      country: {
+        required
+      },
+      region: {
+        required
+      },
+      province: {
+        required
+      },
+      city: {
+        required
+      },
+      registeredOfficeAddress: {
+        required
+      },
+      postalCode: {
+        required,
+        isPostalCode: validator.isPostalCode
+      },
+      webSite: {
+        isWebSite: validator.isWebSite
+      },
+      pec: {
+        email
+      },
+      telephoneNumber: {
+        required,
+        isTelephoneNumber: validator.isTelephoneNumber
+      },
+      username: {
+        required,
+        email
+      },
+      password: {
+        required,
+        isPassword: validator.isPassword
+      }
     }
   }
 }

@@ -58,7 +58,7 @@ export default {
 
   isValid: (input, val, validator) => {
     if (validator.$error) {
-      if (!validator[input].required) {
+      if (!validator[input].required.isEmpty && !validator[input].required) {
         return 'Campo obbligatorio!'
       }
       switch (input) {
