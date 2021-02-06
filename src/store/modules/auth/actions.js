@@ -8,8 +8,8 @@ export default {
     commit('SET_AUTH', { isAuth: true })
     return data
   },
-  async signin ({ commit }, user) {
-    const { data } = await AuthService.signin(user)
+  async signup ({ commit }, user) {
+    const { data } = await AuthService.signup(user)
     return data
   }
 }

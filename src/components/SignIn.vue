@@ -414,8 +414,7 @@
             <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Indietro" class="q-ml-sm" />
           </div>
           <div>
-           <q-btn @click="$refs.stepper.next()" :type="step === 3 ? 'submit' : 'button'"  color="primary" :label="step === 3 ? 'Registrati' : 'Continua'" />
-            <!--<q-btn @click="$refs.stepper.next()" type="submit"  color="primary" :label="step === 3 ? 'Registrati' : 'Continua'" /> --->
+            <q-btn id='signinBtn' type="submit"  color="primary" :label="step === 3 ? 'Registrati' : 'Continua'" />
           </div>
         </q-stepper-navigation>
       </template>
@@ -477,7 +476,7 @@ export default {
       'getRegions',
       'getProvinces',
       'getCities',
-      'signin',
+      'signup',
       'getRdos'
     ]),
     ...mapMutations([{
@@ -507,8 +506,18 @@ export default {
       this.$v.$touch()
       this.$forceUpdate()
       if (!this.$v.$invalid && this.step === 3) {
-        await this.signin(this.user)
+        this.$q.loading.show({
+          spinnerColor: 'accent'
+        })
+        try {
+          await this.signup(this.user)
+          this.$q.loading.hide()
+        } catch (error) {
+          this.$q.loading.hide()
+          console.log(error)
+        }
       }
+      this.$refs.stepper.next()
     },
     async getRegionOptions () {
       this.user.region = undefined

@@ -7,7 +7,7 @@ export default {
     return ApiService.get(resource)
   },
 
-  signin (user) {
-    return ApiService.post(resource, user)
+  signup (user) {
+    return ApiService.put(resource + '/signup', user)
   }
 }
