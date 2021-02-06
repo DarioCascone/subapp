@@ -288,7 +288,7 @@
           />
 
           <q-select  class="col-md-3" :disable="!regions.length>0" :readonly="!regions.length>0" outlined :options-dense="true" v-model="user.regionsOfInterest" :options="regions" label="Regioni di interesse"
-                     option-label="value" multiple use-chips name="country" emit-value map-options transition-show="scale"
+                     option-label="description" option-value="_id" multiple use-chips emit-value map-options transition-show="scale"
                      transition-hide="scale"
           />
 
