@@ -70,7 +70,7 @@
                     :rules="[ (val) => isValid('region', val, $v.user) ]" />
 
           <q-select @input="getCityOptions"  class="col-12 col-md-3" :disable="!(user.region && provinces.length>0)" :readonly="!(user.region && provinces.length>0)"
-                    option-label="description" option-value="_id" outlined option-dense v-model="province" :options="provinces" label="Provincia *"
+                    option-label="description" option-value="_id" outlined option-dense v-model="user.province" :options="provinces" label="Provincia *"
                     reactive-rules name="region" emit-value map-options
                     :rules="[ (val) => isValid('province', val, $v.user) ]" />
 
