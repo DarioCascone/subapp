@@ -6,6 +6,10 @@ export default {
   state () {
     // inital state
     return {
+      countries: [],
+      regions: [],
+      provinces: [],
+      cities: []
     }
   },
   mutations: authMutations,

@@ -58,24 +58,24 @@
                    reactive-rules name="telephoneNumber"
                    :rules="[ (val) => isValid('telephoneNumber', val, $v) ]" />
 
-          <q-select @input="getRegionOptions"  class="col-12 col-md-3" outlined :options-dense="true" v-model="country" :options="countryOptions" label="Nazione*"
+          <q-select @input="getRegionOptions"  class="col-12 col-md-3" outlined :options-dense="true" v-model="country" :options="countries" label="Nazione*"
                     option-label="description" option-value="_id"
                     reactive-rules name="country" emit-value map-options
                     :rules="[ (val) => isValid('country', val, $v) ]" />
 
-          <q-select @input="getProvinceOptions"  class="col-12 col-md-3" :disable="!(country && regionOptions.length>0)" :readonly="!(country && regionOptions.length>0)"
+          <q-select @input="getProvinceOptions"  class="col-12 col-md-3" :disable="!(country && regions.length>0)" :readonly="!(country && regions.length>0)"
                     option-label="description" option-value="_id" outlined :options-dense="true"
-                    v-model="region" :options="regionOptions" label="Regione *" emit-value
+                    v-model="region" :options="regions" label="Regione *" emit-value
                     reactive-rules name="region" map-options
                     :rules="[ (val) => isValid('region', val, $v) ]" />
 
-          <q-select @input="getCityOptions"  class="col-12 col-md-3" :disable="!(region && provinceOptions.length>0)" :readonly="!(region && provinceOptions.length>0)"
-                    option-label="description" option-value="_id" outlined option-dense v-model="province" :options="provinceOptions" label="Provincia *"
+          <q-select @input="getCityOptions"  class="col-12 col-md-3" :disable="!(region && provinces.length>0)" :readonly="!(region && provinces.length>0)"
+                    option-label="description" option-value="_id" outlined option-dense v-model="province" :options="provinces" label="Provincia *"
                     reactive-rules name="region" emit-value map-options
                     :rules="[ (val) => isValid('province', val, $v) ]" />
 
-          <q-select :disable="!(province && cityOptions.length>0)" :readonly="!(province && cityOptions.length>0)"  class="col-12 col-md-3"
-                    option-label="description" option-value="_id" outlined option-dense v-model="city" :options="cityOptions" label="Città *"
+          <q-select :disable="!(province && cities.length>0)" :readonly="!(province && cities.length>0)"  class="col-12 col-md-3"
+                    option-label="description" option-value="_id" outlined option-dense v-model="city" :options="cities" label="Città *"
                     reactive-rules name="city" :options-dense="true" map-options
                     :rules="[ (val) => isValid('city', val, $v) ]" />
 
@@ -363,7 +363,7 @@
 <script>
 import { required, email } from 'vuelidate/lib/validators'
 import { legalFormOptions } from '../costants/options'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import validator from '../validations/validator'
 
 export default {
@@ -398,10 +398,6 @@ export default {
       isWebSite: validator.isWebSite,
       isTelephoneNumber: validator.isTelephoneNumber,
       isPassword: validator.isPassword,
-      countryOptions: [],
-      regionOptions: [],
-      provinceOptions: [],
-      cityOptions: [],
       currentLocale: {
         days: '_Lunedì_Martedì_Mercoledì_Giovedì_Sabato_Domenica'.split('_'),
         daysShort: 'Lun_Mar_Mer_Gio_Ven_Sab_Dom'.split('_'),
@@ -429,7 +425,8 @@ export default {
       'getCountries',
       'getRegions',
       'getProvinces',
-      'getCities'
+      'getCities',
+      'getRdos'
     ]),
     hideDialog () {
       this.$emit('update:showAlert', this.alert)
@@ -444,33 +441,33 @@ export default {
       this.$forceUpdate()
     },
     async getRegionOptions () {
-      this.regionOptions = []
-      this.provinceOptions = []
-      this.cityOptions = []
       this.region = undefined
       this.province = undefined
       this.city = undefined
-      const resp = await this.getRegions(this.country)
-      this.regionOptions = resp.regions
+      await this.getRegions(this.country)
     },
     async getProvinceOptions () {
-      this.provinceOptions = []
-      this.cityOptions = []
       this.province = undefined
       this.city = undefined
-      const resp = await this.getProvinces(this.region)
-      this.provinceOptions = resp.provinces
+      await this.getProvinces(this.region)
     },
     async getCityOptions () {
-      this.cityOptions = []
       this.city = undefined
-      const resp = await this.getCities(this.province)
-      this.cityOptions = resp.cities
+      await this.getCities(this.province)
     }
   },
   async created () {
-    const resp = await this.getCountries()
-    this.countryOptions = resp.countries
+    await this.getCountries()
+    await this.getRdos()
+  },
+  computed: {
+    ...mapGetters([
+      'countries',
+      'regions',
+      'provinces',
+      'cities',
+      'rdos'
+    ])
   },
   watch: {
     showAlert (newValue, oldValue) {
