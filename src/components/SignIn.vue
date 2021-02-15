@@ -20,12 +20,18 @@
         icon="settings"
         :done="step > 1">
         <div class="row wrap justify-center content-center no-padding no-margin q-gutter-x-md q-gutter-y-xs">
-          <q-input outlined v-model="user.username" type="text" label="Username *"
+          <q-input   outlined
+                     v-model="user.username"
+                     type="text"
+                     label="Username *"
                      class="col-12 col-md-3"
                      reactive-rules name="username"
                      :rules="[ (val) => isValid('username', val, $v.user) ]" />
 
-            <q-input outlined v-model="user.password" label="Password *" :type="isPsw ? 'password' : 'text'"
+            <q-input outlined
+                     v-model="user.password"
+                     label="Password *"
+                     :type="isPsw ? 'password' : 'text'"
                      class="col-12 col-md-3"
                      reactive-rules name="password"
                      :rules="[ (val) => isValid('password', val, $v.user) ]" >
@@ -38,7 +44,10 @@
               </template>
             </q-input>
 
-          <q-input outlined v-model="user.pec" type="text" label="email PEC"
+          <q-input outlined
+                   v-model="user.pec"
+                   type="text"
+                   label="email PEC"
                    class="col-12 col-md-3"
                    reactive-rules name="pec"
                    :rules="[ (val) => isValid('pec', val, $v.user) ]" />
@@ -56,39 +65,69 @@
                     transition-hide="scale"
           />
 
-          <q-input outlined v-model="user.telephoneNumber" type="number" label="Telefono *"
+          <q-input outlined
+                   v-model="user.telephoneNumber"
+                   type="number"
+                   label="Telefono *"
                    class="col-12 col-md-3"
                    reactive-rules name="telephoneNumber"
                    :rules="[ (val) => isValid('telephoneNumber', val, $v.user) ]" />
 
-          <q-select @input="getRegionOptions"  class="col-12 col-md-3" outlined :options-dense="true" v-model="user.country" :options="countries" label="Nazione*"
-                    option-label="description" option-value="_id"
-                    reactive-rules name="country" emit-value map-options
+          <q-select @input="getRegionOptions"
+                    class="col-12 col-md-3"
+                    outlined
+                    :options-dense="true"
+                    v-model="user.country"
+                    label="Nazione*"
+                    :options="countries" option-label="description" option-value="_id"
+                    reactive-rules
+                    name="country"
+                    emit-value
+                    map-options
                     :rules="[ (val) => isValid('country', val, $v.user) ]"
                     transition-show="scale"
                     transition-hide="scale"
           />
 
-          <q-select @input="getProvinceOptions"  class="col-12 col-md-3" :disable="!(user.country && regions.length>0)" :readonly="!(user.country && regions.length>0)"
-                    option-label="description" option-value="_id" outlined :options-dense="true"
-                    v-model="user.region" :options="regions" label="Regione *" emit-value
-                    reactive-rules name="region" map-options
+          <q-select @input="getProvinceOptions"
+                    class="col-12 col-md-3"
+                    :disable="!(user.country && regions.length>0)" :readonly="!(user.country && regions.length>0)"
+                    :options="regions" option-label="description" option-value="_id" :options-dense="true"
+                    outlined
+                    v-model="user.region"
+                    label="Regione *"
+                    name="region"
+                    emit-value
+                    reactive-rules
                     :rules="[ (val) => isValid('region', val, $v.user) ]"
+                    map-options
                     transition-show="scale"
                     transition-hide="scale"
           />
 
-          <q-select @input="getCityOptions"  class="col-12 col-md-3" :disable="!(user.region && provinces.length>0)" :readonly="!(user.region && provinces.length>0)"
-                    option-label="description" option-value="_id" outlined option-dense v-model="user.province" :options="provinces" label="Provincia *"
-                    reactive-rules name="region" emit-value map-options
+          <q-select @input="getCityOptions"
+                    class="col-12 col-md-3"
+                    :disable="!(user.region && provinces.length>0)" :readonly="!(user.region && provinces.length>0)"
+                    option-label="description" option-value="_id"  option-dense v-model="user.province" :options="provinces"
+                    label="Provincia *"
+                    reactive-rules name="region"
                     :rules="[ (val) => isValid('province', val, $v.user) ]"
+                    emit-value
+                    map-options
+                    outlined
                     transition-show="scale"
                     transition-hide="scale"
           />
 
-          <q-select :disable="!(user.province && cities.length>0)" :readonly="!(user.province && cities.length>0)"  class="col-12 col-md-3"
-                    option-label="description" option-value="_id" outlined option-dense v-model="user.city" :options="cities" label="Città *"
-                    reactive-rules name="city" :options-dense="true" map-options
+          <q-select :disable="!(user.province && cities.length>0)" :readonly="!(user.province && cities.length>0)"
+                    class="col-12 col-md-3"
+                    option-label="description"  option-value="_id" option-dense :options="cities"
+                    name="city"
+                    outlined
+                    map-options
+                    label="Città *"
+                    v-model="user.city"
+                    reactive-rules
                     :rules="[ (val) => isValid('city', val, $v.user) ]"
                     transition-show="scale"
                     transition-hide="scale"
@@ -110,14 +149,20 @@
                    reactive-rules name="fiscalCode"
                    :rules="[ (val) => isValid('fiscalCode', val, $v.user) ]" />
 
-          <q-input outlined v-model="user.registeredOfficeAddress" type="text" label="Indirizzo sede legale *"
+          <q-input outlined
+                   v-model="user.registeredOfficeAddress"
+                   type="text"
+                   label="Indirizzo sede legale *"
                    reactive-rules name="registeredOfficeAddress"
                    class="col-12 col-md-3"
                    :rules="[ (val) => isValid('registeredOfficeAddress', val, $v.user) ]" />
 
-          <q-input outlined v-model="user.postalCode" type="number" label="CAP *"
+          <q-input outlined
+                   v-model="user.postalCode"
+                   type="number" label="CAP *"
                    class="col-12 col-md-3"
-                   reactive-rules name="postalCode"
+                   name="postalCode"
+                   reactive-rules
                    :rules="[ (val) => isValid('postalCode', val, $v.user) ]" />
 
           <q-input outlined v-model="user.webSite" type="text" label="Sito Web"
@@ -252,15 +297,28 @@
           <div class="desktop-only col-md-3"></div>
           <div class="desktop-only col-md-3"></div>
           <!--riga-->
-          <q-select @input="getRdoValues"  class="col-md-3" multiple use-chips
-                    outlined option-dense v-model="rdoCategories" :options="rdosOptions" label="Categoria"
+          <q-select @input="getRdoValues"
+                    class="col-md-3"
+                    multiple
+                    use-chips
+                    outlined option-dense
+                    v-model="rdoCategories"
+                    :options="rdosOptions"
+                    label="Categoria"
                     name="category"
                     transition-show="scale"
                     transition-hide="scale"
           />
-          <q-select class="col-md-3" :disable="!rdoCategories.length>0" :readonly="!rdoCategories.length>0" outlined :options-dense="true" v-model="user.rdo" :options="rdoSubcatgories" label="Sottocategoria"
-                    option-label="value" multiple use-chips
-                    reactive-rules name="country" emit-value map-options
+          <q-select class="col-md-3"
+                    :disable="!rdoCategories.length>0" :readonly="!rdoCategories.length>0"
+                    outlined
+                    option-label="value" :options="rdoSubcatgories" :options-dense="true"
+                    v-model="user.rdo"
+                    label="Sottocategoria"
+                    multiple use-chips
+                    name="country"
+                    emit-value
+                    map-options
                     transition-show="scale"
                     transition-hide="scale"
           />
@@ -287,8 +345,18 @@
                     transition-hide="scale"
           />
 
-          <q-select  class="col-md-3" :disable="!regions.length>0" :readonly="!regions.length>0" outlined :options-dense="true" v-model="user.regionsOfInterest" :options="regions" label="Regioni di interesse"
-                     option-label="description" option-value="_id" multiple use-chips emit-value map-options transition-show="scale"
+          <q-select  class="col-md-3"
+                     :disable="!regions.length>0" :readonly="!regions.length>0"
+                     outlined
+                     :options-dense="true" :options="regions" option-label="description"
+                     v-model="user.regionsOfInterest"
+                     label="Regioni di interesse"
+                     option-value="_id"
+                     multiple
+                     use-chips
+                     emit-value
+                     map-options
+                     transition-show="scale"
                      transition-hide="scale"
           />
 
