@@ -493,7 +493,7 @@
 <script>
 import { required, email } from 'vuelidate/lib/validators'
 import { legalFormOptions, imports } from '../costants/options'
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import validator from '../validations/validator'
 import User from '../model/user'
 
@@ -547,22 +547,6 @@ export default {
       'signup',
       'getRdos'
     ]),
-    ...mapMutations([{
-      setCountries: 'SET_COUNTRIES'
-    }
-    ]),
-    filterNation (val, update) {
-      if (val === '') {
-        update(() => {
-          this.options = this.countries
-        })
-        return
-      }
-      update(() => {
-        const needle = val.toLowerCase()
-        this.options = this.countries.description.filter(v => v.toLowerCase().indexOf(needle) > -1)
-      })
-    },
     hideDialog () {
       this.$emit('update:showAlert', this.alert)
     },
