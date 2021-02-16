@@ -1,5 +1,6 @@
 export default class user {
   constructor () {
+    this.fgasFileName = ''
     this.username = ''
     this.password = ''
     this.companyName = '' // Ragione sociale

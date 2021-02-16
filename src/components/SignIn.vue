@@ -47,7 +47,7 @@
           <q-input outlined
                    v-model="user.pec"
                    type="text"
-                   label="email PEC"
+                   label="email PEC *"
                    class="col-12 col-md-3"
                    reactive-rules name="pec"
                    :rules="[ (val) => isValid('pec', val, $v.user) ]" />
@@ -254,8 +254,9 @@
           <div class="col-md-3">
             <q-file
               :disable="!soaToggle"
-              v-model="isoFile"
+              v-model="soaFile"
               label="Carica quì il documento richiesto"
+              accept=".pdf"
               outlined
               use-chips
             >
@@ -269,6 +270,7 @@
               :disable="!isoToggle"
               v-model="isoFile"
               label="Carica quì il documento richiesto"
+              accept=".pdf"
               outlined
               use-chips
             >
@@ -283,6 +285,7 @@
               v-model="fgasFile"
               label="Carica quì il documento richiesto"
               outlined
+              accept=".pdf"
               use-chips
             >
               <template v-slot:prepend>
@@ -482,7 +485,7 @@
             <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Indietro" class="q-ml-sm" />
           </div>
           <div>
-            <q-btn id='signinBtn' type="submit"  color="primary" :label="step === 3 ? 'Registrati' : 'Continua'" />
+            <q-btn type="submit"  color="primary" :label="step === 3 ? 'Registrati' : 'Continua'" />
           </div>
         </q-stepper-navigation>
       </template>
@@ -545,7 +548,8 @@ export default {
       'getProvinces',
       'getCities',
       'signup',
-      'getRdos'
+      'getRdos',
+      'uploadFile'
     ]),
     hideDialog () {
       this.$emit('update:showAlert', this.alert)
@@ -563,6 +567,7 @@ export default {
         })
         try {
           await this.signup(this.user)
+          await this.uploadFile(this.soaFile)
           this.$q.loading.hide()
         } catch (error) {
           this.$q.loading.hide()
@@ -667,7 +672,8 @@ export default {
         isWebSite: validator.isWebSite
       },
       pec: {
-        email
+        email,
+        required
       },
       telephoneNumber: {
         required,

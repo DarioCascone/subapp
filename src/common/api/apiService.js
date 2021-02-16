@@ -27,8 +27,8 @@ const ApiService = {
     return Vue.axios.put(`${resource}`, params)
   },
 
-  put (resource, params) {
-    return Vue.axios.put(`${resource}`, params)
+  put (resource, body) {
+    return Vue.axios.put(`${resource}`, body)
   },
 
   delete (resource) {

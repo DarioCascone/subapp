@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import authModule from './modules/auth/index'
 import geoModule from './modules/geo/index'
 import optionModule from './modules/option/index'
+import userModule from './modules/user/index'
 
 Vue.use(Vuex)
 
@@ -20,7 +21,8 @@ export default function (/* { ssrContext } */) {
     modules: {
       authModule,
       geoModule,
-      optionModule
+      optionModule,
+      userModule
     },
     strict: process.env.NODE_ENV !== 'production'
   })
