@@ -567,7 +567,9 @@ export default {
         })
         try {
           await this.signup(this.user)
-          await this.uploadFile(this.soaFile)
+          const formData = new FormData()
+          formData.append('file', this.soaFile)
+          await this.uploadFile(formData)
           this.$q.loading.hide()
         } catch (error) {
           this.$q.loading.hide()

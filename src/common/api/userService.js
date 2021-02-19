@@ -6,7 +6,7 @@ export default {
   get (path) {
     return ApiService.get(resource + path)
   },
-  put (path, body) {
-    return ApiService.put(resource + path, body)
+  post (path, body) {
+    return ApiService.post(resource + path, body)
   }
 }
