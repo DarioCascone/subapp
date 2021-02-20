@@ -2,7 +2,11 @@
   <q-layout view="lHh lpr lFf">
     <q-header class="q-py-md bg-primary" :style="'border-bottom: 2px solid #165081'">
       <div class="flex justify-between q-mx-lg">
-        <div :style="'font-size: 35px'" class="text-h6 cursor-pointer">Subapp</div>
+        <router-link to="/">
+          <q-avatar style="border-radius: 0 !important;">
+            <img src="../assets/logo-subapp.png">
+          </q-avatar>
+        </router-link>
         <q-tabs dense
                 align="justify"
                 :breakpoint="0">

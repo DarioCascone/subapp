@@ -20,6 +20,7 @@ export default class user {
     this.certificateDate = ''
     this.durcRegolarityDate = ''
     this.rdos = []
+    this.imports = []
     this.regionsOfInterest = []
   }
 }

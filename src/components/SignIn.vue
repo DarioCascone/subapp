@@ -313,6 +313,8 @@
                     transition-hide="scale"
                     emit-value
                     map-options
+                    reactive-rules
+                    :rules="[ (val) => isValid('rdosMacrocategories', val, $v) ]"
           />
 
           <q-select @input="getSubcatRdoOption"
@@ -330,6 +332,8 @@
                     map-options
                     transition-show="scale"
                     transition-hide="scale"
+                    reactive-rules
+                    :rules="[ (val) => isValid('rdosCategories', val, $v) ]"
           />
 
           <q-select class="col-md-3"
@@ -346,6 +350,8 @@
                     map-options
                     transition-show="scale"
                     transition-hide="scale"
+                    reactive-rules
+                    :rules="[ (val) => isValid('rdos', val, $v.user) ]"
           />
           <!--riga-->
           <div class="col-md-3 q-pt-md">
@@ -367,6 +373,8 @@
                     use-chips
                     transition-show="scale"
                     transition-hide="scale"
+                    reactive-rules
+                    :rules="[ (val) => isValid('imports', val, $v.user) ]"
           />
 
           <q-select  class="col-md-3"
@@ -382,6 +390,8 @@
                      map-options
                      transition-show="scale"
                      transition-hide="scale"
+                     reactive-rules
+                     :rules="[ (val) => isValid('regionsOfInterest', val, $v.user) ]"
           />
 
           <div class="desktop-only col-md-3"></div>
@@ -581,8 +591,6 @@ export default {
       return date >= currentTime.toLocaleDateString('fr-CA').replaceAll('-', '/')
     },
     async onSignup () {
-      this.$v.$touch()
-      this.$forceUpdate()
       if (!this.$v.$invalid && this.step === 3) {
         this.$q.loading.show({
           spinnerColor: 'accent'
@@ -642,6 +650,9 @@ export default {
   async created () {
     await this.getCountries()
     await this.getMacroRdo()
+  },
+  async mounted () {
+    this.$v.$touch()
   },
   computed: {
     ...mapGetters([
@@ -718,7 +729,22 @@ export default {
       password: {
         required,
         isPassword: validator.isPassword
+      },
+      rdos: {
+        required
+      },
+      imports: {
+        required
+      },
+      regionsOfInterest: {
+        required
       }
+    },
+    rdosMacrocategories: {
+      required
+    },
+    rdosCategories: {
+      required
     }
   }
 }
