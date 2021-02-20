@@ -1,5 +1,5 @@
 <template>
-  <q-form @submit="onSignin">
+  <q-form @submit="onSignup">
     <q-stepper
       v-model="step"
       ref="stepper"
@@ -580,7 +580,7 @@ export default {
       const currentTime = new Date()
       return date >= currentTime.toLocaleDateString('fr-CA').replaceAll('-', '/')
     },
-    async onSignin () {
+    async onSignup () {
       this.$v.$touch()
       this.$forceUpdate()
       if (!this.$v.$invalid && this.step === 3) {
