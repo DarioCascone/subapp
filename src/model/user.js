@@ -19,5 +19,7 @@ export default class user {
     this.telephoneNumber = ''
     this.certificateDate = ''
     this.durcRegolarityDate = ''
+    this.rdos = []
+    this.regionsOfInterest = []
   }
 }

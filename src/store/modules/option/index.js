@@ -6,7 +6,9 @@ export default {
   state () {
     // inital state
     return {
-      rdos: []
+      macroRdo: [],
+      catRdo: [],
+      subRdo: []
     }
   },
   mutations: optionMutations,
