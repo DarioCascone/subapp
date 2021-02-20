@@ -10,6 +10,7 @@ export default {
   },
   async signup ({ commit }, user) {
     const { data } = await AuthService.signup(user)
+    commit('SET_USER', data)
     return data
   }
 }

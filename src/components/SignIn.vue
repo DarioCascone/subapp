@@ -567,16 +567,31 @@ export default {
         })
         try {
           await this.signup(this.user)
-          const formData = new FormData()
-          formData.append('file', this.soaFile)
-          await this.uploadFile(formData)
+          if (this.soaFile) {
+            await this.postFile(this.soaFile)
+          }
+          if (this.isoFile) {
+            await this.postFile(this.isoFile)
+          }
+          if (this.fgasFile) {
+            await this.postFile(this.fgasFile)
+          }
           this.$q.loading.hide()
-        } catch (error) {
+        } catch (e) {
           this.$q.loading.hide()
-          console.log(error)
+          console.log(e)
         }
       }
       this.$refs.stepper.next()
+    },
+    async postFile (file) {
+      const formData = new FormData()
+      formData.append('file', file)
+      try {
+        await this.uploadFile(formData)
+      } catch (e) {
+        console.log(e)
+      }
     },
     async getRegionOptions () {
       this.user.region = undefined
