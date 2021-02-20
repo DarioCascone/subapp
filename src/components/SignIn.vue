@@ -616,10 +616,12 @@ export default {
       await this.getCities(this.user.province)
     },
     async getCatRdoOption () {
-      await this.getCatRdo(this.rdosMacrocategories)
+      const queryparams = { rdomacroId: this.rdosMacrocategories }
+      await this.getCatRdo(queryparams)
     },
     async getSubcatRdoOption () {
-      await this.getSubRdo(this.rdosCategories)
+      const queryparams = { rdomacroId: this.rdosCategories }
+      await this.getSubRdo(queryparams)
     }
   },
   async created () {
