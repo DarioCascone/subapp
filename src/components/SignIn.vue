@@ -300,32 +300,53 @@
           <div class="desktop-only col-md-3"></div>
           <div class="desktop-only col-md-3"></div>
           <!--riga-->
-          <q-select @input="getRdoValues"
+          <q-select @input="getCatRdoOption"
                     class="col-md-3"
                     multiple
                     use-chips
                     outlined option-dense
-                    v-model="rdoCategories"
-                    :options="rdosOptions"
-                    label="Categoria"
-                    name="category"
+                    v-model="rdosMacrocategories"
+                    :options="macroRdo" option-label="description" option-value="_id"
+                    label="Macrocategoria"
+                    name="macrocategory"
                     transition-show="scale"
                     transition-hide="scale"
+                    emit-value
+                    map-options
           />
-          <q-select class="col-md-3"
-                    :disable="!rdoCategories.length>0" :readonly="!rdoCategories.length>0"
+
+          <q-select @input="getSubcatRdoOption"
+                    class="col-md-3"
+                    :disable="!rdosMacrocategories.length>0"
+                    :readonly="!rdosMacrocategories.length>0"
                     outlined
-                    option-label="value" :options="rdoSubcatgories" :options-dense="true"
-                    v-model="user.rdo"
-                    label="Sottocategoria"
+                    :options="catRdo" option-label="description" option-value="_id"
+                    :options-dense="true"
+                    v-model="rdosCategories"
+                    label="Categoria"
                     multiple use-chips
-                    name="country"
+                    name="category"
                     emit-value
                     map-options
                     transition-show="scale"
                     transition-hide="scale"
           />
-          <div class="desktop-only col-md-3"></div>
+
+          <q-select class="col-md-3"
+                    :disable="!rdosCategories.length>0"
+                    :readonly="!rdosCategories.length>0"
+                    outlined
+                    :options="subRdo" option-label="description" option-value="_id"
+                    :options-dense="true"
+                    v-model="user.rdos"
+                    label="Sottocategoria"
+                    multiple use-chips
+                    name="subcategory"
+                    emit-value
+                    map-options
+                    transition-show="scale"
+                    transition-hide="scale"
+          />
           <!--riga-->
           <div class="col-md-3 q-pt-md">
             Importi
@@ -535,9 +556,8 @@ export default {
       soaToggle: false,
       isoToggle: false,
       fgasToggle: false,
-      rdoCategories: [],
-      rdoSubcatgories: [],
-      rdosOptions: []
+      rdosCategories: [],
+      rdosMacrocategories: []
     }
   },
   props: ['showAlert'],
@@ -548,7 +568,9 @@ export default {
       'getProvinces',
       'getCities',
       'signup',
-      'getRdos',
+      'getMacroRdo',
+      'getCatRdo',
+      'getSubRdo',
       'uploadFile'
     ]),
     hideDialog () {
@@ -608,27 +630,18 @@ export default {
       this.user.city = undefined
       await this.getCities(this.user.province)
     },
-    getRdoValues () {
-      this.rdoSubcatgories = []
-
-      this.rdoCategories.forEach((cat) => {
-        const categories = this.rdos.filter(rdo => {
-          return rdo.description === cat
-        })
-        categories[0].values.forEach(value => {
-          this.rdoSubcatgories.push({ code: categories[0].code, value: value })
-        })
-      })
-
-      console.log(this.rdoSubcatgories)
+    async getCatRdoOption () {
+      const queryparams = { rdomacroId: this.rdosMacrocategories }
+      await this.getCatRdo(queryparams)
+    },
+    async getSubcatRdoOption () {
+      const queryparams = { rdomacroId: this.rdosCategories }
+      await this.getSubRdo(queryparams)
     }
   },
   async created () {
     await this.getCountries()
-    await this.getRdos()
-    this.rdosOptions = this.rdos.map((val) => {
-      return val.description
-    })
+    await this.getMacroRdo()
   },
   computed: {
     ...mapGetters([
@@ -636,7 +649,9 @@ export default {
       'regions',
       'provinces',
       'cities',
-      'rdos'
+      'macroRdo',
+      'catRdo',
+      'subRdo'
     ])
   },
   watch: {

@@ -1,5 +1,11 @@
 export default {
-  SET_RDOS (state, rdos) {
-    state.rdos = rdos
+  SET_MACRORDO (state, marcoRdo) {
+    state.macroRdo = marcoRdo
+  },
+  SET_CATRDO (state, catRdo) {
+    state.catRdo = catRdo
+  },
+  SET_SUBRDO (state, subRdo) {
+    state.subRdo = subRdo
   }
 }
