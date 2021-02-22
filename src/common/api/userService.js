@@ -8,5 +8,8 @@ export default {
   },
   post (path, body) {
     return ApiService.post(resource + path, body)
+  },
+  put (path, body) {
+    return ApiService.put(resource + path, body)
   }
 }

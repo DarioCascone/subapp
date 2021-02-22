@@ -581,7 +581,8 @@ export default {
       'getMacroRdo',
       'getCatRdo',
       'getSubRdo',
-      'uploadFile'
+      'uploadFile',
+      'updateUser'
     ]),
     hideDialog () {
       this.$emit('update:showAlert', this.alert)
@@ -596,15 +597,15 @@ export default {
           spinnerColor: 'accent'
         })
         try {
-          await this.signup(this.user)
+          const data = await this.signup(this.user)
           if (this.soaFile) {
-            await this.postFile(this.soaFile)
+            await this.postFile(this.soaFile, data.user, 'soaFile')
           }
           if (this.isoFile) {
-            await this.postFile(this.isoFile)
+            await this.postFile(this.isoFile, data.user, 'isoFile')
           }
           if (this.fgasFile) {
-            await this.postFile(this.fgasFile)
+            await this.postFile(this.fgasFile, data.user, 'fgasFile')
           }
           this.$q.loading.hide()
         } catch (e) {
@@ -614,11 +615,15 @@ export default {
       }
       this.$refs.stepper.next()
     },
-    async postFile (file) {
+    async postFile (file, user, fileToAdd) {
       const formData = new FormData()
       formData.append('file', file)
       try {
-        await this.uploadFile(formData)
+        const fileUploaded = await this.uploadFile(formData)
+        const obj = { pathParam: user._id }
+        user[fileToAdd] = fileUploaded
+        obj.body = user
+        await this.updateUser(obj)
       } catch (e) {
         console.log(e)
       }

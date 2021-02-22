@@ -1,26 +1,28 @@
 export default class user {
   constructor () {
-    this.fgasFileName = ''
     this.username = ''
     this.password = ''
+    this.country = ''
+    this.region = ''
+    this.province = ''
+    this.city = ''
     this.companyName = '' // Ragione sociale
     this.legalForm = ''
     this.SDICode = ''
     this.vatNumber = ''
     this.fiscalCode = ''
-    this.country = ''
-    this.region = ''
-    this.province = ''
-    this.city = ''
     this.registeredOfficeAddress = ''
     this.postalCode = ''
     this.webSite = ''
     this.pec = ''
     this.telephoneNumber = ''
-    this.certificateDate = ''
-    this.durcRegolarityDate = ''
     this.rdos = []
     this.imports = []
     this.regionsOfInterest = []
+    this.soaFile = {}
+    this.isoFile = {}
+    this.fgasFile = {}
+    this.certificateDate = ''
+    this.durcRegolarityDate = ''
   }
 }
