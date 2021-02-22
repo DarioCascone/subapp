@@ -22,6 +22,10 @@ export default class user {
     this.soaFile = {}
     this.isoFile = {}
     this.fgasFile = {}
+    this.antimafiaFile = {}
+    this.lendingFile = {}
+    this.certificateFile = {}
+    this.durcRegolarityFile = {}
     this.certificateDate = ''
     this.durcRegolarityDate = ''
   }

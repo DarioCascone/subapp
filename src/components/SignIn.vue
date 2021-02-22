@@ -295,7 +295,7 @@
           </div>
           <!--riga-->
           <div class="col-md-3 q-pt-md">
-            Richieste di offerta
+            Richieste di offerta *
           </div>
           <div class="desktop-only col-md-3"></div>
           <div class="desktop-only col-md-3"></div>
@@ -355,10 +355,10 @@
           />
           <!--riga-->
           <div class="col-md-3 q-pt-md">
-            Importi
+            Importi *
           </div>
           <div class="col-md-3 q-pt-md">
-            Regioni di interesse
+            Regioni di interesse *
           </div>
           <div class="desktop-only col-md-3"></div>
           <!--riga-->
@@ -369,7 +369,7 @@
                     class="col-md-3"
                     option-dense
                     multiple
-                    label="Importi"
+                    label="Importi *"
                     use-chips
                     transition-show="scale"
                     transition-hide="scale"
@@ -382,7 +382,7 @@
                      outlined
                      :options-dense="true" :options="regions" option-label="description"
                      v-model="user.regionsOfInterest"
-                     label="Regioni di interesse"
+                     label="Regioni di interesse *"
                      option-value="_id"
                      multiple
                      use-chips
@@ -397,10 +397,10 @@
           <div class="desktop-only col-md-3"></div>
           <!--riga-->
           <div class="col-md-3 q-pt-md">
-            Dichiarazione sostitutiva comunicazione antimafia
+            Dichiarazione sostitutiva antimafia *
           </div>
           <div class="col-md-3 q-pt-md">
-            Prestazione
+            Prestazione *
           </div>
           <div class="desktop-only col-md-3"></div>
           <!--riga-->
@@ -408,8 +408,10 @@
             <q-file
               v-model="antimafiaFile"
               label="Carica quì il documento richiesto"
+              accept=".pdf"
               outlined
               use-chips
+              :rules="[ (val) => isValid('antimafiaFile', val, $v) ]"
             >
               <template v-slot:prepend>
                 <q-icon name="attach_file" />
@@ -418,10 +420,12 @@
           </div>
           <div class="col-md-3">
             <q-file
-              v-model="presentationFile"
+              v-model="lendingFile"
               label="Carica quì il documento richiesto"
               outlined
+              accept=".pdf"
               use-chips
+              :rules="[ (val) => isValid('lendingFile', val, $v) ]"
             >
               <template v-slot:prepend>
                 <q-icon name="attach_file" />
@@ -431,7 +435,7 @@
           <div class="desktop-only col-md-3"></div>
           <!--riga-->
           <div class="col-md-3 q-pt-md">
-            Certificato o Visura Camerale
+            Certificato o Visura Camerale *
           </div>
           <div class="desktop-only col-md-3"></div>
           <div class="desktop-only col-md-3"></div>
@@ -441,14 +445,16 @@
               v-model="certificateFile"
               label="Carica quì il documento richiesto"
               outlined
+              accept=".pdf"
               use-chips
+              :rules="[ (val) => isValid('certificateFile', val, $v) ]"
             >
               <template v-slot:prepend>
                 <q-icon name="attach_file" />
               </template>
             </q-file>
           </div>
-          <q-input class="col-md-2" label="Data Scadenza" outlined v-model="user.certificateDate" mask="##/##/####">
+          <q-input class="col-md-2" label="Data Scadenza" :rules="[ (val) => isValid('certificateDate', val, $v.user) ]" outlined v-model="user.certificateDate" mask="##/##/####">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -465,7 +471,7 @@
           <div class="desktop-only col-md-4"></div>
           <!--riga-->
           <div class="col-md-3 q-pt-md">
-            Regolarità Durc
+            Regolarità Durc *
           </div>
           <div class="desktop-only col-md-3"></div>
           <div class="desktop-only col-md-3"></div>
@@ -475,14 +481,16 @@
               v-model="durcRegolarityFile"
               label="Carica quì il documento richiesto"
               outlined
+              accept=".pdf"
               use-chips
+              :rules="[ (val) => isValid('durcRegolarityFile', val, $v) ]"
             >
               <template v-slot:prepend>
                 <q-icon name="attach_file" />
               </template>
             </q-file>
           </div>
-          <q-input class="col-md-2" label="Data Scadenza" outlined v-model="user.durcRegolarityDate" mask="##/##/####">
+          <q-input class="col-md-2" label="Data Scadenza" :rules="[ (val) => isValid('durcRegolarityDate', val, $v.user) ]" outlined v-model="user.durcRegolarityDate" mask="##/##/####">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -530,6 +538,7 @@ import { legalFormOptions, imports } from '../costants/options'
 import { mapActions, mapGetters } from 'vuex'
 import validator from '../validations/validator'
 import User from '../model/user'
+import { date } from 'quasar'
 
 export default {
   name: 'SignIn',
@@ -559,7 +568,7 @@ export default {
       certificateFile: null,
       durcRegolarityFile: null,
       antimafiaFile: null,
-      presentationFile: null,
+      lendingFile: null,
       isoFile: null,
       soaFile: null,
       fgasFile: null,
@@ -597,16 +606,10 @@ export default {
           spinnerColor: 'accent'
         })
         try {
+          this.user.certificateDate = date.extractDate(this.user.certificateDate, 'DD/MM/YYYY')
+          this.user.durcRegolarityDate = date.extractDate(this.user.durcRegolarityDate, 'DD/MM/YYYY')
           const data = await this.signup(this.user)
-          if (this.soaFile) {
-            await this.postFile(this.soaFile, data.user, 'soaFile')
-          }
-          if (this.isoFile) {
-            await this.postFile(this.isoFile, data.user, 'isoFile')
-          }
-          if (this.fgasFile) {
-            await this.postFile(this.fgasFile, data.user, 'fgasFile')
-          }
+          await this.postFiles(data.user)
           this.$q.loading.hide()
         } catch (e) {
           this.$q.loading.hide()
@@ -615,13 +618,34 @@ export default {
       }
       this.$refs.stepper.next()
     },
-    async postFile (file, user, fileToAdd) {
+    async postFiles (user) {
       const formData = new FormData()
-      formData.append('file', file)
+      formData.append('file', this.antimafiaFile, 'antimafiaFile')
+      formData.append('file', this.lendingFile, 'lendingFile')
+      formData.append('file', this.certificateFile, 'certificateFile')
+      formData.append('file', this.durcRegolarityFile, 'durcRegolarityFile')
+      if (this.soaFile) {
+        formData.append('file', this.soaFile, 'soaFile')
+      }
+      if (this.isoFile) {
+        formData.append('file', this.isoFile, 'isoFile')
+      }
+      if (this.fgasFile) {
+        formData.append('file', this.fgasFile, 'fgasFile')
+      }
       try {
-        const fileUploaded = await this.uploadFile(formData)
+        const uploadedFiles = await this.uploadFile(formData)
+        uploadedFiles.forEach((file) => {
+          user[file.originalname] = file
+        })
+        await this.putUser(user)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async putUser (user) {
+      try {
         const obj = { pathParam: user._id }
-        user[fileToAdd] = fileUploaded
         obj.body = user
         await this.updateUser(obj)
       } catch (e) {
@@ -743,12 +767,30 @@ export default {
       },
       regionsOfInterest: {
         required
+      },
+      durcRegolarityDate: {
+        required
+      },
+      certificateDate: {
+        required
       }
     },
     rdosMacrocategories: {
       required
     },
     rdosCategories: {
+      required
+    },
+    durcRegolarityFile: {
+      required
+    },
+    antimafiaFile: {
+      required
+    },
+    certificateFile: {
+      required
+    },
+    lendingFile: {
       required
     }
   }
