@@ -662,28 +662,28 @@ export default {
       if (this.user.region) this.user.region = undefined
       if (this.user.province) this.user.province = undefined
       if (this.user.city) this.user.city = undefined
-      await this.getRegions(this.user.country)
+      await this.getRegions(this.user.country._id)
     },
     async getProvinceOptions () {
       if (this.user.province) this.user.province = undefined
       if (this.user.city) this.user.city = undefined
-      await this.getProvinces(this.user.region)
+      await this.getProvinces(this.user.region._id)
     },
     async getCityOptions () {
       if (this.user.city) this.user.city = undefined
-      await this.getCities(this.user.province)
+      await this.getCities(this.user.province._id)
     },
     async getCatRdoOption () {
       if (this.rdosMacrocategories && this.rdosMacrocategories.length === 0) {
         this.rdosCategories = []
         this.user.rdos = []
       }
-      const queryparams = { rdomacroId: this.rdosMacrocategories }
+      const queryparams = { rdomacroId: this.rdosMacrocategories.map((rdoMacro) => { return rdoMacro._id }) }
       await this.getCatRdo(queryparams)
     },
     async getSubcatRdoOption () {
       if (this.rdosCategories && this.rdosCategories.length === 0) this.user.rdos = []
-      const queryparams = { rdomacroId: this.rdosCategories }
+      const queryparams = { rdomacroId: this.rdosCategories.map((rdoCat) => { return rdoCat._id }) }
       await this.getSubRdo(queryparams)
     }
   },
@@ -692,7 +692,7 @@ export default {
     await this.getMacroRdo()
   },
   async mounted () {
-    // this.$v.$touch()
+    this.$v.$touch()
   },
   computed: {
     ...mapGetters([
