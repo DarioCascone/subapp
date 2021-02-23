@@ -79,7 +79,7 @@
                     :options-dense="true"
                     v-model="user.country"
                     label="Nazione*"
-                    :options="countries" option-label="description" option-value="_id"
+                    :options="countries" option-label="description"
                     reactive-rules
                     name="country"
                     emit-value
@@ -92,7 +92,7 @@
           <q-select @input="getProvinceOptions"
                     class="col-12 col-md-3"
                     :disable="!(user.country && regions.length>0)" :readonly="!(user.country && regions.length>0)"
-                    :options="regions" option-label="description" option-value="_id" :options-dense="true"
+                    :options="regions" option-label="description"  :options-dense="true"
                     outlined
                     v-model="user.region"
                     label="Regione *"
@@ -108,7 +108,7 @@
           <q-select @input="getCityOptions"
                     class="col-12 col-md-3"
                     :disable="!(user.region && provinces.length>0)" :readonly="!(user.region && provinces.length>0)"
-                    option-label="description" option-value="_id"  option-dense v-model="user.province" :options="provinces"
+                    option-label="description" option-dense v-model="user.province" :options="provinces"
                     label="Provincia *"
                     reactive-rules name="region"
                     :rules="[ (val) => isValid('province', val, $v.user) ]"
@@ -121,7 +121,7 @@
 
           <q-select :disable="!(user.province && cities.length>0)" :readonly="!(user.province && cities.length>0)"
                     class="col-12 col-md-3"
-                    option-label="description"  option-value="_id" option-dense :options="cities"
+                    option-label="description" option-dense :options="cities"
                     name="city"
                     outlined
                     map-options
@@ -306,7 +306,7 @@
                     use-chips
                     outlined option-dense
                     v-model="rdosMacrocategories"
-                    :options="macroRdo" option-label="description" option-value="_id"
+                    :options="macroRdo" option-label="description"
                     label="Macrocategoria"
                     name="macrocategory"
                     transition-show="scale"
@@ -322,7 +322,7 @@
                     :disable="!rdosMacrocategories.length>0"
                     :readonly="!rdosMacrocategories.length>0"
                     outlined
-                    :options="catRdo" option-label="description" option-value="_id"
+                    :options="catRdo" option-label="description"
                     :options-dense="true"
                     v-model="rdosCategories"
                     label="Categoria"
@@ -340,7 +340,7 @@
                     :disable="!rdosCategories.length>0"
                     :readonly="!rdosCategories.length>0"
                     outlined
-                    :options="subRdo" option-label="description" option-value="_id"
+                    :options="subRdo" option-label="description"
                     :options-dense="true"
                     v-model="user.rdos"
                     label="Sottocategoria"
@@ -383,7 +383,7 @@
                      :options-dense="true" :options="regions" option-label="description"
                      v-model="user.regionsOfInterest"
                      label="Regioni di interesse *"
-                     option-value="_id"
+
                      multiple
                      use-chips
                      emit-value
