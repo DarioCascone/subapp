@@ -3,9 +3,9 @@ export default class user {
     this.username = ''
     this.password = ''
     this.country = ''
-    this.region = ''
-    this.province = ''
-    this.city = ''
+    this.region = undefined
+    this.province = undefined
+    this.city = undefined
     this.companyName = '' // Ragione sociale
     this.legalForm = ''
     this.SDICode = ''

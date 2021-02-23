@@ -516,7 +516,13 @@
         title="Consensi"
         icon="add_comment"
       >
-        Leggi e accetta i consensi per proseguire con la registrazione.
+        <div class="row wrap justify-center content-center no-padding no-margin q-gutter-x-md q-gutter-y-xs">
+          Leggi e accetta i consensi per proseguire con la registrazione.
+          <div class="col-md-12 q-pt-md">
+            Leggi il <a></a>
+          </div>
+        </div>
+
       </q-step>
       <template v-slot:navigation>
         <q-stepper-navigation class="flex justify-between">
@@ -653,25 +659,30 @@ export default {
       }
     },
     async getRegionOptions () {
-      this.user.region = undefined
-      this.user.province = undefined
-      this.user.city = undefined
+      if (this.user.region) this.user.region = undefined
+      if (this.user.province) this.user.province = undefined
+      if (this.user.city) this.user.city = undefined
       await this.getRegions(this.user.country)
     },
     async getProvinceOptions () {
-      this.user.province = undefined
-      this.user.city = undefined
+      if (this.user.province) this.user.province = undefined
+      if (this.user.city) this.user.city = undefined
       await this.getProvinces(this.user.region)
     },
     async getCityOptions () {
-      this.user.city = undefined
+      if (this.user.city) this.user.city = undefined
       await this.getCities(this.user.province)
     },
     async getCatRdoOption () {
+      if (this.rdosMacrocategories && this.rdosMacrocategories.length === 0) {
+        this.rdosCategories = []
+        this.user.rdos = []
+      }
       const queryparams = { rdomacroId: this.rdosMacrocategories }
       await this.getCatRdo(queryparams)
     },
     async getSubcatRdoOption () {
+      if (this.rdosCategories && this.rdosCategories.length === 0) this.user.rdos = []
       const queryparams = { rdomacroId: this.rdosCategories }
       await this.getSubRdo(queryparams)
     }
@@ -681,7 +692,7 @@ export default {
     await this.getMacroRdo()
   },
   async mounted () {
-    this.$v.$touch()
+    // this.$v.$touch()
   },
   computed: {
     ...mapGetters([
