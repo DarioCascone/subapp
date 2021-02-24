@@ -78,7 +78,7 @@
                     outlined
                     :options-dense="true"
                     v-model="user.country"
-                    label="Nazione*"
+                    label="Nazione *"
                     :options="countries" option-label="description"
                     reactive-rules
                     name="country"
@@ -607,6 +607,8 @@ export default {
       return date >= currentTime.toLocaleDateString('fr-CA').replaceAll('-', '/')
     },
     async onSignup () {
+      const tempCertificateDate = this.user.certificateDate
+      const tempDurcRegolarityDate = this.user.durcRegolarityDate
       if (!this.$v.$invalid && this.step === 3) {
         this.$q.loading.show({
           spinnerColor: 'accent'
@@ -616,8 +618,12 @@ export default {
           this.user.durcRegolarityDate = date.extractDate(this.user.durcRegolarityDate, 'DD/MM/YYYY')
           const data = await this.signup(this.user)
           await this.postFiles(data.user)
+          this.user.certificateDate = tempCertificateDate
+          this.user.durcRegolarityDate = tempDurcRegolarityDate
           this.$q.loading.hide()
         } catch (e) {
+          this.user.certificateDate = tempCertificateDate
+          this.user.durcRegolarityDate = tempDurcRegolarityDate
           this.$q.loading.hide()
           console.log(e)
         }

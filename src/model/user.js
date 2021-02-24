@@ -2,7 +2,7 @@ export default class user {
   constructor () {
     this.username = ''
     this.password = ''
-    this.country = ''
+    this.country = undefined
     this.region = undefined
     this.province = undefined
     this.city = undefined
