@@ -7,7 +7,8 @@
             <img src="../assets/logo-subapp.png">
           </q-avatar>
         </router-link>
-        <q-tabs dense
+        <q-tabs v-if="$route.name !== 'termCondition'"
+                dense
                 align="justify"
                 :breakpoint="0">
           <q-tab  @click="scrollToElement('id_how_works')" label="Come Funziona" />

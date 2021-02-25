@@ -19,3 +19,11 @@ div.q-card::-webkit-scrollbar-thumb
   background-color: $primary;
   border-radius: 10px;
 }
+
+.hyperlink {
+  color: $accent;
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}

@@ -517,9 +517,24 @@
         icon="add_comment"
       >
         <div class="row wrap justify-center content-center no-padding no-margin q-gutter-x-md q-gutter-y-xs">
-          Leggi e accetta i consensi per proseguire con la registrazione.
-          <div class="col-md-12 q-pt-md">
-            Leggi il <a></a>
+
+          <div class="col-md-9 q-pt-md">
+            Leggi e accetta il <a class="hyperlink"  @click="goToTeC">regolamento</a> per godere dei vantaggi di Subapp.
+          </div>
+          <div class="col-md-9 q-pt-md">
+            <div class="q-gutter-sm">
+              <q-radio dense v-model="regulation" val="true" label="Accetto" />
+              <q-radio dense v-model="regulation" val="false" label="Non Accetto" />
+            </div>
+          </div>
+          <div class="col-md-9 q-pt-md">
+            Leggi e accetta i <a class="hyperlink" @click="goToTeC">Termini e Condizioni</a> per proseguire con la registrazione.
+          </div>
+          <div class="col-md-9 q-pt-md">
+            <div class="q-gutter-sm">
+              <q-radio dense v-model="termAndCondition" val="true" label="Accetto" />
+              <q-radio dense v-model="termAndCondition" val="false" label="Non Accetto" />
+            </div>
           </div>
         </div>
 
@@ -530,7 +545,7 @@
             <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Indietro" class="q-ml-sm" />
           </div>
           <div>
-            <q-btn type="submit"  color="primary" :label="step === 3 ? 'Registrati' : 'Continua'" />
+            <q-btn type="submit" :disable="(termAndCondition === 'false' || regulation === 'false') && step === 3" color="primary" :label="step === 3 ? 'Registrati' : 'Continua'" />
           </div>
         </q-stepper-navigation>
       </template>
@@ -582,7 +597,10 @@ export default {
       isoToggle: false,
       fgasToggle: false,
       rdosCategories: [],
-      rdosMacrocategories: []
+      rdosMacrocategories: [],
+      regulation: 'false',
+      termAndCondition: 'false'
+
     }
   },
   props: ['showAlert'],
@@ -599,6 +617,13 @@ export default {
       'uploadFile',
       'updateUser'
     ]),
+    viewRegulation () {
+      window.open('', '_blank ')
+    },
+    goToTeC () {
+      const routeData = this.$router.resolve({ name: 'termCondition' })
+      window.open(routeData.href, '_blank')
+    },
     hideDialog () {
       this.$emit('update:showAlert', this.alert)
     },
@@ -698,7 +723,7 @@ export default {
     await this.getMacroRdo()
   },
   async mounted () {
-    this.$v.$touch()
+    // this.$v.$touch()
   },
   computed: {
     ...mapGetters([
