@@ -13,7 +13,7 @@
           </div>
         </q-card-section>
         <q-card-section :class="classObj">
-          <login v-if="component === 'login'" />
+          <login @sucess="loginSuccess" v-if="component === 'login'" />
           <sign-in v-if="component === 'sign-in'" ></sign-in>
         </q-card-section>
       </q-card>
@@ -35,6 +35,9 @@ export default {
     }
   },
   methods: {
+    loginSuccess (value) {
+      this.$emit('update:modal', value)
+    },
     hideDialog () {
       this.$emit('update:modal', this.localModal)
     }

@@ -34,7 +34,7 @@
       </q-toolbar>
     </q-footer -->
 
-    <modal :class-obj="classObj" :modal.sync="modal" :is-maximized="isMaximized" :component="modalComponent" :title="modalTitle"/>
+    <modal  :class-obj="classObj" :modal.sync="modal" :is-maximized="isMaximized" :component="modalComponent" :title="modalTitle"/>
 
   </q-layout>
 
