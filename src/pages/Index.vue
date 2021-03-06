@@ -11,17 +11,18 @@
         control-color="white"
         class="home-carousel"
       >
-        <q-carousel-slide class="text-center flex flex-center overflow-hidden" :name="1">
+        <q-carousel-slide class="text-center column flex flex-center overflow-hidden" :name="1">
               <div class="text-h2 main_line animation_2">BENVENUTO IN <span :style="'color:'+theme_color">SUBAPP.IT</span></div><br><br><br>
-              <div class="text-h4 animation_1">Una piattaforma digitale che permette agli appaltatori di cercare potenziali subappaltatori per lavori, servizi e forniture, su tutto il territorio nazionale.</div><br><br><br>
+              <div class="text-h4 second-line animation_1">Una piattaforma digitale che permette agli appaltatori di cercare potenziali subappaltatori per lavori, servizi e forniture, su tutto il territorio nazionale.</div><br><br><br>
               <img src="">
         </q-carousel-slide>
-        <q-carousel-slide class="text-center flex flex-center overflow-hidden" :name="2">
+        <q-carousel-slide class="text-center column flex flex-center overflow-hidden" :name="2">
               <div class="text-h2 main_line animation_2" style="font-size:65px;">PERCHÈ <span :style="'color:'+theme_color">SUBAPP.IT</span>?</div><br><br><br>
-              <div class="text-h4 animation_1"> <br>A differenza di altre piattaforme, con SubApp.it le imprese appaltatrici ricercano imprese organizzate ed in regola con la documentazione, in grado di eseguire appalti pubblici e privati.</div><br><br><br>
+              <div class="text-h4 second-line animation_1"> <br>A differenza di altre piattaforme, con SubApp.it le imprese appaltatrici ricercano imprese organizzate ed in regola con la documentazione, in grado di eseguire appalti pubblici e privati.</div><br><br><br>
         </q-carousel-slide>
       </q-carousel>
     </section>
+    <q-space></q-space>
     <section id="id_how_works" class="fullpage how-works-section">
       <div class="row flex flex-center how-works-section-container">
         <header>
@@ -31,9 +32,9 @@
         </header>
         <div class="how-works-section--grid">
           <div class="how-works-section-block">
-            <div class="round">
+            <div data-aos="zoom-in-up" data-aos-easing="ease-in-sine" data-aos-delay="200" class="round">
               <q-badge rounded class="absolute-top-left rounded-badge">1</q-badge>
-              <q-icon size="xl" class="absolute-center badge-icon" name="app_registration" />
+              <q-icon  class="absolute-center badge-icon" name="app_registration" />
             </div>
             <div class="step-description">
               <p class="step-title">
@@ -47,9 +48,9 @@
             </div>
           </div>
           <div class="how-works-section-block">
-            <div class="round">
+            <div data-aos="zoom-in-up" data-aos-easing="ease-in-sine" data-aos-delay="400" class="round">
               <q-badge rounded class="absolute-top-left rounded-badge">2</q-badge>
-              <q-icon  size="xl" class="absolute-center badge-icon" name="business" />
+              <q-icon   class="absolute-center badge-icon" name="business" />
             </div>
             <div class="step-description">
               <p class="step-title">
@@ -63,9 +64,9 @@
             </div>
           </div>
           <div class="how-works-section-block">
-            <div class="round">
+            <div data-aos="zoom-in-up" data-aos-easing="ease-in-sine" data-aos-delay="600" class="round">
               <q-badge rounded class="absolute-top-left rounded-badge">3</q-badge>
-              <q-icon size="xl" class="absolute-center badge-icon" name="work" />
+              <q-icon  class="absolute-center badge-icon" name="work" />
             </div>
             <div class="step-description">
               <p class="step-title">
@@ -79,44 +80,61 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="row text-center flex flex-center">
-        <div class="q-gutter-md flex flex-center">
-          <div class="offset-lg-4 offset-md-4 col-md-4 col-lg-4 col-sx-12 col-sm-12">
-            <q-card :style="'color: ' + about_heading_color_2" style="border: none;" class="my-card text-center box-shadow" flat bordered>
-              <q-card-section>
-                <div class="text-overline text-orange-9"></div>
-                <div :class="about_heading_2" :style="'color: ' + about_heading_color_2" class="text-h6 q-mt-sm q-mb-xs">SEI UN APPALTATORE?</div>
-                <div class="text-caption text-justify text-grey-9">
-                  Potresti avere bisogno di SubApp.it se:
-                  <br>
-                  - perdi ore sui motori di ricerca o altre piattaforme
-                  <br>
-                  - trovi un’impresa interessata ma ti chiede più di quanto appaltato
-                  <br>
-                  - dopo una estenuante trattativa subentrano problemi con l’iscrizione alla CCIAA, il DURC, la sicurezza ed etc
-                </div>
-              </q-card-section>
-            </q-card>
-          </div>
-          <div class="col-md-4 col-lg-4 col-sx-12 col-sm-12">
-            <q-card style="border: none;" class="my-card text-center box-shadow" flat bordered>
-              <q-card-section>
-                <div class="text-overline text-orange-9"></div>
-                <div :class="about_heading_3" :style="'color: ' + about_heading_color_3" class="text-h6 q-mt-sm q-mb-xs">SEI UN SUBAPPALTATORE?</div>
-                <div class="text-caption text-justify text-grey-9">
-                  Potresti avere bisogno di SubApp.it se:
-                  <br>
-                  - sei alla ricerca di nuove commesse
-                  <br>
-                  Con SubApp.it hai la possibilità di creare nuove collaborazioni su tutto il territorio nazionale
-                </div>
-              </q-card-section>
-            </q-card>
-          </div>
-        </div>
+        <footer>
+          <q-btn class="full-width q-pa-xs"
+                 @click="openModal('login', 'accedi', false, loginClassObj)"
+                 style="background: #29ABF4; color: white" label="Sei gia' registrato? Clicca quì"/>
+        </footer>
       </div>
     </section>
+    <q-space></q-space>
+    <section class="fullpage section-card">
+      <div class="row text-center flex flex-center">
+          <div class="col-md-5 col-lg-5 col-sx-12 col-sm-12">
+            <div class="q-pa-md">
+              <q-card class="my-card">
+                <q-parallax
+                  src="../assets/signature.jpg"
+                  :height="350"
+                />
+                <q-card-section>
+                  <div class="text-h6">SEI UN APPALTATORE?</div>
+                  <div class="text-subtitle2">
+                    Potresti avere bisogno di SubApp.it se:
+                    <br>
+                    - perdi ore sui motori di ricerca o altre piattaforme
+                    <br>
+                    - trovi un’impresa interessata ma ti chiede più di quanto appaltato
+                    <br>
+                    - dopo una estenuante trattativa subentrano problemi con l’iscrizione alla CCIAA, il DURC, la sicurezza ed etc
+                  </div>
+                </q-card-section>
+              </q-card>
+            </div>
+          </div>
+          <div class="col-md-5 col-lg-5 col-sx-12 col-sm-12">
+            <div class="q-pa-md">
+              <q-card class="my-card">
+                <q-parallax
+                  src="../assets/crane.jpg"
+                  :height="350"
+                />
+                <q-card-section>
+                  <div class="text-h6">SEI UN SUBAPPALTATORE?</div>
+                  <div class="text-subtitle2">
+                    Potresti avere bisogno di SubApp.it se:
+                    <br>
+                    - sei alla ricerca di nuove commesse
+                    <br>
+                    Con SubApp.it hai la possibilità di creare nuove collaborazioni su tutto il territorio nazionale
+                  </div>
+                </q-card-section>
+              </q-card>
+            </div>
+          </div>
+      </div>
+    </section>
+    <q-space></q-space>
     <section class="fullpage" id="id_pricing">
       <div class="pricing" >
         <div class="" style="background-color: #000000ad !important;">
@@ -248,7 +266,7 @@ export default {
   computed: {
     heroImage () {
       return {
-        background: `linear-gradient(rgba(255,255,255,.75), rgba(255,255,255,.75)), url(${require('../assets/5.jpg')})`
+        background: `linear-gradient(rgba(10,10,10,.5), rgba(10,10,10,.5)), url(${require('../assets/handshake.jpg')})`
       }
     }
   },
