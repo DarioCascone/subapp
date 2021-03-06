@@ -225,17 +225,24 @@
     max-width: 550px;
     width: 100%;
     margin: auto;
+    &.card-left {
+      margin-right: 1rem;
+    }
+    &.card-right {
+      margin-left: 1rem;
+    }
     .q-card__section {
-      min-height: 190px;
-      text-align: start;
+      min-height: 250px;
       padding: 1rem ;
+      text-align: start;
       .text-h6 {
         margin-top: 0.5rem;
-        font-weight: 400;
+        font-weight: 500;
       }
       .text-subtitle2{
         margin: 1rem 0;
         font-weight: 400;
+        font-size: 1rem;
       }
     }
   }

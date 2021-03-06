@@ -92,9 +92,9 @@
     <q-space></q-space>
     <section class="fullpage section-card">
       <div class="row text-center flex flex-center">
-          <div class="col-md-5 col-lg-5 col-sx-12 col-sm-12">
+          <div  class="col-md-5 col-lg-5 col-sx-12 col-sm-12">
             <div class="q-pa-md">
-              <q-card class="my-card">
+              <q-card data-aos="slide-right" data-aos-duration="750" class="my-card card-left">
                 <q-parallax
                   src="../assets/signature.jpg"
                   :height="350"
@@ -103,20 +103,24 @@
                   <div class="text-h6">SEI UN APPALTATORE?</div>
                   <div class="text-subtitle2">
                     Potresti avere bisogno di SubApp.it se:
-                    <br>
-                    - perdi ore sui motori di ricerca o altre piattaforme
-                    <br>
-                    - trovi un’impresa interessata ma ti chiede più di quanto appaltato
-                    <br>
-                    - dopo una estenuante trattativa subentrano problemi con l’iscrizione alla CCIAA, il DURC, la sicurezza ed etc
+                    <ul>
+                      <li>
+                      perdi ore sui motori di ricerca o altre piattaforme
+                      </li>
+                      <li>
+                      trovi un’impresa interessata ma ti chiede più di quanto appaltato
+                      <li>
+                      dopo una estenuante trattativa subentrano problemi con l’iscrizione alla CCIAA, il DURC, la sicurezza ed etc
+                      </li>
+                    </ul>
                   </div>
                 </q-card-section>
               </q-card>
             </div>
           </div>
-          <div class="col-md-5 col-lg-5 col-sx-12 col-sm-12">
+          <div  class="col-md-5 col-lg-5 col-sx-12 col-sm-12">
             <div class="q-pa-md">
-              <q-card class="my-card">
+              <q-card data-aos="slide-left" data-aos-duration="750" class="my-card card-right">
                 <q-parallax
                   src="../assets/crane.jpg"
                   :height="350"
@@ -125,10 +129,17 @@
                   <div class="text-h6">SEI UN SUBAPPALTATORE?</div>
                   <div class="text-subtitle2">
                     Potresti avere bisogno di SubApp.it se:
-                    <br>
-                    - sei alla ricerca di nuove commesse
-                    <br>
-                    Con SubApp.it hai la possibilità di creare nuove collaborazioni su tutto il territorio nazionale
+                    <ul>
+                      <li>
+                        sei alla ricerca di nuove commesse
+                      </li>
+                      <li>
+                       vuoi creare nuove collaborazioni su tutto il territorio nazionale
+                      </li>
+                      <li>
+                        hai intenzione di incrementare le tue entrate
+                      </li>
+                    </ul>
                   </div>
                 </q-card-section>
               </q-card>
@@ -262,14 +273,15 @@ export default {
       },
       singInClassObj: {
         'q-pa-none': true
-      }
+      },
+      headerHeight: '100vh'
     }
   },
   computed: {
     heroImage () {
       return {
         background: `linear-gradient(rgba(10,10,10,.5), rgba(10,10,10,.5)), url(${require('../assets/handshake.jpg')})`,
-        height: 'calc(100vh - ' + (document.querySelector('.primary-header').offsetHeight) + 'px)'
+        height: this.headerHeight
       }
     }
   },
@@ -283,7 +295,8 @@ export default {
       this.classObj = classObj
     }
   },
-  created () {
+  mounted () {
+    this.headerHeight = 'calc(100vh - ' + (document.querySelector('.primary-header').offsetHeight) + 'px)'
   }
 }
 </script>
