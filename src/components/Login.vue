@@ -66,7 +66,7 @@ export default {
         this.$q.loading.show()
         await this.login(this.user)
         this.$q.loading.hide()
-        this.$emit('sucess', false)
+        this.$emit('loginSuccess', false)
       }
     }
   },

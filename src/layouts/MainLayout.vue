@@ -13,8 +13,9 @@
                 :breakpoint="0">
           <q-tab  @click="scrollToElement('id_how_works')" label="Come Funziona" />
           <q-tab  @click="scrollToElement('id_pricing')" label="Prezzi" />
-          <q-tab  @click="openModal('login', 'accedi', false, loginClassObj)" label="Accedi"/>
-          <q-tab  @click="openModal('sign-in', 'registrati', true, singInClassObj)" label="Registrati"/>
+          <q-tab v-if="!isAuthenticated" @click="openModal('login', 'accedi', false, loginClassObj)" label="Accedi"/>
+          <q-tab v-if="!isAuthenticated" @click="openModal('sign-in', 'registrati', true, singInClassObj)" label="Registrati"/>
+          <q-tab v-if="isAuthenticated" label="Logout"/>
         </q-tabs>
       </div>
     </q-header>
@@ -43,6 +44,7 @@
 <script>
 import { scroll } from 'quasar'
 import Modal from 'components/Modal'
+import { mapGetters } from 'vuex'
 const { getScrollTarget, setScrollPosition } = scroll
 
 export default {
@@ -63,6 +65,12 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapGetters([
+      'user',
+      'isAuthenticated'
+    ])
+  },
   methods: {
     scrollToElement (id) {
       const el = document.getElementById(id)
@@ -79,6 +87,9 @@ export default {
       this.modal = true
       this.classObj = classObj
     }
+  },
+  created () {
+
   }
 }
 </script>

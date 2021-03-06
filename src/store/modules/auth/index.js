@@ -7,7 +7,7 @@ export default {
   state () {
     // inital state
     return {
-      user: {},
+      user: undefined,
       isAuthenticated: !!JwtService.getToken()
     }
   },

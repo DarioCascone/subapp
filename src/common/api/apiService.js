@@ -6,7 +6,9 @@ import JwtService from './jwtService'
 import { Notify } from 'quasar'
 
 const authInterceptor = (config) => {
-  config.headers.Authorization = `Token ${JwtService.getToken()}`
+  if (JwtService.getToken()) {
+    config.headers.Authorization = `Token ${JwtService.getToken()}`
+  }
   return config
 }
 
@@ -50,11 +52,12 @@ const errorInterceptor = error => {
 const responseInterceptor = response => {
   switch (response.status) {
     case 200:
-      console.log('prova', response)
-      Notify.create({
-        type: 'positive',
-        message: response.data.message
-      })
+      if (response.data.message) {
+        Notify.create({
+          type: 'positive',
+          message: response.data.message
+        })
+      }
       break
     default:
   }

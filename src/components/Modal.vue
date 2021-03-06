@@ -13,7 +13,7 @@
           </div>
         </q-card-section>
         <q-card-section :class="classObj">
-          <login @sucess="loginSuccess" v-if="component === 'login'" />
+          <login @loginSuccess="loginSuccess" v-if="component === 'login'" />
           <sign-in v-if="component === 'sign-in'" ></sign-in>
         </q-card-section>
       </q-card>
