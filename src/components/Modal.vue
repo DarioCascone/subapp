@@ -14,7 +14,7 @@
         </q-card-section>
         <q-card-section :class="classObj">
           <login @loginSuccess="loginSuccess" v-if="component === 'login'" />
-          <sign-in v-if="component === 'sign-in'" ></sign-in>
+          <sign-in @signupSuccess="signupSuccess" v-if="component === 'sign-in'" ></sign-in>
         </q-card-section>
       </q-card>
   </q-dialog>
@@ -37,6 +37,10 @@ export default {
   methods: {
     loginSuccess (value) {
       this.$emit('update:modal', value)
+    },
+    signupSuccess (value) {
+      this.$emit('update:modal', value)
+      this.$emit('signupSuccess')
     },
     hideDialog () {
       this.$emit('update:modal', this.localModal)

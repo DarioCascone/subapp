@@ -5,6 +5,7 @@ import userGetters from './getters.js'
 export default {
   state () {
     return {
+      users: undefined
     }
   },
   mutations: userMutations,

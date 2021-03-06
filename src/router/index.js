@@ -29,7 +29,7 @@ export default function (/* { store, ssrContext } */) {
 
   Router.beforeEach((to, from, next) => {
     // redirect to login page if not logged in and trying to access a restricted page
-    const publicPages = ['/']
+    const publicPages = ['/', 'termCondition']
     const authRequired = !publicPages.includes(to.path)
     const loggedIn = JwtService.getToken()
 

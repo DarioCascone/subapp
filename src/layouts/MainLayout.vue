@@ -7,21 +7,29 @@
             <img src="../assets/logo-subapp.png">
           </q-avatar>
         </router-link>
-        <q-tabs v-if="$route.name !== 'termCondition'"
-                dense
-                align="justify"
-                :breakpoint="0">
-          <q-tab  @click="scrollToElement('id_how_works')" label="Come Funziona" />
-          <q-tab  @click="scrollToElement('id_pricing')" label="Prezzi" />
-          <q-tab v-if="!isAuthenticated" @click="openModal('login', 'accedi', false, loginClassObj)" label="Accedi"/>
-          <q-tab v-if="!isAuthenticated" @click="openModal('sign-in', 'registrati', true, singInClassObj)" label="Registrati"/>
-          <q-tab v-if="isAuthenticated" label="Logout"/>
-        </q-tabs>
+          <q-tabs v-if="$route.name !== 'termCondition'"
+                  dense
+                  align="justify"
+                  :breakpoint="0">
+
+              <q-tab v-if="$route.name==='home'" @click="scrollToElement('id_how_works')" label="Come Funziona" />
+              <q-tab v-if="$route.name==='home'" @click="scrollToElement('id_pricing')" label="Prezzi" />
+              <q-tab v-if="!isAuthenticated" @click="openModal('login', 'accedi', false, loginClassObj)" label="Accedi"/>
+              <q-tab v-if="!isAuthenticated" @click="openModal('sign-in', 'registrati', true, singInClassObj)" label="Registrati"/>
+              <q-tab v-if="isAuthenticated && user && user.admin" @click="openAdminConsole"  label="Admin"/>
+              <q-tab v-if="isAuthenticated" @click="logout" label="Logout"/>
+          </q-tabs>
       </div>
     </q-header>
 
     <q-page-container>
-      <router-view />
+      <transition
+        appear
+        enter-active-class="animated fadeIn"
+        leave-active-class="animated fadeOut"
+      >
+        <router-view ></router-view>
+      </transition>
     </q-page-container>
 
     <!-- <q-footer bordered class="bg-primary text-white">
@@ -35,7 +43,7 @@
       </q-toolbar>
     </q-footer> -->
 
-    <modal  :class-obj="classObj" :modal.sync="modal" :is-maximized="isMaximized" :component="modalComponent" :title="modalTitle"/>
+    <modal  @signupSuccess="signupSuccess" :class-obj="classObj" :modal.sync="modal" :is-maximized="isMaximized" :component="modalComponent" :title="modalTitle"/>
 
   </q-layout>
 
@@ -81,15 +89,32 @@ export default {
     },
     openModal (component, title, isMaximized, classObj) {
       this.modalComponent = component
-      console.log(this.modalComponent)
       this.modalTitle = title
       this.isMaximized = isMaximized
       this.modal = true
       this.classObj = classObj
+    },
+    signupSuccess () {
+      setTimeout(() => {
+        this.openModal('login', 'accedi', false, this.loginClassObj)
+      }, 1000)
+    },
+    logout () {
+      this.$q.loading.show()
+      setTimeout(() => {
+        this.$store.commit('DESTROY_AUTH')
+        if (this.$route.name !== 'home') {
+          this.$router.push('/')
+        }
+        this.$q.loading.hide()
+        this.$q.notify({ type: 'positive', message: 'Logout avvenuto con successo!' })
+      }, 1000)
+    },
+    openAdminConsole () {
+      if (this.$route.name !== 'admin') {
+        this.$router.push('/admin')
+      }
     }
-  },
-  created () {
-
   }
 }
 </script>

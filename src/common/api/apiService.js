@@ -3,7 +3,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import { API_BASE_URL } from './config'
 import JwtService from './jwtService'
-import { Notify } from 'quasar'
+import { Notify, Loading } from 'quasar'
 
 const authInterceptor = (config) => {
   if (JwtService.getToken()) {
@@ -45,6 +45,7 @@ const errorInterceptor = error => {
         message: error.response.data.message
       })
   }
+  Loading.hide()
   return Promise.reject(error)
 }
 
