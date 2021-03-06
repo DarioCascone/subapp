@@ -64,12 +64,8 @@ export default {
       this.$forceUpdate()
       if (!this.$v.$invalid) {
         this.$q.loading.show()
-        try {
-          await this.login(this.user)
-          this.$q.loading.hide()
-        } catch (e) {
-          this.$q.loading.hide()
-        }
+        await this.login(this.user)
+        this.$q.loading.hide()
         this.$emit('loginSuccess', false)
       }
     }

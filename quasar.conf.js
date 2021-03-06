@@ -91,7 +91,7 @@ module.exports = function (/* ctx */) {
       config: {
         notify: {
           position: 'top',
-          timeout: 2500
+          timeout: 4000
         },
         loading: { spinnerColor: 'accent', spinner: 'QSpinnerHourglass' }
       },

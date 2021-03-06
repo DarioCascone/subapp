@@ -15,7 +15,7 @@
           <q-tab  @click="scrollToElement('id_pricing')" label="Prezzi" />
           <q-tab v-if="!isAuthenticated" @click="openModal('login', 'accedi', false, loginClassObj)" label="Accedi"/>
           <q-tab v-if="!isAuthenticated" @click="openModal('sign-in', 'registrati', true, singInClassObj)" label="Registrati"/>
-          <q-tab v-if="isAuthenticated" label="Logout"/>
+          <q-tab v-if="isAuthenticated" @click="$store.commit('DESTROY_AUTH')" label="Logout"/>
         </q-tabs>
       </div>
     </q-header>
@@ -35,7 +35,7 @@
       </q-toolbar>
     </q-footer> -->
 
-    <modal  :class-obj="classObj" :modal.sync="modal" :is-maximized="isMaximized" :component="modalComponent" :title="modalTitle"/>
+    <modal  @signupSuccess="openModal('login', 'accedi', false, loginClassObj)" :class-obj="classObj" :modal.sync="modal" :is-maximized="isMaximized" :component="modalComponent" :title="modalTitle"/>
 
   </q-layout>
 
@@ -81,7 +81,6 @@ export default {
     },
     openModal (component, title, isMaximized, classObj) {
       this.modalComponent = component
-      console.log(this.modalComponent)
       this.modalTitle = title
       this.isMaximized = isMaximized
       this.modal = true

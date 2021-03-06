@@ -644,6 +644,7 @@ export default {
           this.user.certificateDate = tempCertificateDate
           this.user.durcRegolarityDate = tempDurcRegolarityDate
           this.$q.loading.hide()
+          this.$emit('signupSuccess', false)
         } catch (error) {
           this.user.certificateDate = tempCertificateDate
           this.user.durcRegolarityDate = tempDurcRegolarityDate
