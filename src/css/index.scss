@@ -1,0 +1,211 @@
+.section-title {
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: contain !important;
+}
+.home-carousel {
+  background: none;
+}
+.animation_1 {
+  -webkit-animation: bounceIn 1s ease-in 800ms both;
+  animation: bounceIn 1s ease-in 800ms both;
+}
+.animation_2 {
+  -webkit-animation: flipInX 1s ease-in-out 800ms both;
+  animation: flipInX 1s ease-in-out 800ms both;
+}
+.box-shadow:hover {
+  box-shadow: 0 10px 13px -6px rgba(0, 0, 0, 0.2), 0 20px 31px 3px rgba(0, 0, 0, 0.14), 0 8px 38px 7px rgba(0, 0, 0, 0.12) !important;
+}
+.my-card {
+  width: 350px;
+  max-width: 350px;
+  margin-top: 10px;
+}
+.pricing {
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+.fullpage {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.round {
+  position: relative;
+  width: 10vw;
+  height: 10vw;
+  max-width: 100px;
+  max-height: 100px;
+  margin: auto;
+  display: flex;
+  border-radius: 50%;
+  background-color: #fff;
+  border: 3px solid #fff;
+  .rounded-badge {
+    background-color: $accent;
+    border: 3px solid #fff;
+    border-radius: 50%;
+  }
+  .badge-icon {
+    color: $primary;
+  }
+}
+
+.cutted_title:before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  content: "";
+  height: 1px;
+  width: 100%;
+  background-color: #000;
+}
+
+.how-works-section {
+  .how-works-section-container {
+    background-color: $secondary;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    header {
+      margin-bottom: 2rem;
+      display: block;
+      width: 100%;
+      .cutted_title {
+        color: #fff;
+        display: block;
+        text-align: center;
+        position: relative;
+        .cutted_title--text {
+          position: relative;
+          z-index: 1;
+          padding: 0 1rem;
+          background-color: $secondary;
+          font-size: 1.23rem;
+        }
+        &:before {
+          background-color: #fff;
+        }
+      }
+    }
+  }
+}
+
+.how-works-section .how-works-section--grid {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-flow: row wrap;
+  -ms-flex-flow: row wrap;
+  flex-flow: row wrap;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0;
+  padding-right: 0;
+}
+.how-works-section .how-works-section--grid .how-works-section-block {
+  width: calc(33.3% - 0.66667rem);
+  text-align: center;
+  .step-description {
+    color: #fff;
+    .step-title {
+      font-size: 1rem;
+      margin: 2rem 0;
+    }
+  }
+}
+.how-works-section .how-works-section--grid .how-works-section-block:nth-child(1n) {
+  float: left;
+  margin-right: 1rem;
+  clear: none;
+}
+.how-works-section .how-works-section--grid .how-works-section-block:last-child {
+  margin-right: 0;
+}
+.how-works-section .how-works-section--grid .how-works-section-block:nth-child(3n) {
+  margin-right: 0;
+  float: right;
+}
+.how-works-section .how-works-section--grid .how-works-section-block:nth-child(3n + 1) {
+  clear: both;
+}
+.how-works-section footer {
+  margin-top: 2rem;
+  text-align: center;
+}
+.how-works-section footer .o-btn {
+  font-size: 12px;
+  white-space: normal;
+}
+.l-section-footer-navs {
+  padding: 1rem 0;
+}
+.l-section-footer-navs .m-social-links {
+  clear: both;
+  margin-top: 2rem;
+  text-align: right;
+}
+.l-section-footer {
+  font-size: 12px;
+  padding: 1rem 0;
+  text-align: center;
+}
+.l-section-footer p {
+  margin-bottom: 0.5rem;
+  color: #777794;
+}
+.l-section-footer ul {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 0.5rem;
+}
+.l-section-footer ul:last-child {
+  margin-bottom: 0;
+}
+.l-section-footer ul.is-contact {
+  font-size: 13px;
+  font-weight: 700;
+}
+.l-section-footer ul li {
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+.l-section-footer ul li:after {
+  content: "|";
+}
+.l-section-footer ul li:last-child:after {
+  content: "";
+}
+.l-section-footer ul li a,
+.l-section-footer ul li a:active,
+.l-section-footer ul li a:focus,
+.l-section-footer ul li a:hover,
+.l-section-footer ul li a:visited {
+  color: #282832;
+}
+.l-section-footer .m-footer-logos {
+  margin-top: 1rem;
+}
+.l-section-subscription {
+  margin-bottom: 4rem;
+}
+.l-section-subscription .l-grid-form-subscription--left,
+.l-section-subscription .l-grid-form-subscription--right {
+  margin-top: 1rem;
+}
+.l-section-subscription footer {
+  border-top: 1px solid #e4e4ea;
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+.l-section-subscription footer .o-btn {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}

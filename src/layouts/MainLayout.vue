@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh lpr lFf">
+  <q-layout view="lHh lpr lff">
     <q-header class="q-py-md bg-primary" :style="'border-bottom: 2px solid #165081'">
       <div class="flex justify-between q-mx-lg">
         <router-link to="/">
@@ -23,7 +23,7 @@
       <router-view />
     </q-page-container>
 
-    <!--q-footer bordered class="bg-primary text-white">
+    <!-- <q-footer bordered class="bg-primary text-white">
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
@@ -32,7 +32,7 @@
           Title
         </q-toolbar-title>
       </q-toolbar>
-    </q-footer -->
+    </q-footer> -->
 
     <modal :class-obj="classObj" :modal.sync="modal" :is-maximized="isMaximized" :component="modalComponent" :title="modalTitle"/>
 

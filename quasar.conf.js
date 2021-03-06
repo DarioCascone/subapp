@@ -29,7 +29,8 @@ module.exports = function (/* ctx */) {
       'app.scss',
       'button.scss',
       'login.scss',
-      'signin.scss'
+      'signin.scss',
+      'index.scss'
     ],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
