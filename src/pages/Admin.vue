@@ -1,5 +1,7 @@
 <template>
-  <div></div>
+  <q-page>
+    Ciao
+  </q-page>
 </template>
 
 <script>
