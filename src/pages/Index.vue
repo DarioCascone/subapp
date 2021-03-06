@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <section class="fullpage section-title" v-bind:style="heroImage">
+    <section class="fullpage section-title"  v-bind:style="heroImage">
       <q-carousel
         animated
         v-model="slide"
@@ -82,6 +82,8 @@
         </div>
         <footer>
           <q-btn class="full-width q-pa-xs"
+                 push
+                 :ripple="false"
                  @click="openModal('login', 'accedi', false, loginClassObj)"
                  style="background: #29ABF4; color: white" label="Sei gia' registrato? Clicca quì"/>
         </footer>
@@ -266,7 +268,8 @@ export default {
   computed: {
     heroImage () {
       return {
-        background: `linear-gradient(rgba(10,10,10,.5), rgba(10,10,10,.5)), url(${require('../assets/handshake.jpg')})`
+        background: `linear-gradient(rgba(10,10,10,.5), rgba(10,10,10,.5)), url(${require('../assets/handshake.jpg')})`,
+        height: 'calc(100vh - ' + (document.querySelector('.primary-header').offsetHeight) + 'px)'
       }
     }
   },

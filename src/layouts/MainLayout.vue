@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh lpr lff">
-    <q-header class="q-py-md bg-primary" :style="'border-bottom: 3px solid #165081'">
+    <q-header class="primary-header q-py-md bg-primary" :style="'border-bottom: 3px solid #165081'">
       <div class="flex justify-between q-mx-lg">
         <router-link to="/">
           <q-avatar style="border-radius: 0 !important;">

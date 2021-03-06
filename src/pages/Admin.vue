@@ -23,11 +23,11 @@
             {{ props.row.user }}
           </q-td>
           <q-td key="payed" :props="props">
-           <q-icon v-if="props.row.payed" class="text-positive" style="font-size: 2rem" name="done"></q-icon>
-           <q-icon v-else class="text-negative" style="font-size: 2rem" name="clear"></q-icon>
+           <q-icon v-if="props.row.payed" class="text-positive cursor-pointer" style="font-size: 2rem" name="done"></q-icon>
+           <q-icon v-else class="text-negative cursor-pointer" style="font-size: 2rem" name="clear"></q-icon>
           </q-td>
           <q-td key="antimafiaFile" :props="props" v-if="props.row.antimafiaFile">
-            <q-icon class="text-accent" name="file_download" style="font-size: 2rem" @click="downloadFile(props.row.antimafiaFile)"></q-icon>
+            <q-icon class="text-accent cursor-pointer" name="file_download" style="font-size: 2rem" @click="downloadFile(props.row.antimafiaFile)"></q-icon>
           </q-td>
         </q-tr>
       </template>
@@ -71,13 +71,14 @@ export default {
             user: user.username,
             payed: user.payed,
             antimafiaFile: user.antimafiaFile.path
+
           }
           this.data.push(obj)
         }
       })
     },
     downloadFile (path) {
-      window.open('http://localhost:3000/' + path + '.pdf')
+      window.open('http://localhost:3000/' + path)
     }
   },
   computed: {
