@@ -704,7 +704,7 @@ export default {
     },
     async getSubcatRdoOption () {
       if (this.rdosCategories && this.rdosCategories.length === 0) this.user.rdos = []
-      const queryparams = { rdomacroId: this.rdosCategories.map((rdoCat) => { return rdoCat._id }) }
+      const queryparams = { rdocatId: this.rdosCategories.map((rdoCat) => { return rdoCat._id }) }
       await this.getSubRdo(queryparams)
     }
   },
