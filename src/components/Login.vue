@@ -46,7 +46,6 @@ export default {
   name: 'Login',
   data () {
     return {
-      showAlert: false,
       user: {
         username: '',
         password: ''
@@ -61,11 +60,13 @@ export default {
       'login'
     ]),
     async onSubmit () {
-      this.$forceUpdate()
       this.$v.$touch()
+      this.$forceUpdate()
       if (!this.$v.$invalid) {
-        console.log('done')
-        // TODO agganciare chiamate alla login
+        this.$q.loading.show()
+        await this.login(this.user)
+        this.$q.loading.hide()
+        this.$emit('loginSuccess', false)
       }
     }
   },

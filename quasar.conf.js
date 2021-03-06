@@ -28,7 +28,6 @@ module.exports = function (/* ctx */) {
     css: [
       'app.scss',
       'button.scss',
-      'login.scss',
       'signin.scss',
       'index.scss'
     ],

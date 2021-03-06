@@ -635,9 +635,7 @@ export default {
       const tempCertificateDate = this.user.certificateDate
       const tempDurcRegolarityDate = this.user.durcRegolarityDate
       if (!this.$v.$invalid && this.step === 3) {
-        this.$q.loading.show({
-          spinnerColor: 'accent'
-        })
+        this.$q.loading.show()
         try {
           this.user.certificateDate = date.extractDate(this.user.certificateDate, 'DD/MM/YYYY')
           this.user.durcRegolarityDate = date.extractDate(this.user.durcRegolarityDate, 'DD/MM/YYYY')
@@ -646,11 +644,11 @@ export default {
           this.user.certificateDate = tempCertificateDate
           this.user.durcRegolarityDate = tempDurcRegolarityDate
           this.$q.loading.hide()
-        } catch (e) {
+        } catch (error) {
           this.user.certificateDate = tempCertificateDate
           this.user.durcRegolarityDate = tempDurcRegolarityDate
           this.$q.loading.hide()
-          console.log(e)
+          console.log(error)
         }
       }
       this.$refs.stepper.next()
@@ -670,24 +668,16 @@ export default {
       if (this.fgasFile) {
         formData.append('file', this.fgasFile, 'fgasFile')
       }
-      try {
-        const uploadedFiles = await this.uploadFile(formData)
-        uploadedFiles.forEach((file) => {
-          user[file.originalname] = file
-        })
-        await this.putUser(user)
-      } catch (e) {
-        console.log(e)
-      }
+      const uploadedFiles = await this.uploadFile(formData)
+      uploadedFiles.forEach((file) => {
+        user[file.originalname] = file
+      })
+      await this.putUser(user)
     },
     async putUser (user) {
-      try {
-        const obj = { pathParam: user._id }
-        obj.body = user
-        await this.updateUser(obj)
-      } catch (e) {
-        console.log(e)
-      }
+      const obj = { pathParam: user._id }
+      obj.body = user
+      await this.updateUser(obj)
     },
     async getRegionOptions () {
       if (this.user.region) this.user.region = undefined
@@ -722,8 +712,8 @@ export default {
     await this.getCountries()
     await this.getMacroRdo()
   },
-  async mounted () {
-    // this.$v.$touch()
+  mounted () {
+    this.$v.$touch()
   },
   computed: {
     ...mapGetters([

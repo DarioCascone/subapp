@@ -1,5 +1,8 @@
 export default {
-  user (store) {
-    return store.user
+  user (state) {
+    return state.user
+  },
+  isAuthenticated (store) {
+    return store.isAuthenticated
   }
 }

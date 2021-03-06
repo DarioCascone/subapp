@@ -9,5 +9,10 @@ export default {
   async updateUser ({ commit }, { pathParam, body }) {
     const { data } = await UserService.put('/' + pathParam, body)
     return data
+  },
+  async fetchUser ({ commit }, { pathParam }) {
+    const { data } = await UserService.get('/' + pathParam)
+    commit('SET_USER', data)
+    return data
   }
 }

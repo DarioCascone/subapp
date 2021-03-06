@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import routes from './routes'
+import JwtService from '../common/api/jwtService'
 
 Vue.use(VueRouter)
 
@@ -24,6 +25,19 @@ export default function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> publicPath
     mode: process.env.VUE_ROUTER_MODE,
     base: process.env.VUE_ROUTER_BASE
+  })
+
+  Router.beforeEach((to, from, next) => {
+    // redirect to login page if not logged in and trying to access a restricted page
+    const publicPages = ['/']
+    const authRequired = !publicPages.includes(to.path)
+    const loggedIn = JwtService.getToken()
+
+    if (authRequired && !loggedIn) {
+      return next('/')
+    }
+
+    next()
   })
 
   return Router

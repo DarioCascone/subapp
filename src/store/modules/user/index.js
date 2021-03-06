@@ -4,7 +4,6 @@ import userGetters from './getters.js'
 
 export default {
   state () {
-    // inital state
     return {
     }
   },
