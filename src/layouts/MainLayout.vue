@@ -28,7 +28,7 @@
         enter-active-class="animated fadeIn"
         leave-active-class="animated fadeOut"
       >
-        <router-view ></router-view>
+        <router-view @refreshAos="refreshAos" ></router-view>
       </transition>
     </q-page-container>
 
@@ -53,12 +53,16 @@
 import { scroll } from 'quasar'
 import Modal from 'components/Modal'
 import { mapGetters } from 'vuex'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
+
 const { getScrollTarget, setScrollPosition } = scroll
 
 export default {
   components: { Modal },
   data () {
     return {
+      aosNeedRefresh: false,
       name: 'MainLayout',
       modal: false,
       modalComponent: undefined,
@@ -113,6 +117,20 @@ export default {
     openAdminConsole () {
       if (this.$route.name !== 'admin') {
         this.$router.push('/admin')
+      }
+    },
+    refreshAos () {
+      this.aosNeedRefresh = true
+    }
+  },
+  watch: {
+    aosNeedRefresh (newVal, oldVal) {
+      if (newVal) {
+        setTimeout(() => {
+          this.aosNeedRefresh = false
+          console.log('AOS Refreshing')
+          AOS.refresh()
+        }, 500)
       }
     }
   }

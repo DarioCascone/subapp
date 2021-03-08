@@ -35,7 +35,7 @@ const errorInterceptor = error => {
         type: 'negative',
         message: error.response.data.message
       })
-      // router.push('/login')
+      this.$router.push('/')
       break
 
     default:

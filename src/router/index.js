@@ -32,7 +32,6 @@ export default function (/* { store, ssrContext } */) {
     const publicPages = ['/', 'termCondition']
     const authRequired = !publicPages.includes(to.path)
     const loggedIn = JwtService.getToken()
-
     if (authRequired && !loggedIn) {
       return next('/')
     }

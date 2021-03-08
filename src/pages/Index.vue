@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <q-page style="overflow-x: hidden">
     <section class="fullpage section-title"  v-bind:style="heroImage">
       <q-carousel
         animated
@@ -297,6 +297,7 @@ export default {
   },
   mounted () {
     this.headerHeight = 'calc(100vh - ' + (document.querySelector('.primary-header').offsetHeight) + 'px)'
+    this.$emit('refreshAos')
   }
 }
 </script>
