@@ -25,23 +25,23 @@
       </template>
       <template v-slot:body="props">
         <q-tr :props="props">
-          <q-td key="user" :props="props">
+          <q-td :auto-width="true" key="user" :props="props">
             {{ props.row.user }}
           </q-td>
-          <q-td key="payed" :props="props">
+          <q-td  key="payed" :props="props">
            <q-icon v-if="props.row.payed" class="text-positive cursor-pointer" style="font-size: 2rem" name="done"></q-icon>
            <q-icon v-else class="text-negative cursor-pointer" style="font-size: 2rem" name="clear"></q-icon>
           </q-td>
-          <q-td key="antimafiaFile" :props="props" v-if="props.row.antimafiaFile">
+          <q-td  key="antimafiaFile" :props="props" v-if="props.row.antimafiaFile">
             <q-icon class="text-accent cursor-pointer" name="file_download" style="font-size: 2rem" @click="downloadFile(props.row.antimafiaFile.path)"></q-icon>
           </q-td>
-          <q-td key="certificateFile" :props="props" v-if="props.row.certificateFile">
+          <q-td  key="certificateFile" :props="props" v-if="props.row.certificateFile">
             <q-icon class="text-accent cursor-pointer" name="file_download" style="font-size: 2rem" @click="downloadFile(props.row.certificateFile.path)"></q-icon>
           </q-td>
-          <q-td key="durcRegolarityFile" :props="props" v-if="props.row.durcRegolarityFile">
+          <q-td  key="durcRegolarityFile" :props="props" v-if="props.row.durcRegolarityFile">
             <q-icon class="text-accent cursor-pointer" name="file_download" style="font-size: 2rem" @click="downloadFile(props.row.durcRegolarityFile.path)"></q-icon>
           </q-td>
-          <q-td key="lendingFile" :props="props" v-if="props.row.lendingFile">
+          <q-td  key="lendingFile" :props="props" v-if="props.row.lendingFile">
             <q-icon class="text-accent cursor-pointer" name="file_download" style="font-size: 2rem" @click="downloadFile(props.row.lendingFile.path)"></q-icon>
           </q-td>
         </q-tr>

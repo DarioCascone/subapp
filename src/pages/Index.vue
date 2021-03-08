@@ -297,6 +297,7 @@ export default {
   },
   mounted () {
     this.headerHeight = 'calc(100vh - ' + (document.querySelector('.primary-header').offsetHeight) + 'px)'
+    this.$emit('refreshAos')
   }
 }
 </script>
