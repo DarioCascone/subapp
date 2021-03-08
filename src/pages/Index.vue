@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <q-page style="overflow-x: hidden">
     <section class="fullpage section-title"  v-bind:style="heroImage">
       <q-carousel
         animated
