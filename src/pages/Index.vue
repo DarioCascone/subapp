@@ -94,7 +94,7 @@
       <div class="row text-center flex flex-center">
           <div  class="col-md-5 col-lg-5 col-sx-12 col-sm-12">
             <div class="q-pa-md">
-              <q-card data-aos="slide-right" data-aos-duration="750" class="my-card card-left">
+              <q-card data-aos="slide-right" data-aos-delay="200" data-aos-duration="750" class="my-card card-left">
                 <q-parallax
                   src="../assets/signature.jpg"
                   :height="350"
@@ -120,7 +120,7 @@
           </div>
           <div  class="col-md-5 col-lg-5 col-sx-12 col-sm-12">
             <div class="q-pa-md">
-              <q-card data-aos="slide-left" data-aos-duration="750" class="my-card card-right">
+              <q-card data-aos="slide-left" data-aos-delay="200" data-aos-duration="750" class="my-card card-right">
                 <q-parallax
                   src="../assets/crane.jpg"
                   :height="350"
