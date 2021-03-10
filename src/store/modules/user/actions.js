@@ -15,9 +15,8 @@ export default {
     commit('SET_USER', data)
     return data
   },
-  async fetchUsers ({ commit }) {
+  async fetchUsers () {
     const { data } = await UserService.get('/all')
-    commit('SET_USERS', data)
     return data
   },
   async updateLoggedUser ({ commit }, { pathParam, body }) {

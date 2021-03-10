@@ -31,5 +31,6 @@ export default class user {
     this.annual = false
     this.biennial = false
     this.subscriptionDate = null
+    this.blocked = false
   }
 }
