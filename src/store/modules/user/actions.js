@@ -23,6 +23,9 @@ export default {
   async updateLoggedUser ({ commit }, { pathParam, body }) {
     const { data } = await UserService.post('/' + pathParam, body)
     return data
+  },
+  async deleteUser ({ commit }, { pathParam }) {
+    const { data } = await UserService.delete('/' + pathParam)
+    return data
   }
-
 }

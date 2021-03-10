@@ -11,5 +11,8 @@ export default {
   },
   put (path, body) {
     return ApiService.put(resource + path, body)
+  },
+  delete (path) {
+    return ApiService.delete(resource + path)
   }
 }

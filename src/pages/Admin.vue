@@ -39,7 +39,7 @@
             <div v-else class="flex items-center justify-around">
               <q-btn push class="bg-accent text-white"  @click="confirmUser(props.row.user, 1)">Attiva annuale</q-btn>
               <q-btn push class="bg-secondary text-white"  @click="confirmUser(props.row.user, 2)">Attiva biennale</q-btn>
-              <q-btn push class="bg-negative text-white"  @click="deleteUser(props.row.user)">Cancella</q-btn>
+              <q-btn push class="bg-negative text-white"  @click="removeUser(props.row.user)">Cancella</q-btn>
             </div>
           </q-td>
           <q-td  key="antimafiaFile" :props="props" v-if="props.row.user.antimafiaFile">
@@ -93,7 +93,8 @@ export default {
   methods: {
     ...mapActions([
       'fetchUsers',
-      'updateLoggedUser'
+      'updateLoggedUser',
+      'deleteUser'
     ]),
     getData () {
       if (this.data.length > 0) this.data = []
@@ -127,8 +128,13 @@ export default {
         await this.loadUsers()
       }
     },
-    deleteUser () {
-
+    async removeUser (user) {
+      const obj = {
+        pathParam: user._id
+      }
+      this.$q.loading.show()
+      await this.deleteUser(obj)
+      await this.loadUsers()
     },
     async loadUsers () {
       this.$q.loading.show()
