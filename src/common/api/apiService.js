@@ -4,6 +4,7 @@ import VueAxios from 'vue-axios'
 import { API_BASE_URL } from './config'
 import JwtService from './jwtService'
 import { Notify, Loading } from 'quasar'
+import router from '../../router/routes'
 
 const authInterceptor = (config) => {
   if (JwtService.getToken()) {
@@ -35,7 +36,8 @@ const errorInterceptor = error => {
         type: 'negative',
         message: error.response.data.message
       })
-      this.$router.push('/')
+      router.push('/')
+      Loading.hide()
       break
 
     default:
@@ -45,7 +47,6 @@ const errorInterceptor = error => {
         message: error.response.data.message
       })
   }
-  Loading.hide()
   return Promise.reject(error)
 }
 
