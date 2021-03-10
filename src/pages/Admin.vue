@@ -37,9 +37,9 @@
               <div class="text-negative" style="font-weight: bold">Scade tra: {{getDaysLeftToEndSubscription(props.row.user)}} giorni</div>
             </div>
             <div v-else class="flex items-center justify-around">
-              <q-btn push class="bg-accent text-white"  @click="confirmUser(props.row.user.user, 1)">Attiva annuale</q-btn>
-              <q-btn push class="bg-secondary text-white"  @click="confirmUser(props.row.user.user, 2)">Attiva biennale</q-btn>
-              <q-btn push class="bg-negative text-white"  @click="deleteUser(props.row.user.user)">Cancella</q-btn>
+              <q-btn push class="bg-accent text-white"  @click="confirmUser(props.row.user, 1)">Attiva annuale</q-btn>
+              <q-btn push class="bg-secondary text-white"  @click="confirmUser(props.row.user, 2)">Attiva biennale</q-btn>
+              <q-btn push class="bg-negative text-white"  @click="deleteUser(props.row.user)">Cancella</q-btn>
             </div>
           </q-td>
           <q-td  key="antimafiaFile" :props="props" v-if="props.row.user.antimafiaFile">
