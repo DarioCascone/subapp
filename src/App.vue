@@ -28,7 +28,9 @@ export default {
     const remainingMilliseconds = new Date(expiryDate).getTime() - new Date().getTime()
     setTimeout(() => {
       this.$store.commit('DESTROY_AUTH')
-      this.$router.push('/')
+      if (this.$route.name !== 'home') {
+        this.$router.push('/')
+      }
       Notify.create({
         type: 'negative',
         message: 'Sessione scaduta! Effetua nuovamente il login'
