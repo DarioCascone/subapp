@@ -32,15 +32,13 @@
             {{ date.formatDate(props.row.user.createdAt, 'MM-DD-YYYY') }}
           </q-td>
           <q-td  key="blocked" :props="props">
-            <div class="flex items-center justify-around desktop-only">
-              <q-btn v-if="props.row.user.blocked" push class="bg-warning text-white" @click="update(props.row.user, false)">Sblocca</q-btn>
-              <q-btn v-else push class="bg-warning text-white" @click="update(props.row.user, true)">Blocca</q-btn>
-            </div>
+            <q-btn v-if="props.row.user.blocked" push class="bg-warning text-white" @click="update(props.row.user, false)">Sblocca</q-btn>
+            <q-btn v-else push class="bg-warning text-white" @click="update(props.row.user, true)">Blocca</q-btn>
           </q-td>
           <q-td  key="payed" :props="props">
             <div v-if="props.row.user.payed" class="flex column items-center justify-around full-width">
-              <q-icon  class="text-positive cursor-pointer" style="font-size: 2rem" name="done"></q-icon>
               <div class="text-negative" style="font-weight: bold">{{getDaysLeftToEndSubscription(props.row.user)}}</div>
+              <q-icon  class="text-positive cursor-pointer" style="font-size: 2rem" name="done"></q-icon>
             </div>
             <div v-else>
               <q-icon  class="text-negative cursor-pointer" style="font-size: 2rem" name="error"></q-icon>
@@ -81,6 +79,9 @@
               <div class="text-negative text-center" style="font-weight: bold;">{{getDaysLeftToEndFile(props.row.user.durcRegolarityDate, props.row.user)}}</div>
               <q-icon class="text-accent cursor-pointer" name="file_download" style="font-size: 2rem;" @click="downloadFile(props.row.user.durcRegolarityFile.path)"></q-icon>
             </div>
+          </q-td>
+          <q-td key="delete" :props="props" >
+            <q-icon style="font-size: 2rem;" name="delete_forever" class="text-negative cursor-pointer" @click="removeUser(props.row.user)"></q-icon>
           </q-td>
         </q-tr>
       </template>
@@ -125,7 +126,8 @@ export default {
         { name: 'antimafiaFile', required: true, label: 'Antimafia File', align: 'center' },
         { name: 'lendingFile', required: true, label: 'Prestazione File', align: 'center' },
         { name: 'certificateFile', required: true, label: 'Certificato o Visura Camerale File', align: 'center' },
-        { name: 'durcRegolarityFile', required: true, label: 'Regolarità Durc File', align: 'center' }
+        { name: 'durcRegolarityFile', required: true, label: 'Regolarità Durc File', align: 'center' },
+        { name: 'delete', required: true, label: 'Elimina', align: 'center' }
       ],
       data: []
     }
