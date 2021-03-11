@@ -237,6 +237,8 @@
         </div>
       </div>
     </section>
+    <section class="fullpage" id="contact_us">
+    </section>
     <modal :class-obj="classObj" :modal.sync="modal" :is-maximized="isMaximized" :component="modalComponent" :title="modalTitle"/>
   </q-page>
 </template>
