@@ -4,20 +4,18 @@
       <div class="flex justify-between q-mx-lg">
         <router-link to="/">
           <q-avatar style="border-radius: 0 !important;">
-            <img src="../assets/logo-subapp.png">
+           <q-icon name="home" color="white" size="lg"></q-icon>
           </q-avatar>
         </router-link>
           <q-tabs v-if="$route.name !== 'termCondition'"
                   dense
                   align="justify"
                   :breakpoint="0">
-
               <q-tab v-if="$route.name==='home'" @click="scrollToElement('id_how_works')" label="Come Funziona" />
               <q-tab v-if="$route.name==='home'" @click="scrollToElement('id_pricing')" label="Prezzi" />
               <q-tab v-if="!isAuthenticated" @click="openModal('login', 'accedi', false, loginClassObj)" label="Accedi"/>
               <q-tab v-if="!isAuthenticated" @click="openModal('sign-in', 'registrati', true, singInClassObj)" label="Registrati"/>
-              <q-tab v-if="isAuthenticated && user && user.admin" @click="openAdminConsole"  label="Admin"/>
-              <q-tab v-if="isAuthenticated && user && !user.admin" :disable="user.blocked" @click="openBulletinBoard"  label="Bacheca">
+              <q-tab v-if="isAuthenticated && user" :disable="user.blocked" @click="openBulletinBoard"  label="Bacheca">
                 <q-tooltip v-if="user.blocked"
                            transition-show="fade"
                            transition-hide="fade"
@@ -27,7 +25,31 @@
                   Aggiorna il tuo profilo per continuare l'esperienza su Subapp.it
                 </q-tooltip>
               </q-tab>
-              <q-tab v-if="isAuthenticated" @click="logout" label="Logout"/>
+              <q-tab v-if="isAuthenticated" label="Account">
+                <q-menu transition-show="jump-down" transition-hide="jump-up" fit>
+                  <div class="row no-wrap q-pa-sm">
+                    <div class="column items-start">
+                      <div class="text-h6 q-mb-xs q-ml-sm">Impostazioni</div>
+                      <q-btn class="no-padding" flat color="primary" size="md" label="Admin" @click="openAdminConsole" icon="admin_panel_settings" />
+                      <q-btn flat  color="primary" size="md" label="profilo" icon="perm_identity" />
+                      <q-btn flat  color="primary" size="md" label="RDO" icon="list" />
+                    </div>
+                    <q-separator vertical inset class="q-mx-md" />
+
+                    <div class="column items-center justify-center q-gutter-sm">
+                      <q-icon color="secondary" name="account_circle" size="xl"></q-icon>
+                      <q-btn
+                        color="primary"
+                        label="Logout"
+                        @click="logout"
+                        push
+                        size="sm"
+                        v-close-popup
+                      />
+                    </div>
+                  </div>
+                </q-menu>
+              </q-tab>
           </q-tabs>
       </div>
     </q-header>
