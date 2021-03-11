@@ -174,6 +174,7 @@ export default {
       await this.loadUsers()
     },
     async removeUser (user) {
+      this.$q.loading.show()
       const obj = {
         pathParam: user._id
       }
@@ -181,7 +182,6 @@ export default {
       await this.loadUsers()
     },
     async loadUsers () {
-      this.$q.loading.show()
       const { users } = await this.fetchUsers()
       this.users = users
       this.getData()
@@ -207,6 +207,7 @@ export default {
     }
   },
   mounted () {
+    this.$q.loading.show()
     this.loadUsers()
   }
 }

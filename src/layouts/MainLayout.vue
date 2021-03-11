@@ -10,6 +10,7 @@
           <q-tabs v-if="$route.name !== 'termCondition'"
                   dense
                   align="justify"
+                  shrink
                   :breakpoint="0">
               <q-tab v-if="$route.name==='home'" @click="scrollToElement('id_how_works')" label="Come Funziona" />
               <q-tab v-if="$route.name==='home'" @click="scrollToElement('id_pricing')" label="Prezzi" />
@@ -31,7 +32,7 @@
                   <div class="row no-wrap q-pa-sm">
                     <div class="column items-start">
                       <div class="text-h6 q-mb-xs q-ml-sm">Impostazioni</div>
-                      <q-btn class="no-padding" flat color="primary" size="md" label="Admin" @click="openAdminConsole" icon="admin_panel_settings" />
+                      <q-btn v-if="user.admin" class="no-padding" flat color="primary" size="md" label="Admin" @click="openAdminConsole" icon="admin_panel_settings" />
                       <q-btn flat  color="primary" size="md" label="profilo" @click="editProfile" icon="perm_identity" />
                       <q-btn flat  color="primary" size="md" label="RDO" icon="list" />
                     </div>

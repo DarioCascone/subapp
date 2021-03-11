@@ -239,8 +239,8 @@
       </div>
     </section>
     <section class="fullpage contact-us-section" id="contact_us">
-      <div class="row wrap justify-center content-center q-gutter-x-md q-gutter-y-xs contact-us-section-container">
-        <div class="row col-12 q-gutter-x-md q-gutter-y-xs">
+      <div class="row wrap justify-center content-center q-gutter-y-xs contact-us-section-container">
+        <div class="row col-12 q-gutter-y-xs">
           <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
             <header>
               <p class="cutted_title">
@@ -254,22 +254,50 @@
 
           </div>
         </div>
-        <div class="col-12 col-md-6 row wrap content-center q-gutter-x-md q-gutter-y-lg">
+        <div class="col-12 col-md-6 row wrap content-center q-gutter-y-lg">
           <q-input   outlined
                      type="text"
-                     label="Indica la tua email"
+                     label="Indica la tua email *"
                      class="col-12 col-md-5"/>
           <q-input   outlined
-                     label="Di cosa hai bisogno?"
+                     label="Di cosa hai bisogno? *"
                      class="col-12"
-                     type="textarea"
-                     autofocus/>
+                     type="textarea"/>
+          <div class="col-12 row">
+              <div>
+                <q-checkbox
+                  color="accent"
+                  true-value="yes"
+                  false-value="no"
+                />
+                <span>Ho preso visione della <a class="hyperlink" >Privacy Policy</a> ed acconsento al trattamento dei dati. *</span>
+              </div>
+          </div>
           <div class="col-12 row justify-center">
-            <q-btn size="md" class="col-12 col-md-3 q-pa-xs" style="background: #102754; color: white" label="Invia"/>
+            <q-btn size="md" class="col-12 col-md-3" style="background: #102754; color: white" label="Invia"/>
+          </div>
+          <br>
+          <div class="col-12 row justify-center">
+            <div class="text-center col-12">
+              <span class="text-center text-h6">Oppure seguici su...</span>
+            </div>
+            <div class="q-pa-md q-gutter-sm">
+              <q-btn round color="secondary">
+                <q-icon color="white" name="fab fa-facebook-f"></q-icon>
+              </q-btn>
+              <q-btn round color="secondary">
+                <q-icon color="white" name="fab fa-instagram"></q-icon>
+              </q-btn>
+              <q-btn round color="secondary">
+                <q-icon color="white" name="fab fa-twitter"></q-icon>
+              </q-btn>
+              <q-btn round color="secondary">
+                <q-icon color="white" name="fab fa-linkedin-in"></q-icon>
+              </q-btn>
+            </div>
           </div>
           </div>
         </div>
-      <br>
       <br>
       <br>
 
