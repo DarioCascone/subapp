@@ -28,5 +28,9 @@ export default class user {
     this.durcRegolarityFile = {}
     this.certificateDate = ''
     this.durcRegolarityDate = ''
+    this.annual = false
+    this.biennial = false
+    this.subscriptionDate = null
+    this.blocked = false
   }
 }
