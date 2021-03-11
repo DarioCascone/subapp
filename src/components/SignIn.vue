@@ -29,6 +29,7 @@
                      :rules="[ (val) => isValid('username', val, $v.user) ]" />
 
             <q-input outlined
+                     v-if="!isEditing"
                      v-model="user.password"
                      label="Password *"
                      :type="isPsw ? 'password' : 'text'"
@@ -603,7 +604,7 @@ export default {
 
     }
   },
-  props: ['showAlert'],
+  props: ['showAlert', 'isEditing'],
   methods: {
     ...mapActions([
       'getCountries',
@@ -714,18 +715,22 @@ export default {
     await this.getMacroRdo()
   },
   mounted () {
+    if (this.isEditing) {
+      this.user = this.userLogged
+    }
     this.$v.$touch()
   },
   computed: {
-    ...mapGetters([
-      'countries',
-      'regions',
-      'provinces',
-      'cities',
-      'macroRdo',
-      'catRdo',
-      'subRdo'
-    ])
+    ...mapGetters({
+      userLogged: 'user',
+      countries: 'countries',
+      regions: 'regions',
+      provinces: 'provinces',
+      cities: 'cities',
+      macroRdo: 'macroRdo',
+      catRdo: 'catRdo',
+      subRdo: 'subRdo'
+    })
   },
   watch: {
     showAlert (newValue, oldValue) {

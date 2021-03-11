@@ -31,7 +31,7 @@
                     <div class="column items-start">
                       <div class="text-h6 q-mb-xs q-ml-sm">Impostazioni</div>
                       <q-btn class="no-padding" flat color="primary" size="md" label="Admin" @click="openAdminConsole" icon="admin_panel_settings" />
-                      <q-btn flat  color="primary" size="md" label="profilo" icon="perm_identity" />
+                      <q-btn flat  color="primary" size="md" label="profilo" @click="editProfile" icon="perm_identity" />
                       <q-btn flat  color="primary" size="md" label="RDO" icon="list" />
                     </div>
                     <q-separator vertical inset class="q-mx-md" />
@@ -75,7 +75,7 @@
       </q-toolbar>
     </q-footer> -->
 
-    <modal  @signupSuccess="signupSuccess" :class-obj="classObj" :modal.sync="modal" :is-maximized="isMaximized" :component="modalComponent" :title="modalTitle"/>
+    <modal  @signupSuccess="signupSuccess" :class-obj="classObj" :modal.sync="modal" :is-maximized="isMaximized" is-editing="isEditing" :component="modalComponent" :title="modalTitle"/>
 
   </q-layout>
 
@@ -96,6 +96,7 @@ export default {
     return {
       aosNeedRefresh: false,
       name: 'MainLayout',
+      isEditing: false,
       modal: false,
       modalComponent: undefined,
       modalTitle: undefined,
@@ -123,12 +124,16 @@ export default {
       const duration = 900
       setScrollPosition(target, offset, duration)
     },
-    openModal (component, title, isMaximized, classObj) {
+    openModal (component, title, isMaximized, classObj, isEditing = false) {
       this.modalComponent = component
       this.modalTitle = title
       this.isMaximized = isMaximized
       this.modal = true
       this.classObj = classObj
+      this.isEditing = isEditing
+    },
+    editProfile () {
+      this.openModal('sign-in', 'Modifica Profilo', true, this.singInClassObj, true)
     },
     signupSuccess () {
       setTimeout(() => {
