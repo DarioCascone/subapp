@@ -37,7 +37,6 @@ const errorInterceptor = error => {
         message: error.response.data.message
       })
       router.push('/')
-      Loading.hide()
       break
 
     default:
@@ -47,6 +46,7 @@ const errorInterceptor = error => {
         message: error.response.data.message
       })
   }
+  Loading.hide()
   return Promise.reject(error)
 }
 

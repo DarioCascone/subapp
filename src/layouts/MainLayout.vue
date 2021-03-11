@@ -17,6 +17,16 @@
               <q-tab v-if="!isAuthenticated" @click="openModal('login', 'accedi', false, loginClassObj)" label="Accedi"/>
               <q-tab v-if="!isAuthenticated" @click="openModal('sign-in', 'registrati', true, singInClassObj)" label="Registrati"/>
               <q-tab v-if="isAuthenticated && user && user.admin" @click="openAdminConsole"  label="Admin"/>
+              <q-tab v-if="isAuthenticated && user && !user.admin" :disable="user.blocked" @click="openBulletinBoard"  label="Bacheca">
+                <q-tooltip v-if="user.blocked"
+                           transition-show="fade"
+                           transition-hide="fade"
+                           content-class="bg-accent"
+                           content-style="font-size: 16px"
+                           anchor="bottom middle" self="top middle">
+                  Aggiorna il tuo profilo per continuare l'esperienza su Subapp.it
+                </q-tooltip>
+              </q-tab>
               <q-tab v-if="isAuthenticated" @click="logout" label="Logout"/>
           </q-tabs>
       </div>
@@ -118,6 +128,9 @@ export default {
       if (this.$route.name !== 'admin') {
         this.$router.push('/admin')
       }
+    },
+    openBulletinBoard () {
+      console.log('BACHECA')
     },
     refreshAos () {
       this.aosNeedRefresh = true
