@@ -14,7 +14,7 @@
         </q-card-section>
         <q-card-section :class="classObj">
           <login @loginSuccess="loginSuccess" v-if="component === 'login'" />
-          <sign-in @signupSuccess="signupSuccess" v-if="component === 'sign-in'" ></sign-in>
+          <sign-in :is-editing="isEditing" @signupSuccess="signupSuccess" v-if="component === 'sign-in'" ></sign-in>
         </q-card-section>
       </q-card>
   </q-dialog>
@@ -28,7 +28,7 @@ import SignIn from 'components/SignIn'
 export default {
   name: 'Modal',
   components: { SignIn, Login },
-  props: ['component', 'modal', 'title', 'isMaximized', 'classObj'],
+  props: ['component', 'modal', 'title', 'isMaximized', 'classObj', 'isEditing'],
   data () {
     return {
       localModal: this.modal

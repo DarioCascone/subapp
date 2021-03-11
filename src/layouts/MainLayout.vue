@@ -4,21 +4,53 @@
       <div class="flex justify-between q-mx-lg">
         <router-link to="/">
           <q-avatar style="border-radius: 0 !important;">
-            <img src="../assets/logo-subapp.png">
+           <q-icon name="home" color="white" size="lg"></q-icon>
           </q-avatar>
         </router-link>
           <q-tabs v-if="$route.name !== 'termCondition'"
                   dense
                   align="justify"
                   :breakpoint="0">
-
               <q-tab v-if="$route.name==='home'" @click="scrollToElement('id_how_works')" label="Come Funziona" />
               <q-tab v-if="$route.name==='home'" @click="scrollToElement('id_pricing')" label="Prezzi" />
               <q-tab v-if="$route.name==='home'" @click="scrollToElement('contact_us')" label="Contatti" />
               <q-tab v-if="!isAuthenticated" @click="openModal('login', 'accedi', false, loginClassObj)" label="Accedi"/>
               <q-tab v-if="!isAuthenticated" @click="openModal('sign-in', 'registrati', true, singInClassObj)" label="Registrati"/>
-              <q-tab v-if="isAuthenticated && user && user.admin" @click="openAdminConsole"  label="Admin"/>
-              <q-tab v-if="isAuthenticated" @click="logout" label="Logout"/>
+              <q-tab v-if="isAuthenticated && user" :disable="user.blocked" @click="openBulletinBoard"  label="Bacheca">
+                <q-tooltip v-if="user.blocked"
+                           transition-show="fade"
+                           transition-hide="fade"
+                           content-class="bg-accent"
+                           content-style="font-size: 16px"
+                           anchor="bottom middle" self="top middle">
+                  Aggiorna il tuo profilo per continuare l'esperienza su Subapp.it
+                </q-tooltip>
+              </q-tab>
+              <q-tab v-if="isAuthenticated" label="Account">
+                <q-menu transition-show="jump-down" transition-hide="jump-up" fit>
+                  <div class="row no-wrap q-pa-sm">
+                    <div class="column items-start">
+                      <div class="text-h6 q-mb-xs q-ml-sm">Impostazioni</div>
+                      <q-btn class="no-padding" flat color="primary" size="md" label="Admin" @click="openAdminConsole" icon="admin_panel_settings" />
+                      <q-btn flat  color="primary" size="md" label="profilo" @click="editProfile" icon="perm_identity" />
+                      <q-btn flat  color="primary" size="md" label="RDO" icon="list" />
+                    </div>
+                    <q-separator vertical inset class="q-mx-md" />
+
+                    <div class="column items-center justify-center q-gutter-sm">
+                      <q-icon color="secondary" name="account_circle" size="xl"></q-icon>
+                      <q-btn
+                        color="primary"
+                        label="Logout"
+                        @click="logout"
+                        push
+                        size="sm"
+                        v-close-popup
+                      />
+                    </div>
+                  </div>
+                </q-menu>
+              </q-tab>
           </q-tabs>
       </div>
     </q-header>
@@ -44,7 +76,7 @@
       </q-toolbar>
     </q-footer>
 
-    <modal  @signupSuccess="signupSuccess" :class-obj="classObj" :modal.sync="modal" :is-maximized="isMaximized" :component="modalComponent" :title="modalTitle"/>
+    <modal  @signupSuccess="signupSuccess" :class-obj="classObj" :modal.sync="modal" :is-maximized="isMaximized" is-editing="isEditing" :component="modalComponent" :title="modalTitle"/>
 
   </q-layout>
 
@@ -65,6 +97,7 @@ export default {
     return {
       aosNeedRefresh: false,
       name: 'MainLayout',
+      isEditing: false,
       modal: false,
       modalComponent: undefined,
       modalTitle: undefined,
@@ -92,12 +125,16 @@ export default {
       const duration = 900
       setScrollPosition(target, offset, duration)
     },
-    openModal (component, title, isMaximized, classObj) {
+    openModal (component, title, isMaximized, classObj, isEditing = false) {
       this.modalComponent = component
       this.modalTitle = title
       this.isMaximized = isMaximized
       this.modal = true
       this.classObj = classObj
+      this.isEditing = isEditing
+    },
+    editProfile () {
+      this.openModal('sign-in', 'Modifica Profilo', true, this.singInClassObj, true)
     },
     signupSuccess () {
       setTimeout(() => {
@@ -119,6 +156,9 @@ export default {
       if (this.$route.name !== 'admin') {
         this.$router.push('/admin')
       }
+    },
+    openBulletinBoard () {
+      console.log('BACHECA')
     },
     refreshAos () {
       this.aosNeedRefresh = true
