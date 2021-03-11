@@ -14,6 +14,7 @@
 
               <q-tab v-if="$route.name==='home'" @click="scrollToElement('id_how_works')" label="Come Funziona" />
               <q-tab v-if="$route.name==='home'" @click="scrollToElement('id_pricing')" label="Prezzi" />
+              <q-tab v-if="$route.name==='home'" @click="scrollToElement('contact_us')" label="Contatti" />
               <q-tab v-if="!isAuthenticated" @click="openModal('login', 'accedi', false, loginClassObj)" label="Accedi"/>
               <q-tab v-if="!isAuthenticated" @click="openModal('sign-in', 'registrati', true, singInClassObj)" label="Registrati"/>
               <q-tab v-if="isAuthenticated && user && user.admin" @click="openAdminConsole"  label="Admin"/>
@@ -32,7 +33,7 @@
       </transition>
     </q-page-container>
 
-    <!-- <q-footer bordered class="bg-primary text-white">
+    <q-footer bordered class="bg-primary text-white">
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
@@ -41,7 +42,7 @@
           Title
         </q-toolbar-title>
       </q-toolbar>
-    </q-footer> -->
+    </q-footer>
 
     <modal  @signupSuccess="signupSuccess" :class-obj="classObj" :modal.sync="modal" :is-maximized="isMaximized" :component="modalComponent" :title="modalTitle"/>
 

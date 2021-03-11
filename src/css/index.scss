@@ -247,3 +247,73 @@
     }
   }
 }
+
+.pricing-section {
+  .pricing-section-container {
+    background-color: $primary;
+    margin: 0 auto;
+    padding: 4rem 1rem;
+    header {
+      margin-bottom: 2rem;
+      display: block;
+      width: 100%;
+      .cutted_title {
+        color: #fff;
+        display: block;
+        text-align: center;
+        position: relative;
+        .cutted_title--text {
+          position: relative;
+          z-index: 1;
+          padding: 0 1rem;
+          background-color: $primary;
+          font-size: 1.23rem;
+          font-weight: 500;
+        }
+        &:before {
+          background-color: #fff;
+        }
+      }
+      .text-h6 {
+        font-size: 1.23rem;
+        font-weight: 400;
+        color:  #fff;
+      }
+    }
+  }
+}
+
+.contact-us-section {
+  .contact-us-section-container {
+    margin: 0 auto;
+    padding: 4rem 1rem;
+    header {
+      margin-bottom: 2rem;
+      display: block;
+      width: 100%;
+      .cutted_title {
+        color: $primary;
+        display: block;
+        text-align: center;
+        position: relative;
+        .cutted_title--text {
+          position: relative;
+          z-index: 1;
+          padding: 0 1rem;
+          font-size: 1.23rem;
+          font-weight: 500;
+          background-color: #fff;
+          color: $primary;
+        }
+        &:before {
+          background-color: $primary;
+        }
+      }
+      .text-h6 {
+        font-size: 1.23rem;
+        font-weight: 400;
+        color: $primary;
+      }
+    }
+  }
+}

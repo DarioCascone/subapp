@@ -148,96 +148,131 @@
       </div>
     </section>
     <q-space></q-space>
-    <section class="fullpage" id="id_pricing">
-      <div class="pricing" >
-        <div class="" style="background-color: #000000ad !important;">
-          <div class="row">
-            <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-              <h5 class="text-center text-white">I Nostri Piani
-                <br>
-                <span
-                  class="text-center text-grey text-h6">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
-              </h5>
-            </div>
-          </div>
-          <div class="row q-col-gutter-sm q-px-xl">
-            <div class="col-lg-3 offset-lg-3 offset-md-3 col-md-3 col-xs-12 col-sm-6 q-px-lg">
-              <q-card>
-                <q-card-section class="text-white" style="background: #21BA45">
-                  <div class="text-h6 text-center">
-                    ANNUALE
-                  </div>
-                </q-card-section>
-                <q-card-section class="q-pa-md">
-                  <q-list dense padding style="border-bottom: 1px solid lightgrey;">
-                    <q-item>
-                      NO costi di acquisizione crediti
-                    </q-item>
-                    <q-item>
-                      NO costi di partecipazione alle RDO
-                    </q-item>
-                    <q-item>
-                      NO percentuali sui lavori o sulla conclusione dell’affare
-                    </q-item>
-                  </q-list>
-                </q-card-section>
-                <q-card-section class="q-pa-none" style="color: #444444">
-                  <div class="text-center">
-                    <span class="text-h2 text-center">€140</span>/anno
-                  </div>
-                </q-card-section>
-                <q-card-section>
-                  <div class="text-center q-px-lg">
-                    <q-btn size="md" class="full-width q-pa-xs"
-                           @click="openModal('sign-in', 'registrati', true, singInClassObj)"
-                           style="background: #21BA45; color: white" label="Scegli il piano"/>
-                    <br>
-                  </div>
-                </q-card-section>
-              </q-card>
-            </div>
-            <div class="col-lg-3 col-md-3 col-xs-12 col-sm-6 q-px-lg">
-              <q-card>
-                <q-card-section class="text-white" style="background: #29ABF4">
-                  <div class="text-h6 text-center">
-                    BIENNALE
-                  </div>
-                </q-card-section>
-                <q-card-section class="q-pa-md">
-                  <q-list dense padding style="border-bottom: 1px solid lightgrey;">
-                    <q-item>
-                      NO costi di acquisizione crediti
-                    </q-item>
-                    <q-item>
-                      NO costi di partecipazione alle RDO
-                    </q-item>
-                    <q-item>
-                      NO percentuali sui lavori o sulla conclusione dell’affare
-                    </q-item>
-                  </q-list>
-                </q-card-section>
-                <q-card-section class="q-pa-none" style="color: #444444">
-                  <div class="text-center">
-                    <span class="text-h2 text-center">€250</span>/anno
-                  </div>
-                </q-card-section>
-                <q-card-section>
-                  <div class="text-center q-px-lg">
-                    <q-btn size="md" class="full-width q-pa-xs"
-                           @click="openModal('sign-in', 'registrati', true, singInClassObj)"
-                           style="background: #29ABF4; color: white" label="Scegli il piano"/>
-                    <br>
-                  </div>
-                </q-card-section>
-              </q-card>
-            </div>
-          </div>
-          <br>
-          <br>
+    <section class="fullpage pricing-section" id="id_pricing">
+      <div class="pricing-section-container" >
+        <div class="row">
+          <header>
+            <p class="cutted_title">
+              <span class="cutted_title--text">PREZZI</span>
+            </p>
+            <h5 class="text-center ">
+              <span
+                class="text-center text-h6">Scegli il piano giusto per te!</span>
+            </h5>
+          </header>
         </div>
+        <div class="row q-col-gutter-sm q-px-xl">
+          <div class="col-lg-3 offset-lg-3 offset-md-3 col-md-3 col-xs-12 col-sm-6 q-px-lg">
+            <q-card>
+              <q-card-section class="text-white" style="background: #21BA45">
+                <div class="text-h6 text-center">
+                  ANNUALE
+                </div>
+              </q-card-section>
+              <q-card-section class="q-pa-md">
+                <q-list dense padding style="border-bottom: 1px solid lightgrey;">
+                  <q-item>
+                    NO costi di acquisizione crediti
+                  </q-item>
+                  <q-item>
+                    NO costi di partecipazione alle RDO
+                  </q-item>
+                  <q-item>
+                    NO percentuali sui lavori o sulla conclusione dell’affare
+                  </q-item>
+                </q-list>
+              </q-card-section>
+              <q-card-section class="q-pa-none" style="color: #444444">
+                <div data-aos="flip-down" data-aos-easing="ease-in-sine" data-aos-delay="200" class="text-center">
+                  <span class="text-h2 text-center">€140</span>/anno
+                </div>
+              </q-card-section>
+              <q-card-section>
+                <div class="text-center q-px-lg">
+                  <q-btn size="md" class="full-width q-pa-xs"
+                         @click="openModal('sign-in', 'registrati', true, singInClassObj)"
+                         style="background: #21BA45; color: white" label="Scegli il piano"/>
+                  <br>
+                </div>
+              </q-card-section>
+            </q-card>
+          </div>
+          <div class="col-lg-3 col-md-3 col-xs-12 col-sm-6 q-px-lg">
+            <q-card>
+              <q-card-section class="text-white" style="background: #29ABF4">
+                <div class="text-h6 text-center">
+                  BIENNALE
+                </div>
+              </q-card-section>
+              <q-card-section class="q-pa-md">
+                <q-list dense padding style="border-bottom: 1px solid lightgrey;">
+                  <q-item>
+                    NO costi di acquisizione crediti
+                  </q-item>
+                  <q-item>
+                    NO costi di partecipazione alle RDO
+                  </q-item>
+                  <q-item>
+                    NO percentuali sui lavori o sulla conclusione dell’affare
+                  </q-item>
+                </q-list>
+              </q-card-section>
+              <q-card-section class="q-pa-none" style="color: #444444">
+                <div data-aos="flip-down" data-aos-easing="ease-in-sine" data-aos-delay="200" class="text-center">
+                  <span class="text-h2 text-center">€250</span>/anno
+                </div>
+              </q-card-section>
+              <q-card-section>
+                <div class="text-center q-px-lg">
+                  <q-btn size="md" class="full-width q-pa-xs"
+                         @click="openModal('sign-in', 'registrati', true, singInClassObj)"
+                         style="background: #29ABF4; color: white" label="Scegli il piano"/>
+                  <br>
+                </div>
+              </q-card-section>
+            </q-card>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
       </div>
     </section>
-    <section class="fullpage" id="contact_us">
+    <section class="fullpage contact-us-section" id="contact_us">
+      <div class="row wrap justify-center content-center q-gutter-x-md q-gutter-y-xs contact-us-section-container">
+        <div class="row col-12 q-gutter-x-md q-gutter-y-xs">
+          <div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
+            <header>
+              <p class="cutted_title">
+                <span class="cutted_title--text">CONTATTI</span>
+              </p>
+              <h5 class="text-center ">
+              <span
+                class="text-center text-h6">Utilizza il form sottostante per comunicare con noi</span>
+              </h5>
+            </header>
+
+          </div>
+        </div>
+        <div class="col-12 col-md-6 row wrap content-center q-gutter-x-md q-gutter-y-lg">
+          <q-input   outlined
+                     type="text"
+                     label="Indica la tua email"
+                     class="col-12 col-md-5"/>
+          <q-input   outlined
+                     label="Di cosa hai bisogno?"
+                     class="col-12"
+                     type="textarea"
+                     autofocus/>
+          <div class="col-12 row justify-center">
+            <q-btn size="md" class="col-12 col-md-3 q-pa-xs" style="background: #102754; color: white" label="Invia"/>
+          </div>
+          </div>
+        </div>
+      <br>
+      <br>
+      <br>
+
     </section>
     <modal :class-obj="classObj" :modal.sync="modal" :is-maximized="isMaximized" :component="modalComponent" :title="modalTitle"/>
   </q-page>
