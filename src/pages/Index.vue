@@ -253,7 +253,7 @@
             </header>
           </div>
         </div>
-        <q-form @submit.prevent.stop="onSendEmail">
+        <q-form @submit.prevent.stop="onSendEmail" class="col-12 col-md-8">
           <div class="col-12 col-md-6 row wrap content-center q-gutter-y-lg">
             <q-input   outlined
                        type="text"
@@ -305,7 +305,6 @@
           </div>
         </div>
       </div>
-      <br>
       <br>
 
     </section>
