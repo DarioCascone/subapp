@@ -89,7 +89,6 @@
                     transition-show="scale"
                     transition-hide="scale"
           />
-
           <q-select @input="getProvinceOptions"
                     class="col-12 col-md-3"
                     :disable="!(user.country && regions.length>0)" :readonly="!(user.country && regions.length>0)"
@@ -126,6 +125,7 @@
                     name="city"
                     outlined
                     map-options
+                    emit-value
                     label="Città *"
                     v-model="user.city"
                     reactive-rules
@@ -343,7 +343,7 @@
                     outlined
                     :options="subRdo" option-label="description"
                     :options-dense="true"
-                    v-model="user.rdos"
+                    v-model="rdosSubcategories"
                     label="Sottocategoria"
                     multiple use-chips
                     name="subcategory"
@@ -599,6 +599,7 @@ export default {
       fgasToggle: false,
       rdosCategories: [],
       rdosMacrocategories: [],
+      rdosSubcategories: [],
       regulation: 'false',
       termAndCondition: 'false'
 
@@ -636,6 +637,7 @@ export default {
       const tempCertificateDate = this.user.certificateDate
       const tempDurcRegolarityDate = this.user.durcRegolarityDate
       if (!this.$v.$invalid && this.step === 3) {
+        this.user.rdos = this.rdosSubcategories
         this.$q.loading.show()
         try {
           this.user.certificateDate = date.extractDate(this.user.certificateDate, 'DD/MM/YYYY')
@@ -699,13 +701,13 @@ export default {
     async getCatRdoOption () {
       if (this.rdosMacrocategories && this.rdosMacrocategories.length === 0) {
         this.rdosCategories = []
-        this.user.rdos = []
+        this.rdosSubcategories = []
       }
       const queryparams = { rdomacroId: this.rdosMacrocategories.map((rdoMacro) => { return rdoMacro._id }) }
       await this.getCatRdo(queryparams)
     },
     async getSubcatRdoOption () {
-      if (this.rdosCategories && this.rdosCategories.length === 0) this.user.rdos = []
+      if (this.rdosCategories && this.rdosCategories.length === 0) this.rdosSubcategories = []
       const queryparams = { rdocatId: this.rdosCategories.map((rdoCat) => { return rdoCat._id }) }
       await this.getSubRdo(queryparams)
     }
@@ -714,11 +716,40 @@ export default {
     await this.getCountries()
     await this.getMacroRdo()
   },
-  mounted () {
+  async mounted () {
+    this.$v.$touch()
     if (this.isEditing) {
       this.user = this.userLogged
+      const macroOpt = []
+      this.user.rdos.forEach((rdo) => {
+        this.macroRdo.forEach((macro) => {
+          if (macro._id === rdo.macrocategory) {
+            macroOpt.push(macro)
+          }
+        })
+      })
+      this.rdosMacrocategories = macroOpt.filter((item, i, ar) => ar.indexOf(item) === i) // unique
+      await this.getCatRdoOption()
+      const catOpt = []
+      this.user.rdos.forEach((rdo) => {
+        this.catRdo.forEach((cat) => {
+          if (cat._id === rdo.category) {
+            catOpt.push(cat)
+          }
+        })
+      })
+      this.rdosCategories = catOpt.filter((item, i, ar) => ar.indexOf(item) === i) // unique
+      await this.getSubcatRdoOption()
+      const subOpt = []
+      this.user.rdos.forEach((rdo) => {
+        this.subRdo.forEach((sub) => {
+          if (sub._id === rdo._id) {
+            subOpt.push(sub)
+          }
+        })
+      })
+      this.rdosSubcategories = subOpt.filter((item, i, ar) => ar.indexOf(item) === i) // unique
     }
-    this.$v.$touch()
   },
   computed: {
     ...mapGetters({
