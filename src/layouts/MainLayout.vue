@@ -15,8 +15,8 @@
               <q-tab v-if="$route.name==='home'" @click="scrollToElement('id_how_works')" label="Come Funziona" />
               <q-tab v-if="$route.name==='home'" @click="scrollToElement('id_pricing')" label="Prezzi" />
               <q-tab v-if="$route.name==='home'" @click="scrollToElement('contact_us')" label="Contatti" />
-              <q-tab v-if="!isAuthenticated" @click="openModal('login', 'accedi', false, loginClassObj)" label="Accedi"/>
-              <q-tab v-if="!isAuthenticated" @click="openModal('sign-in', 'registrati', true, singInClassObj)" label="Registrati"/>
+              <q-tab v-if="!isAuthenticated" @click="openModal('login', 'accedi', false, loginClassObj, false)" label="Accedi"/>
+              <q-tab v-if="!isAuthenticated" @click="openModal('sign-in', 'registrati', true, singInClassObj, false)" label="Registrati"/>
               <q-tab v-if="isAuthenticated && user" :disable="user.blocked" @click="openBulletinBoard"  label="Bacheca">
                 <q-tooltip v-if="user.blocked"
                            transition-show="fade"
@@ -122,7 +122,7 @@
       </div>
     </q-footer>
 
-    <modal  @signupSuccess="signupSuccess" :class-obj="classObj" :modal.sync="modal" :is-maximized="isMaximized" is-editing="isEditing" :component="modalComponent" :title="modalTitle"/>
+    <modal  @signupSuccess="signupSuccess" :class-obj="classObj" :modal.sync="modal" :is-maximized="isMaximized" :is-editing="isEditing" :component="modalComponent" :title="modalTitle"/>
 
   </q-layout>
 
@@ -171,7 +171,7 @@ export default {
       const duration = 900
       setScrollPosition(target, offset, duration)
     },
-    openModal (component, title, isMaximized, classObj, isEditing = false) {
+    openModal (component, title, isMaximized, classObj, isEditing) {
       this.modalComponent = component
       this.modalTitle = title
       this.isMaximized = isMaximized
@@ -184,7 +184,7 @@ export default {
     },
     signupSuccess () {
       setTimeout(() => {
-        this.openModal('login', 'accedi', false, this.loginClassObj)
+        this.openModal('login', 'accedi', false, this.loginClassObj, false)
       }, 1000)
     },
     logout () {
