@@ -261,16 +261,16 @@
                        class="col-12 col-md-5"
                        reactive-rules
                        name="emailFrom"
-                       v-model="emailFrom"
-                       :rules="[ (val) => isValid('emailFrom', val, $v) ]" />
+                       v-model="emailToSend.emailFrom"
+                       :rules="[ (val) => isValid('emailFrom', val, $v.emailToSend) ]" />
             <q-input   outlined
                        label="Di cosa hai bisogno? *"
                        class="col-12"
                        type="textarea"
                        reactive-rules
                        name="emailBody"
-                       v-model="emailBody"
-                       :rules="[ (val) => isValid('emailBody', val, $v) ]" />
+                       v-model="emailToSend.emailBody"
+                       :rules="[ (val) => isValid('emailBody', val, $v.emailToSend) ]" />
             <div class="col-12 row">
                 <div>
                   <q-checkbox
@@ -317,6 +317,7 @@
 import Modal from 'components/Modal'
 import validator from 'src/validations/validator'
 import { required, email } from 'vuelidate/lib/validators'
+import { mapActions } from 'vuex'
 
 export default {
   components: { Modal },
@@ -349,8 +350,10 @@ export default {
       },
       headerHeight: '100vh',
       isValid: validator.isValid,
-      emailFrom: '',
-      emailBody: '',
+      emailToSend: {
+        emailFrom: '',
+        emailBody: ''
+      },
       privacyAgreement: false
     }
   },
@@ -363,6 +366,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'sendMail'
+    ]),
     openModal (component, title, isMaximized, classObj) {
       this.modalComponent = component
       console.log(this.modalComponent)
@@ -374,15 +380,28 @@ export default {
     async onSendEmail () {
       this.$v.$touch()
       this.$forceUpdate()
+      if (!this.$v.$invalid) {
+        this.$q.loading.show()
+        const infoEmail = {
+          to: 'antonio.cacciapuoti@live.com',
+          from: 'dario.cascone93@gmail.com',
+          subject: 'Richiesta info - from: ' + this.emailToSend.emailFrom,
+          html: 'from: ' + this.emailToSend.emailFrom + '<br><br>' + this.emailToSend.emailBody
+        }
+        await this.sendMail(infoEmail)
+        this.$q.loading.hide()
+      }
     }
   },
   validations: {
-    emailFrom: {
-      required: required,
-      email
-    },
-    emailBody: {
-      required: required
+    emailToSend: {
+      emailFrom: {
+        required: required,
+        email
+      },
+      emailBody: {
+        required: required
+      }
     }
   },
   mounted () {
