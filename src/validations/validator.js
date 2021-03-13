@@ -107,6 +107,11 @@ export default {
             return 'Numero: ' + val + ' non valido!'
           }
           break
+        case 'emailFrom':
+          if (!validator[input].email) {
+            return 'Email: ' + val + ' non valida!'
+          }
+          break
       }
     }
     return true

@@ -251,53 +251,60 @@
                 class="text-center text-h6">Utilizza il form sottostante per comunicare con noi</span>
               </h5>
             </header>
-
           </div>
         </div>
-        <div class="col-12 col-md-6 row wrap content-center q-gutter-y-lg">
-          <q-input   outlined
-                     type="text"
-                     label="Indica la tua email *"
-                     class="col-12 col-md-5"/>
-          <q-input   outlined
-                     label="Di cosa hai bisogno? *"
-                     class="col-12"
-                     type="textarea"/>
-          <div class="col-12 row">
-              <div>
-                <q-checkbox
-                  color="accent"
-                  true-value="yes"
-                  false-value="no"
-                />
-                <span>Ho preso visione della <a class="hyperlink" >Privacy Policy</a> ed acconsento al trattamento dei dati. *</span>
-              </div>
-          </div>
-          <div class="col-12 row justify-center">
-            <q-btn size="md" class="col-12 col-md-3" style="background: #102754; color: white" label="Invia"/>
-          </div>
-          <br>
-          <div class="col-12 row justify-center">
-            <div class="text-center col-12">
-              <span class="text-center text-h6">Oppure seguici su...</span>
+        <q-form @submit.prevent.stop="onSendEmail">
+          <div class="col-12 col-md-6 row wrap content-center q-gutter-y-lg">
+            <q-input   outlined
+                       type="text"
+                       label="Indica la tua email *"
+                       class="col-12 col-md-5"
+                       reactive-rules
+                       name="emailFrom"
+                       v-model="emailFrom"
+                       :rules="[ (val) => isValid('emailFrom', val, $v) ]" />
+            <q-input   outlined
+                       label="Di cosa hai bisogno? *"
+                       class="col-12"
+                       type="textarea"
+                       reactive-rules
+                       name="emailBody"
+                       v-model="emailBody"
+                       :rules="[ (val) => isValid('emailBody', val, $v) ]" />
+            <div class="col-12 row">
+                <div>
+                  <q-checkbox
+                    color="accent"
+                    name="privacyAgreement"
+                    v-model="privacyAgreement"/>
+                  <span>Ho preso visione della <a class="hyperlink" >Privacy Policy</a> ed acconsento al trattamento dei dati. *</span>
+                </div>
             </div>
-            <div class="q-pa-md q-gutter-sm">
-              <q-btn round color="secondary">
-                <q-icon color="white" name="fab fa-facebook-f"></q-icon>
-              </q-btn>
-              <q-btn round color="secondary">
-                <q-icon color="white" name="fab fa-instagram"></q-icon>
-              </q-btn>
-              <q-btn round color="secondary">
-                <q-icon color="white" name="fab fa-twitter"></q-icon>
-              </q-btn>
-              <q-btn round color="secondary">
-                <q-icon color="white" name="fab fa-linkedin-in"></q-icon>
+            <div class="col-12 row justify-center">
+              <q-btn size="md" class="col-12 col-md-3"
+                     :disable="privacyAgreement === false"
+                     style="background: #102754;
+                     color: white" label="Invia"
+                     push
+                     :ripple="false"
+                     type='submit'>
               </q-btn>
             </div>
           </div>
+        </q-form>
+        <br>
+        <div class="col-12 row justify-center social-container">
+          <div class="text-center col-12">
+            <div class="text-center text-h6">oppure chiama il</div>
+            <div>
+              <template>
+                <q-icon size="sm" color="secondary" name="fas fa-phone-alt"> </q-icon>
+              </template>
+              <a href="tel:+393331234567" class="hyperlink">+39 3331234567</a>
+            </div>
           </div>
         </div>
+      </div>
       <br>
       <br>
 
@@ -309,6 +316,8 @@
 <script>
 
 import Modal from 'components/Modal'
+import validator from 'src/validations/validator'
+import { required, email } from 'vuelidate/lib/validators'
 
 export default {
   components: { Modal },
@@ -339,7 +348,11 @@ export default {
       singInClassObj: {
         'q-pa-none': true
       },
-      headerHeight: '100vh'
+      headerHeight: '100vh',
+      isValid: validator.isValid,
+      emailFrom: '',
+      emailBody: '',
+      privacyAgreement: false
     }
   },
   computed: {
@@ -358,6 +371,19 @@ export default {
       this.isMaximized = isMaximized
       this.modal = true
       this.classObj = classObj
+    },
+    async onSendEmail () {
+      this.$v.$touch()
+      this.$forceUpdate()
+    }
+  },
+  validations: {
+    emailFrom: {
+      required: required,
+      email
+    },
+    emailBody: {
+      required: required
     }
   },
   mounted () {

@@ -66,15 +66,60 @@
       </transition>
     </q-page-container>
 
-    <q-footer bordered class="bg-primary text-white">
-      <q-toolbar>
-        <q-toolbar-title>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
-          </q-avatar>
-          Title
-        </q-toolbar-title>
-      </q-toolbar>
+    <q-footer bordered class="q-pa-lg bg-primary text-white">
+      <div class="row no-wrap">
+        <div class="flex column justify-center col-md-2">
+          <q-toolbar>
+            <q-toolbar-title>
+              <q-avatar>
+                <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
+              </q-avatar>
+              SubApp
+            </q-toolbar-title>
+          </q-toolbar>
+        </div>
+        <div class="flex column justify-center col-md-6">
+          <div class="column">
+            <div class="info">
+              <div>SubApp - P.IVA: 0123456789 | Copyright © 2021 - Tutti i diritti riservati</div>
+              <div>
+                <a>
+                  Termini e Condizioni
+                </a>
+                |
+                <a>
+                  Privacy Policy
+                </a>
+                |
+                <a>
+                  Cookie policy
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="col-12 row justify-end social-container">
+            <div class="flex column justify-center text-center">
+              <span class="text-center text-h6">Follow Us</span>
+            </div>
+            <div class="q-pa-md q-gutter-sm">
+              <q-btn round color="secondary">
+                <q-icon color="white" name="fab fa-facebook-f"></q-icon>
+              </q-btn>
+              <q-btn round color="secondary">
+                <q-icon color="white" name="fab fa-instagram"></q-icon>
+              </q-btn>
+              <q-btn round color="secondary">
+                <q-icon color="white" name="fab fa-twitter"></q-icon>
+              </q-btn>
+              <q-btn round color="secondary">
+                <q-icon color="white" name="fab fa-linkedin-in"></q-icon>
+              </q-btn>
+            </div>
+          </div>
+        </div>
+      </div>
     </q-footer>
 
     <modal  @signupSuccess="signupSuccess" :class-obj="classObj" :modal.sync="modal" :is-maximized="isMaximized" is-editing="isEditing" :component="modalComponent" :title="modalTitle"/>
