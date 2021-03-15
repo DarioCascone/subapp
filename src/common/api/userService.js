@@ -12,7 +12,7 @@ export default {
   put (path, body) {
     return ApiService.put(resource + path, body)
   },
-  delete (path) {
-    return ApiService.delete(resource + path)
+  delete (path, body) {
+    return ApiService.delete(resource + path, body)
   }
 }
