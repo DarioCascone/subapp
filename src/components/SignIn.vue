@@ -635,42 +635,52 @@ export default {
       window.open('', '_blank ')
     },
     async buildEditProfilePage () {
-      this.user = JSON.parse(JSON.stringify(this.userLogged))
+      this.user = JSON.parse(JSON.stringify(this.userLogged)) // to avoid reference
+
       this.loadUserLoggedFile()
+
       this.user.certificateDate = new Date(this.user.certificateDate).toLocaleDateString('fr')
       this.user.durcRegolarityDate = new Date(this.user.durcRegolarityDate).toLocaleDateString('fr')
+
       await this.getRegions(this.user.country._id)
       await this.getProvinces(this.user.region._id)
       await this.getCities(this.user.province._id)
-      const macroOpt = []
-      this.user.rdos.forEach((rdo) => {
-        this.macroRdo.forEach((macro) => {
-          if (macro._id === rdo.macrocategory) {
-            macroOpt.push(macro)
-          }
-        })
-      })
+
+      let macroOpt = []
+      macroOpt = this.loadEditProfileOptions('macroRdo', macroOpt)
       this.rdosMacrocategories = macroOpt.filter((item, i, ar) => ar.indexOf(item) === i) // unique
       await this.getCatRdoOption()
-      const catOpt = []
-      this.user.rdos.forEach((rdo) => {
-        this.catRdo.forEach((cat) => {
-          if (cat._id === rdo.category) {
-            catOpt.push(cat)
-          }
-        })
-      })
+
+      let catOpt = []
+      catOpt = this.loadEditProfileOptions('catRdo', catOpt)
       this.rdosCategories = catOpt.filter((item, i, ar) => ar.indexOf(item) === i) // unique
       await this.getSubcatRdoOption()
-      const subOpt = []
+
+      let subOpt = []
+      subOpt = this.loadEditProfileOptions('subRdo', subOpt)
+      this.rdosSubcategories = subOpt.filter((item, i, ar) => ar.indexOf(item) === i) // unique
+    },
+    loadEditProfileOptions (key, array) {
       this.user.rdos.forEach((rdo) => {
-        this.subRdo.forEach((sub) => {
-          if (sub._id === rdo._id) {
-            subOpt.push(sub)
+        this[key].forEach((item) => {
+          if (key === 'macroRdo') {
+            if (item._id === rdo.macrocategory) {
+              array.push(item)
+            }
+          }
+          if (key === 'catRdo') {
+            if (item._id === rdo.category) {
+              array.push(item)
+            }
+          }
+          if (key === 'subRdo') {
+            if (item._id === rdo._id) {
+              array.push(item)
+            }
           }
         })
       })
-      this.rdosSubcategories = subOpt.filter((item, i, ar) => ar.indexOf(item) === i) // unique
+      return array
     },
     loadUserLoggedFile () {
       if (this.user.soaFile) {
@@ -705,6 +715,7 @@ export default {
       const tempCertificateDate = this.user.certificateDate
       const tempDurcRegolarityDate = this.user.durcRegolarityDate
       if ((!this.$v.$invalid && this.step === 3) || (!this.$v.$invalid && this.step === 2 && this.isEditing)) {
+        this.step = 1
         this.user.rdos = this.rdosSubcategories
         this.$q.loading.show()
         try {
