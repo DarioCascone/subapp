@@ -6,7 +6,8 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/Index.vue'), name: 'home' },
       { path: '/admin', component: () => import('pages/Admin.vue'), name: 'admin' },
-      { path: '/termCondition', name: 'termCondition', component: () => import('pages/TermAndCond.vue') }
+      { path: '/termCondition', name: 'termCondition', component: () => import('pages/TermAndCond.vue') },
+      { path: '/cookiePolicy', name: 'cookiePolicy', component: () => import('pages/CookiePolicy.vue') }
     ]
   },
   {

@@ -7,7 +7,7 @@
            <q-icon name="home" color="white" size="lg"></q-icon>
           </q-avatar>
         </router-link>
-          <q-tabs v-if="$route.name !== 'termCondition'"
+          <q-tabs v-if="$route.name !== 'termCondition' && $route.name !== 'cookiePolicy'"
                   dense
                   align="justify"
                   shrink
@@ -67,11 +67,11 @@
     </q-page-container>
 
     <q-footer bordered class="q-pa-lg bg-primary text-white">
-      <cookie-law buttonText="Accetta" buttonDecline="true" buttonDeclineText="Declina">
+      <cookie-law buttonText="Accetta" :buttonDecline=showButtonDecline buttonDeclineText="Declina">
         <div slot="message">
-          This website uses cookies, including from third parties, to ensure an optimal browsing experience.
-          If you would like to learn more about this or refuse to give consent to all or some cookies, please  <router-link to="legal-notes">Click here</router-link>.
-          By closing this banner or clicking on "Accept", you consent to the use of cookies.
+          Questo sito utilizza cookie, anche di terze parti, per garantire una esperienza di navigazione ottimale.
+          Se vuoi saperne di più, negare il consenso a tutti o ad alcuni cookie <a class="hyperlink" @click="goToCookies">clicca quì</a>.
+          cliccando su "Accetta" consenti all'uso dei cookie.
         </div>
       </cookie-law>
       <div class="row no-wrap">
@@ -162,7 +162,8 @@ export default {
       },
       singInClassObj: {
         'q-pa-none': true
-      }
+      },
+      showButtonDecline: true
     }
   },
   computed: {
@@ -216,6 +217,10 @@ export default {
     },
     refreshAos () {
       this.aosNeedRefresh = true
+    },
+    goToCookies () {
+      const routeData = this.$router.resolve({ name: 'cookiePolicy' })
+      window.open(routeData.href, '_blank')
     }
   },
   watch: {
