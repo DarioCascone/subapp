@@ -23,6 +23,7 @@
           <q-input   outlined
                      v-model="user.username"
                      type="text"
+                     :disable="isEditing"
                      label="Username *"
                      class="col-12 col-md-3"
                      reactive-rules name="username"
@@ -56,6 +57,7 @@
           <q-select v-model="user.legalForm"
                     :options="legalFormOptions"
                     name="legalForm"
+                    :disable="isEditing"
                     outlined
                     class="col-12 col-md-3"
                     option-dense
@@ -77,6 +79,7 @@
           <q-select @input="getRegionOptions"
                     class="col-12 col-md-3"
                     outlined
+                    :disable="isEditing"
                     :options-dense="true"
                     v-model="user.country"
                     label="Nazione *"
@@ -91,7 +94,7 @@
           />
           <q-select @input="getProvinceOptions"
                     class="col-12 col-md-3"
-                    :disable="!(user.country && regions.length>0)" :readonly="!(user.country && regions.length>0)"
+                    :disable="(!(user.country && regions.length>0)) || isEditing" :readonly="!(user.country && regions.length>0)"
                     :options="regions" option-label="description"  :options-dense="true"
                     outlined
                     v-model="user.region"
@@ -107,7 +110,7 @@
 
           <q-select @input="getCityOptions"
                     class="col-12 col-md-3"
-                    :disable="!(user.region && provinces.length>0)" :readonly="!(user.region && provinces.length>0)"
+                    :disable="(!(user.region && provinces.length>0)) || isEditing" :readonly="!(user.region && provinces.length>0)"
                     option-label="description" option-dense v-model="user.province" :options="provinces"
                     label="Provincia *"
                     reactive-rules name="region"
@@ -119,7 +122,7 @@
                     transition-hide="scale"
           />
 
-          <q-select :disable="!(user.province && cities.length>0)" :readonly="!(user.province && cities.length>0)"
+          <q-select :disable="(!(user.province && cities.length>0)) || isEditing" :readonly="!(user.province && cities.length>0)"
                     class="col-12 col-md-3"
                     option-label="description" option-dense :options="cities"
                     name="city"
@@ -136,6 +139,7 @@
 
           <q-input outlined
                    v-model="user.vatNumber"
+                   :disable="isEditing"
                    class="col-12 col-md-3"
                    type="text"
                    label="Partita IVA *"
@@ -145,6 +149,7 @@
           <q-input outlined
                    v-model="user.fiscalCode"
                    type="text"
+                   :disable="isEditing"
                    class="col-12 col-md-3"
                    label="Codice Fiscale *"
                    reactive-rules name="fiscalCode"
@@ -153,12 +158,14 @@
           <q-input outlined
                    v-model="user.registeredOfficeAddress"
                    type="text"
+                   :disable="isEditing"
                    label="Indirizzo sede legale *"
                    reactive-rules name="registeredOfficeAddress"
                    class="col-12 col-md-3"
                    :rules="[ (val) => isValid('registeredOfficeAddress', val, $v.user) ]" />
 
           <q-input outlined
+                   :disable="isEditing"
                    v-model="user.postalCode"
                    type="number" label="CAP *"
                    class="col-12 col-md-3"
@@ -174,6 +181,7 @@
           <q-input v-model="user.companyName"
                    outlined
                    type="text"
+                   :disable="isEditing"
                    class="col-12 col-md-3"
                    name="companyName"
                    label="Ragione sociale *"
@@ -352,7 +360,7 @@
                     transition-show="scale"
                     transition-hide="scale"
                     reactive-rules
-                    :rules="[ (val) => isValid('rdos', val, $v.user) ]"
+                    :rules="[ (val) => isValid('rdosSubcategories', val, $v) ]"
           />
           <!--riga-->
           <div class="col-md-3 q-pt-md">
@@ -512,6 +520,7 @@
       </q-step>
 
       <q-step
+        v-if="!isEditing"
         class="scroll"
         :name="3"
         title="Consensi"
@@ -546,7 +555,7 @@
             <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Indietro" class="q-ml-sm" />
           </div>
           <div>
-            <q-btn type="submit" :disable="(termAndCondition === 'false' || regulation === 'false') && step === 3" color="primary" :label="step === 3 ? 'Registrati' : 'Continua'" />
+            <q-btn type="submit" :disable="(termAndCondition === 'false' || regulation === 'false') && step === 3" color="primary" :label="getBtnLabel" />
           </div>
         </q-stepper-navigation>
       </template>
@@ -622,6 +631,62 @@ export default {
     viewRegulation () {
       window.open('', '_blank ')
     },
+    async buildEditProfilePage () {
+      this.user = JSON.parse(JSON.stringify(this.userLogged))
+      this.loadUserLoggedFile()
+      this.user.certificateDate = new Date(this.user.certificateDate).toLocaleDateString('fr')
+      this.user.durcRegolarityDate = new Date(this.user.durcRegolarityDate).toLocaleDateString('fr')
+      await this.getRegions(this.user.country._id)
+      await this.getProvinces(this.user.region._id)
+      await this.getCities(this.user.province._id)
+      const macroOpt = []
+      this.user.rdos.forEach((rdo) => {
+        this.macroRdo.forEach((macro) => {
+          if (macro._id === rdo.macrocategory) {
+            macroOpt.push(macro)
+          }
+        })
+      })
+      this.rdosMacrocategories = macroOpt.filter((item, i, ar) => ar.indexOf(item) === i) // unique
+      await this.getCatRdoOption()
+      const catOpt = []
+      this.user.rdos.forEach((rdo) => {
+        this.catRdo.forEach((cat) => {
+          if (cat._id === rdo.category) {
+            catOpt.push(cat)
+          }
+        })
+      })
+      this.rdosCategories = catOpt.filter((item, i, ar) => ar.indexOf(item) === i) // unique
+      await this.getSubcatRdoOption()
+      const subOpt = []
+      this.user.rdos.forEach((rdo) => {
+        this.subRdo.forEach((sub) => {
+          if (sub._id === rdo._id) {
+            subOpt.push(sub)
+          }
+        })
+      })
+      this.rdosSubcategories = subOpt.filter((item, i, ar) => ar.indexOf(item) === i) // unique
+    },
+    loadUserLoggedFile () {
+      if (this.user.soaFile) {
+        this.soaToggle = true
+        this.soaFile = new File([''], 'Soa')
+      }
+      if (this.user.isoFile) {
+        this.isoToggle = true
+        this.isoFile = new File([''], 'Iso')
+      }
+      if (this.user.fgasFile) {
+        this.fgasToggle = true
+        this.fgasFile = new File([''], 'Fgas')
+      }
+      this.antimafiaFile = new File([''], 'Antimafia')
+      this.lendingFile = new File([''], 'Prestazione')
+      this.certificateFile = new File([''], 'Visura Camerale')
+      this.durcRegolarityFile = new File([''], 'Durc')
+    },
     goToTeC () {
       const routeData = this.$router.resolve({ name: 'termCondition' })
       window.open(routeData.href, '_blank')
@@ -636,7 +701,7 @@ export default {
     async onSignup () {
       const tempCertificateDate = this.user.certificateDate
       const tempDurcRegolarityDate = this.user.durcRegolarityDate
-      if (!this.$v.$invalid && this.step === 3) {
+      if ((!this.$v.$invalid && this.step === 3) || (!this.$v.$invalid && this.step === 2 && this.isEditing)) {
         this.user.rdos = this.rdosSubcategories
         this.$q.loading.show()
         try {
@@ -719,36 +784,7 @@ export default {
   async mounted () {
     this.$v.$touch()
     if (this.isEditing) {
-      this.user = this.userLogged
-      const macroOpt = []
-      this.user.rdos.forEach((rdo) => {
-        this.macroRdo.forEach((macro) => {
-          if (macro._id === rdo.macrocategory) {
-            macroOpt.push(macro)
-          }
-        })
-      })
-      this.rdosMacrocategories = macroOpt.filter((item, i, ar) => ar.indexOf(item) === i) // unique
-      await this.getCatRdoOption()
-      const catOpt = []
-      this.user.rdos.forEach((rdo) => {
-        this.catRdo.forEach((cat) => {
-          if (cat._id === rdo.category) {
-            catOpt.push(cat)
-          }
-        })
-      })
-      this.rdosCategories = catOpt.filter((item, i, ar) => ar.indexOf(item) === i) // unique
-      await this.getSubcatRdoOption()
-      const subOpt = []
-      this.user.rdos.forEach((rdo) => {
-        this.subRdo.forEach((sub) => {
-          if (sub._id === rdo._id) {
-            subOpt.push(sub)
-          }
-        })
-      })
-      this.rdosSubcategories = subOpt.filter((item, i, ar) => ar.indexOf(item) === i) // unique
+      await this.buildEditProfilePage()
     }
   },
   computed: {
@@ -761,7 +797,16 @@ export default {
       macroRdo: 'macroRdo',
       catRdo: 'catRdo',
       subRdo: 'subRdo'
-    })
+    }),
+    getBtnLabel () {
+      if (this.step === 2 && this.isEditing) {
+        return 'Modifca'
+      } else if (this.step === 3) {
+        return 'Registrati'
+      } else {
+        return 'Continua'
+      }
+    }
   },
   watch: {
     showAlert (newValue, oldValue) {
@@ -828,9 +873,6 @@ export default {
         required,
         isPassword: validator.isPassword
       },
-      rdos: {
-        required
-      },
       imports: {
         required
       },
@@ -843,6 +885,9 @@ export default {
       certificateDate: {
         required
       }
+    },
+    rdosSubcategories: {
+      required
     },
     rdosMacrocategories: {
       required
