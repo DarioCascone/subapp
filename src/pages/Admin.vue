@@ -190,8 +190,8 @@ export default {
     getDaysLeftToEndSubscription (user) {
       const period = user.annual ? 1 : 2
       const expirySubscriptionDate = date.addToDate(new Date(user.subscriptionDate), { year: period })
-      if (date.getDateDiff(expirySubscriptionDate, new Date(user.subscriptionDate), 'days') >= 0) {
-        return 'Scade tra: ' + date.getDateDiff(expirySubscriptionDate, new Date(user.subscriptionDate), 'days') + ' giorni'
+      if (date.getDateDiff(expirySubscriptionDate, new Date(), 'days') >= 0) {
+        return 'Scade tra: ' + date.getDateDiff(expirySubscriptionDate, new Date(), 'days') + ' giorni'
       } else {
         return 'SCADUTO'
       }
