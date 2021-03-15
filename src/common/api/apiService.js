@@ -99,8 +99,8 @@ const ApiService = {
     return Vue.axios.put(`${resource}`, body)
   },
 
-  delete (resource) {
-    return Vue.axios.delete(resource)
+  delete (resource, body) {
+    return Vue.axios.delete(resource, body)
   }
 }
 

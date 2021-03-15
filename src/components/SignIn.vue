@@ -626,7 +626,10 @@ export default {
       'getCatRdo',
       'getSubRdo',
       'uploadFile',
-      'updateUser'
+      'updateUser',
+      'fetchUser',
+      'updateLoggedUser',
+      'deleteFiles'
     ]),
     viewRegulation () {
       window.open('', '_blank ')
@@ -707,12 +710,22 @@ export default {
         try {
           this.user.certificateDate = date.extractDate(this.user.certificateDate, 'DD/MM/YYYY')
           this.user.durcRegolarityDate = date.extractDate(this.user.durcRegolarityDate, 'DD/MM/YYYY')
-          const data = await this.signup(this.user)
-          await this.postFiles(data.user)
+          let data = {}
+          if (!this.isEditing) {
+            data = await this.signup(this.user)
+          } else {
+            data.user = this.user
+          }
+          await this.postFilesAndUpdateUser(data.user) // this function update user if isEditing is true
+          if (this.isEditing) {
+            this.$emit('editSuccess', false)
+          }
           this.user.certificateDate = tempCertificateDate
           this.user.durcRegolarityDate = tempDurcRegolarityDate
           this.$q.loading.hide()
-          this.$emit('signupSuccess', false)
+          if (!this.isEditing) {
+            this.$emit('signupSuccess', false)
+          }
         } catch (error) {
           this.user.certificateDate = tempCertificateDate
           this.user.durcRegolarityDate = tempDurcRegolarityDate
@@ -722,26 +735,85 @@ export default {
       }
       this.$refs.stepper.next()
     },
-    async postFiles (user) {
+    async postFilesAndUpdateUser (user) {
       const formData = new FormData()
-      formData.append('file', this.antimafiaFile, 'antimafiaFile')
-      formData.append('file', this.lendingFile, 'lendingFile')
-      formData.append('file', this.certificateFile, 'certificateFile')
-      formData.append('file', this.durcRegolarityFile, 'durcRegolarityFile')
-      if (this.soaFile) {
+      let needUploadFile = false
+      const fileToRemove = []
+      if (this.antimafiaFile.size > 0) {
+        formData.append('file', this.antimafiaFile, 'antimafiaFile')
+        needUploadFile = true
+        if (this.isEditing) {
+          fileToRemove.push(this.user.antimafiaFile.path)
+        }
+      }
+      if (this.lendingFile.size > 0) {
+        formData.append('file', this.lendingFile, 'lendingFile')
+        needUploadFile = true
+        if (this.isEditing) {
+          fileToRemove.push(this.user.lendingFile.path)
+        }
+      }
+      if (this.certificateFile.size > 0) {
+        formData.append('file', this.certificateFile, 'certificateFile')
+        needUploadFile = true
+        if (this.isEditing) {
+          fileToRemove.push(this.user.certificateFile.path)
+        }
+      }
+      if (this.durcRegolarityFile.size > 0) {
+        formData.append('file', this.durcRegolarityFile, 'durcRegolarityFile')
+        needUploadFile = true
+        if (this.isEditing) {
+          fileToRemove.push(this.user.durcRegolarityFile.path)
+        }
+      }
+      if (this.soaFile && this.soaFile.size > 0) {
         formData.append('file', this.soaFile, 'soaFile')
+        needUploadFile = true
+        if (this.isEditing) {
+          fileToRemove.push(this.user.soaFile.path)
+        }
       }
-      if (this.isoFile) {
+      if (this.isoFile && this.isoFile.size > 0) {
         formData.append('file', this.isoFile, 'isoFile')
+        needUploadFile = true
+        if (this.isEditing) {
+          fileToRemove.push(this.user.isoFile.path)
+        }
       }
-      if (this.fgasFile) {
+      if (this.fgasFile && this.fgasFile.size > 0) {
         formData.append('file', this.fgasFile, 'fgasFile')
+        needUploadFile = true
+        if (this.isEditing) {
+          fileToRemove.push(this.user.fgasFile.path)
+        }
       }
-      const uploadedFiles = await this.uploadFile(formData)
-      uploadedFiles.forEach((file) => {
-        user[file.originalname] = file
-      })
-      await this.putUser(user)
+      if (needUploadFile) {
+        if (fileToRemove.length > 0) {
+          const obj = {
+            pathParam: this.user._id,
+            body: fileToRemove
+          }
+          await this.deleteFiles(obj)
+        }
+        const uploadedFiles = await this.uploadFile(formData)
+        uploadedFiles.forEach((file) => {
+          user[file.originalname] = file
+        })
+      }
+      if (this.isEditing) {
+        let obj = {
+          pathParam: user._id,
+          body: user
+        }
+        await this.updateLoggedUser(obj)
+        obj = {
+          pathParam: user._id
+        }
+        await this.fetchUser(obj)
+      } else {
+        await this.putUser(user)
+      }
     },
     async putUser (user) {
       const obj = { pathParam: user._id }
@@ -800,7 +872,7 @@ export default {
     }),
     getBtnLabel () {
       if (this.step === 2 && this.isEditing) {
-        return 'Modifca'
+        return 'Modifica'
       } else if (this.step === 3) {
         return 'Registrati'
       } else {
@@ -815,97 +887,99 @@ export default {
       }
     }
   },
-  validations: {
-    user: {
-      companyName: {
+  validations () {
+    return {
+      user: {
+        companyName: {
+          required
+        },
+        legalForm: {
+          required
+        },
+        SDICode: {
+          required,
+          isSDICode: validator.isSDICode
+        },
+        vatNumber: {
+          required,
+          isVatNumber: validator.isVatNumber
+        },
+        fiscalCode: {
+          required,
+          isFiscalCode: validator.isFiscalCode
+        },
+        country: {
+          required
+        },
+        region: {
+          required
+        },
+        province: {
+          required
+        },
+        city: {
+          required
+        },
+        registeredOfficeAddress: {
+          required
+        },
+        postalCode: {
+          required,
+          isPostalCode: validator.isPostalCode
+        },
+        webSite: {
+          isWebSite: validator.isWebSite
+        },
+        pec: {
+          email,
+          required
+        },
+        telephoneNumber: {
+          required,
+          isTelephoneNumber: validator.isTelephoneNumber
+        },
+        username: {
+          required,
+          email
+        },
+        password: {
+          required: this.isEditing ? false : required,
+          isPassword: this.isEditing ? true : validator.isPassword
+        },
+        imports: {
+          required
+        },
+        regionsOfInterest: {
+          required
+        },
+        durcRegolarityDate: {
+          required
+        },
+        certificateDate: {
+          required
+        }
+      },
+      rdosSubcategories: {
         required
       },
-      legalForm: {
+      rdosMacrocategories: {
         required
       },
-      SDICode: {
-        required,
-        isSDICode: validator.isSDICode
-      },
-      vatNumber: {
-        required,
-        isVatNumber: validator.isVatNumber
-      },
-      fiscalCode: {
-        required,
-        isFiscalCode: validator.isFiscalCode
-      },
-      country: {
+      rdosCategories: {
         required
       },
-      region: {
+      durcRegolarityFile: {
         required
       },
-      province: {
+      antimafiaFile: {
         required
       },
-      city: {
+      certificateFile: {
         required
       },
-      registeredOfficeAddress: {
-        required
-      },
-      postalCode: {
-        required,
-        isPostalCode: validator.isPostalCode
-      },
-      webSite: {
-        isWebSite: validator.isWebSite
-      },
-      pec: {
-        email,
-        required
-      },
-      telephoneNumber: {
-        required,
-        isTelephoneNumber: validator.isTelephoneNumber
-      },
-      username: {
-        required,
-        email
-      },
-      password: {
-        required,
-        isPassword: validator.isPassword
-      },
-      imports: {
-        required
-      },
-      regionsOfInterest: {
-        required
-      },
-      durcRegolarityDate: {
-        required
-      },
-      certificateDate: {
+      lendingFile: {
         required
       }
-    },
-    rdosSubcategories: {
-      required
-    },
-    rdosMacrocategories: {
-      required
-    },
-    rdosCategories: {
-      required
-    },
-    durcRegolarityFile: {
-      required
-    },
-    antimafiaFile: {
-      required
-    },
-    certificateFile: {
-      required
-    },
-    lendingFile: {
-      required
     }
   }
 }

@@ -6,6 +6,10 @@ export default {
     const { data } = await UserService.post('/upload', body)
     return data
   },
+  async deleteFiles ({ commit }, { pathParam, body }) {
+    const { data } = await UserService.post('/' + pathParam + '/deletefiles', body)
+    return data
+  },
   async updateUser ({ commit }, { pathParam, body }) {
     const { data } = await UserService.post('/' + pathParam, body)
     return data
@@ -20,7 +24,7 @@ export default {
     return data
   },
   async updateLoggedUser ({ commit }, { pathParam, body }) {
-    const { data } = await UserService.post('/' + pathParam, body)
+    const { data } = await UserService.post('/update/' + pathParam, body)
     return data
   },
   async deleteUser ({ commit }, { pathParam }) {
