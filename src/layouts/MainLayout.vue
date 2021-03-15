@@ -67,6 +67,13 @@
     </q-page-container>
 
     <q-footer bordered class="q-pa-lg bg-primary text-white">
+      <cookie-law buttonText="Accetta" buttonDecline="true" buttonDeclineText="Declina">
+        <div slot="message">
+          This website uses cookies, including from third parties, to ensure an optimal browsing experience.
+          If you would like to learn more about this or refuse to give consent to all or some cookies, please  <router-link to="legal-notes">Click here</router-link>.
+          By closing this banner or clicking on "Accept", you consent to the use of cookies.
+        </div>
+      </cookie-law>
       <div class="row no-wrap">
         <div class="flex column justify-center col-md-2">
           <q-toolbar>
@@ -134,11 +141,12 @@ import Modal from 'components/Modal'
 import { mapGetters } from 'vuex'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
+import CookieLaw from 'vue-cookie-law'
 
 const { getScrollTarget, setScrollPosition } = scroll
 
 export default {
-  components: { Modal },
+  components: { Modal, CookieLaw },
   data () {
     return {
       aosNeedRefresh: false,
