@@ -162,75 +162,55 @@
           </header>
         </div>
         <div class="row q-col-gutter-sm q-px-xl">
-          <div class="col-lg-3 offset-lg-3 offset-md-3 col-md-3 col-xs-12 col-sm-6 q-px-lg">
-            <q-card>
-              <q-card-section class="text-white" style="background: #21BA45">
-                <div class="text-h6 text-center">
-                  ANNUALE
-                </div>
-              </q-card-section>
-              <q-card-section class="q-pa-md">
-                <q-list dense padding style="border-bottom: 1px solid lightgrey;">
-                  <q-item>
-                    NO costi di acquisizione crediti
-                  </q-item>
-                  <q-item>
-                    NO costi di partecipazione alle RDO
-                  </q-item>
-                  <q-item>
-                    NO percentuali sui lavori o sulla conclusione dell’affare
-                  </q-item>
-                </q-list>
-              </q-card-section>
-              <q-card-section class="q-pa-none" style="color: #444444">
-                <div data-aos="flip-down" data-aos-easing="ease-in-sine" data-aos-delay="200" class="text-center">
-                  <span class="text-h2 text-center">€140</span>/anno
-                </div>
-              </q-card-section>
-              <q-card-section>
-                <div class="text-center q-px-lg">
-                  <q-btn size="md" class="full-width q-pa-xs"
-                         @click="openModal('sign-in', 'registrati', true, singInClassObj)"
-                         style="background: #21BA45; color: white" label="Scegli il piano"/>
-                  <br>
-                </div>
-              </q-card-section>
-            </q-card>
-          </div>
-          <div class="col-lg-3 col-md-3 col-xs-12 col-sm-6 q-px-lg">
-            <q-card>
-              <q-card-section class="text-white" style="background: #29ABF4">
-                <div class="text-h6 text-center">
-                  BIENNALE
-                </div>
-              </q-card-section>
-              <q-card-section class="q-pa-md">
-                <q-list dense padding style="border-bottom: 1px solid lightgrey;">
-                  <q-item>
-                    NO costi di acquisizione crediti
-                  </q-item>
-                  <q-item>
-                    NO costi di partecipazione alle RDO
-                  </q-item>
-                  <q-item>
-                    NO percentuali sui lavori o sulla conclusione dell’affare
-                  </q-item>
-                </q-list>
-              </q-card-section>
-              <q-card-section class="q-pa-none" style="color: #444444">
-                <div data-aos="flip-down" data-aos-easing="ease-in-sine" data-aos-delay="200" class="text-center">
-                  <span class="text-h2 text-center">€250</span>/anno
-                </div>
-              </q-card-section>
-              <q-card-section>
-                <div class="text-center q-px-lg">
-                  <q-btn size="md" class="full-width q-pa-xs"
-                         @click="openModal('sign-in', 'registrati', true, singInClassObj)"
-                         style="background: #29ABF4; color: white" label="Scegli il piano"/>
-                  <br>
-                </div>
-              </q-card-section>
-            </q-card>
+          <div class="wrapper">
+            <div class="package">
+              <div class="name">ANNUALE</div>
+              <div class="price">€140</div>
+              <div class="trial">Offerta lancio</div>
+              <hr>
+              <ul>
+                <li>
+                  <span class="checkIcon">&#10003;</span>  <strong>NO</strong> costi di acquisizione crediti
+                </li>
+                <li>
+                  <span class="checkIcon">&#10003;</span>  <strong>NO</strong> costi di partecipazione alle RDO
+                </li>
+                <li>
+                  <span class="checkIcon">&#10003;</span>  <strong>NO</strong> percentuali sui lavori o sulla conclusione dell’affare
+                </li>
+              </ul>
+              <br>
+              <div class="text-center q-px-lg">
+                <q-btn size="md" class="full-width q-pa-xs"
+                       @click="openModal('sign-in', 'registrati', true, singInClassObj)"
+                       style="background: #29ABF4; color: white" label="Scegli il piano"/>
+                <br>
+              </div>
+            </div>
+            <div class="package">
+              <div class="name">BIENNALE</div>
+              <div class="price">€250</div>
+              <div class="trial">Offerta lancio</div>
+              <hr>
+              <ul>
+                <li>
+                  <span class="checkIcon">&#10003;</span>  <strong>NO</strong> costi di acquisizione crediti
+                </li>
+                <li>
+                  <span class="checkIcon">&#10003;</span> <strong>NO</strong> costi di partecipazione alle RDO
+                </li>
+                <li>
+                  <span class="checkIcon">&#10003;</span> <strong>NO</strong> percentuali sui lavori o sulla conclusione dell’affare
+                </li>
+              </ul>
+              <br>
+              <div class="text-center q-px-lg">
+                <q-btn size="md" class="full-width q-pa-xs"
+                       @click="openModal('sign-in', 'registrati', true, singInClassObj)"
+                       style="background: #29ABF4; color: white" label="Scegli il piano"/>
+                <br>
+              </div>
+            </div>
           </div>
         </div>
         <br>

@@ -760,42 +760,42 @@ export default {
       if (this.lendingFile.size > 0) {
         formData.append('file', this.lendingFile, 'lendingFile')
         needUploadFile = true
-        if (this.isEditing) {
+        if (this.isEditing && this.user.lendingFile && this.user.lendingFile.path) {
           fileToRemove.push(this.user.lendingFile.path)
         }
       }
       if (this.certificateFile.size > 0) {
         formData.append('file', this.certificateFile, 'certificateFile')
         needUploadFile = true
-        if (this.isEditing) {
+        if (this.isEditing && this.user.certificateFile && this.user.certificateFile.path) {
           fileToRemove.push(this.user.certificateFile.path)
         }
       }
       if (this.durcRegolarityFile.size > 0) {
         formData.append('file', this.durcRegolarityFile, 'durcRegolarityFile')
         needUploadFile = true
-        if (this.isEditing) {
+        if (this.isEditing && this.user.durcRegolarityFile && this.user.durcRegolarityFile.path) {
           fileToRemove.push(this.user.durcRegolarityFile.path)
         }
       }
       if (this.soaFile && this.soaFile.size > 0) {
         formData.append('file', this.soaFile, 'soaFile')
         needUploadFile = true
-        if (this.isEditing) {
+        if (this.isEditing && this.user.soaFile && this.user.soaFile.path) {
           fileToRemove.push(this.user.soaFile.path)
         }
       }
       if (this.isoFile && this.isoFile.size > 0) {
         formData.append('file', this.isoFile, 'isoFile')
         needUploadFile = true
-        if (this.isEditing) {
+        if (this.isEditing && this.user.isoFile && this.user.isoFile.path) {
           fileToRemove.push(this.user.isoFile.path)
         }
       }
       if (this.fgasFile && this.fgasFile.size > 0) {
         formData.append('file', this.fgasFile, 'fgasFile')
         needUploadFile = true
-        if (this.isEditing) {
+        if (this.isEditing && this.user.fgasFile && this.user.fgasFile.path) {
           fileToRemove.push(this.user.fgasFile.path)
         }
       }
