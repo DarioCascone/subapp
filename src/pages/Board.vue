@@ -18,11 +18,11 @@
         <div class="col-md-3 q-pt-md">
           Data scadenza *
         </div>
-        <q-input class="col-md-2" label="Data scadenza" :rules="[ (val) => isValid('expirationDate', val, $v.rdo) ]" outlined v-model="rdo.expirationDate" mask="##/##/####">
+        <q-input class="col-md-2" label="Data scadenza" :rules="[ (val) => isValid('expirationDate', val, $v) ]" outlined v-model="expirationDate" mask="##/##/####">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                <q-date :locale="currentLocale" v-model="rdo.expirationDate" :options="calendarOption"  mask="DD/MM/YYYY">
+                <q-date :locale="currentLocale" v-model="expirationDate" :options="calendarOption"  mask="DD/MM/YYYY">
                   <div class="row items-center justify-end q-gutter-sm">
                     <q-btn label="Annulla" color="primary" flat v-close-popup />
                     <q-btn label="OK" color="primary" flat v-close-popup />
@@ -154,12 +154,12 @@
                   :disable="(!(country && regions.length>0))" :readonly="!(country && regions.length>0)"
                   :options="regions" option-label="description"  :options-dense="true"
                   outlined
-                  v-model="rdo.region"
+                  v-model="rdo.regionOfInterest"
                   label="Regione *"
                   name="region"
                   emit-value
                   reactive-rules
-                  :rules="[ (val) => isValid('region', val, $v.rdo) ]"
+                  :rules="[ (val) => isValid('regionOfInterest', val, $v.rdo) ]"
                   map-options
                   transition-show="scale"
                   transition-hide="scale"/>
@@ -214,11 +214,11 @@
         <div class="col-md-3 q-pt-md">
           Data prevista per inizio *
         </div>
-        <q-input class="col-md-2" label="Data Inizio" :rules="[ (val) => isValid('startDate', val, $v.rdo) ]" outlined v-model="rdo.startDate" mask="##/##/####">
+        <q-input class="col-md-2" label="Data Inizio" :rules="[ (val) => isValid('startDate', val, $v) ]" outlined v-model="startDate" mask="##/##/####">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                <q-date :locale="currentLocale" v-model="rdo.startDate" :options="calendarOption"  mask="DD/MM/YYYY">
+                <q-date :locale="currentLocale" v-model="startDate" :options="calendarOption"  mask="DD/MM/YYYY">
                   <div class="row items-center justify-end q-gutter-sm">
                     <q-btn label="Annulla" color="primary" flat v-close-popup />
                     <q-btn label="OK" color="primary" flat v-close-popup />
@@ -232,11 +232,11 @@
         <div class="col-md-3 q-pt-md">
           Data presunta fine *
         </div>
-        <q-input class="col-md-2" label="Data Fine" :rules="[ (val) => isValid('endDate', val, $v.rdo) ]" outlined v-model="rdo.endDate" mask="##/##/####">
+        <q-input class="col-md-2" label="Data Fine" :rules="[ (val) => isValid('endDate', val, $v) ]" outlined v-model="endDate" mask="##/##/####">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                <q-date :locale="currentLocale" v-model="rdo.endDate" :options="calendarOption"  mask="DD/MM/YYYY">
+                <q-date :locale="currentLocale" v-model="endDate" :options="calendarOption"  mask="DD/MM/YYYY">
                   <div class="row items-center justify-end q-gutter-sm">
                     <q-btn label="Annulla" color="primary" flat v-close-popup />
                     <q-btn label="OK" color="primary" flat v-close-popup />
@@ -267,6 +267,7 @@ import { mapActions, mapGetters } from 'vuex'
 import { required } from 'vuelidate/lib/validators'
 import validator from 'src/validations/validator'
 import { imports } from 'src/costants/options'
+import { date } from 'quasar'
 
 export default {
   name: 'Board',
@@ -281,6 +282,9 @@ export default {
       country: undefined,
       images: [],
       cmeFile: undefined,
+      expirationDate: undefined,
+      startDate: undefined,
+      endDate: undefined,
       currentLocale: {
         days: '_Lunedì_Martedì_Mercoledì_Giovedì_Sabato_Domenica'.split('_'),
         daysShort: 'Lun_Mar_Mer_Gio_Ven_Sab_Dom'.split('_'),
@@ -296,7 +300,9 @@ export default {
       'getCatRdo',
       'getSubRdo',
       'getRegions',
-      'getCountries'
+      'getCountries',
+      'updateRdo',
+      'createRdo'
     ]),
     async getRegionOptions () {
       await this.getRegions(this.country._id)
@@ -314,11 +320,14 @@ export default {
       const queryparams = { rdocatId: this.rdosCategories.map((rdoCat) => { return rdoCat._id }) }
       await this.getSubRdo(queryparams)
     },
-    loadRdo () {
+    async loadRdo () {
       if (!this.$v.$invalid) {
-        // this.$q.loading.show()
-        console.log('LOAD RDO', this.rdo)
-        // this.$q.loading.hide()
+        this.$q.loading.show()
+        this.rdo.expirationDate = date.extractDate(this.expirationDate, 'DD/MM/YYYY')
+        this.rdo.startDate = date.extractDate(this.startDate, 'DD/MM/YYYY')
+        this.rdo.endDate = date.extractDate(this.endDate, 'DD/MM/YYYY')
+        await this.createRdo(this.rdo)
+        this.$q.loading.hide()
       }
     },
     calendarOption (date) {
@@ -350,10 +359,7 @@ export default {
         imports: {
           required
         },
-        region: {
-          required
-        },
-        expirationDate: {
+        regionOfInterest: {
           required
         },
         contractor: {
@@ -363,12 +369,6 @@ export default {
           required
         },
         reference: {
-          required
-        },
-        startDate: {
-          required
-        },
-        endDate: {
           required
         }
       },
@@ -382,6 +382,15 @@ export default {
         required
       },
       rdosCategories: {
+        required
+      },
+      startDate: {
+        required
+      },
+      endDate: {
+        required
+      },
+      expirationDate: {
         required
       }
     }

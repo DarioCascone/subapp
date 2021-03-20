@@ -2,7 +2,7 @@ export default class rdo {
   constructor () {
     this.rdos = []
     this.imports = []
-    this.region = undefined
+    this.regionOfInterest = undefined
     this.expirationDate = undefined
     this.user_id = undefined
     this.contractor = undefined
