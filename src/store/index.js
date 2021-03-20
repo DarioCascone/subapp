@@ -5,6 +5,7 @@ import geoModule from './modules/geo/index'
 import optionModule from './modules/option/index'
 import userModule from './modules/user/index'
 import emailModule from './modules/email/index'
+import boardModule from './modules/board/index'
 
 Vue.use(Vuex)
 
@@ -24,7 +25,8 @@ export default function (/* { ssrContext } */) {
       geoModule,
       optionModule,
       userModule,
-      emailModule
+      emailModule,
+      boardModule
     },
     strict: process.env.NODE_ENV !== 'production'
   })
