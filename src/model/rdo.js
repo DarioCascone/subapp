@@ -1,0 +1,19 @@
+export default class rdo {
+  constructor () {
+    this.rdos = []
+    this.imports = []
+    this.region = undefined
+    this.expirationDate = undefined
+    this.user_id = undefined
+    this.contractor = undefined
+    this.cmeFile = {}
+    this.images = []
+    this.peculiarity = undefined
+    this.startDate = undefined
+    this.endDate = undefined
+    this.needInspection = false
+    this.reference = undefined
+    this.requiredDocuments = undefined
+    this.technicalFiles = []
+  }
+}
