@@ -27,3 +27,9 @@ div.q-card::-webkit-scrollbar-thumb
     cursor: pointer;
   }
 }
+
+.company-category {
+  .q-gutter-x-sm > * {
+    margin-left: 0;
+  }
+}

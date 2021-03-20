@@ -16,5 +16,25 @@ const imports = [
   'oltre 500000€'
 ]
 
+const compCatOptions = [
+  {
+    label: 'Mirco impresa',
+    value: 'xs'
+  },
+  {
+    label: 'Piccola impresa',
+    value: 'sm'
+  },
+  {
+    label: 'Media impresa',
+    value: 'md'
+  },
+  {
+    label: 'Grande impresa',
+    value: 'lg'
+  }
+]
+
 exports.legalFormOptions = legalFormOptions
 exports.imports = imports
+exports.compCatOptions = compCatOptions

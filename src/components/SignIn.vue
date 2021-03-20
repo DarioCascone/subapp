@@ -19,7 +19,7 @@
         title="Informazioni generali"
         icon="settings"
         :done="step > 1">
-        <div class="row wrap justify-center content-center no-padding no-margin q-gutter-x-md q-gutter-y-xs">
+        <div class="row wrap justify-center content-center no-padding no-margin q-gutter-x-md q-gutter-y-sm">
           <q-input   outlined
                      v-model="user.username"
                      type="text"
@@ -527,11 +527,13 @@
         icon="add_comment"
       >
         <div class="row wrap justify-center content-center no-padding no-margin q-gutter-x-md q-gutter-y-xs">
-
+          <div class="col-md-9 q-pt-md">
+           Al termine, riceverai una mail con le istruzioni da seguire per effettuare il pagamento e completare il processo di registrazione.
+          </div>
           <div class="col-md-9 q-pt-md">
             Leggi e accetta il <a class="hyperlink"  @click="goToTeC">regolamento</a> per godere dei vantaggi di Subapp.
           </div>
-          <div class="col-md-9 q-pt-md">
+          <div class="col-md-9 q-pt-md q-pb-md">
             <div class="q-gutter-sm">
               <q-radio dense v-model="regulation" val="true" label="Accetto" />
               <q-radio dense v-model="regulation" val="false" label="Non Accetto" />
@@ -540,10 +542,39 @@
           <div class="col-md-9 q-pt-md">
             Leggi e accetta i <a class="hyperlink" @click="goToTeC">Termini e Condizioni</a> per proseguire con la registrazione.
           </div>
-          <div class="col-md-9 q-pt-md">
+          <div class="col-md-9 q-pt-md q-pb-md">
             <div class="q-gutter-sm">
               <q-radio dense v-model="termAndCondition" val="true" label="Accetto" />
               <q-radio dense v-model="termAndCondition" val="false" label="Non Accetto" />
+            </div>
+          </div>
+          <div class="col-md-9 q-pt-md">
+            Ai sensi dell’art. 46 del D.P.R. 28 dicembre 2000 n. 445, nella quale la Ditta, consapevole delle sanzioni penali, previste dall’art. 76 del D.P.R. n. 445/2000, per le ipotesi di falsità in atti e dichiarazioni mendaci ivi indicate, dichiara:
+            <ul>
+              <li>di non trovarsi nelle condizioni previste dall’art. 80 del Decreto Legislativo 18 aprile 2016 n. 50 e s.m.i.</li>
+              <li>di non essere oggetto di provvedimenti di sospensione o interdittivi di cui all’art. 14, comma 1, D.Lgs. 81/08</li>
+              <li>di essere in regola con quanto previsto con il DLGS 81/08</li>
+              <li>di conoscere i limiti previsti della disciplina del subappalto</li>
+            </ul>
+          </div>
+          <div class="col-md-9 q-pb-md">
+            <div class="q-gutter-sm">
+              <q-radio dense v-model="compDeclaration" val="true" label="Si" />
+              <q-radio dense v-model="compDeclaration" val="false" label="No" />
+            </div>
+          </div>
+          <div class=" col-md-9 q-pt-md row">
+            <div class="col-12 company-category">
+              <div>
+              Ai sensi dell’art. 13 della Legge n. 180/2011 e art. 3 – aa), Decreto Legislativo n. 50/2016 e s.m.i., appartiene alla categoria:
+              </div>
+              <div class="q-pt-md q-pb-md">
+                <q-option-group
+                  v-model="user.companyCategory"
+                  :options="compCatOptions"
+                  color="primary"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -555,7 +586,8 @@
             <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Indietro" class="q-ml-sm" />
           </div>
           <div>
-            <q-btn type="submit" :disable="(termAndCondition === 'false' || regulation === 'false') && step === 3" color="primary" :label="getBtnLabel" />
+            <q-btn type="submit" :disable="(termAndCondition === 'false' || regulation === 'false' || compDeclaration !== 'true' || companyCategory === '') && step === 3"
+                   color="primary" :label="getBtnLabel" />
           </div>
         </q-stepper-navigation>
       </template>
@@ -565,7 +597,7 @@
 
 <script>
 import { required, email } from 'vuelidate/lib/validators'
-import { legalFormOptions, imports } from '../costants/options'
+import { legalFormOptions, imports, compCatOptions } from '../costants/options'
 import { mapActions, mapGetters } from 'vuex'
 import validator from '../validations/validator'
 import User from '../model/user'
@@ -578,6 +610,7 @@ export default {
       user: new User(),
       legalFormOptions: legalFormOptions,
       imports: imports,
+      compCatOptions: compCatOptions,
       step: 1,
       alert: false,
       isPsw: true,
@@ -610,7 +643,8 @@ export default {
       rdosMacrocategories: [],
       rdosSubcategories: [],
       regulation: 'false',
-      termAndCondition: 'false'
+      termAndCondition: 'false',
+      compDeclaration: ''
 
     }
   },
@@ -865,7 +899,7 @@ export default {
     await this.getMacroRdo()
   },
   async mounted () {
-    this.$v.$touch()
+    // this.$v.$touch()
     if (this.isEditing) {
       await this.buildEditProfilePage()
     }
