@@ -6,7 +6,7 @@ export default {
   state () {
     // inital state
     return {
-      email: undefined
+      boardRdos: []
     }
   },
   mutations: boardMutations,
