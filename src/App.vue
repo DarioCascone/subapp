@@ -33,7 +33,7 @@ export default {
       }
       Notify.create({
         type: 'negative',
-        message: 'Sessione scaduta! Effetua nuovamente il login'
+        message: 'Sessione scaduta! Effettua nuovamente il login'
       })
     }, remainingMilliseconds)
   }

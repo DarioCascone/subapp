@@ -19,11 +19,6 @@ export default {
     commit('SET_USER', data)
     return data
   },
-  async fetchUserRdos ({ commit }, { pathParam }) {
-    const { data } = await UserService.get('/' + pathParam + '/rdos')
-    commit('SET_USER_RDOS', data)
-    return data
-  },
   async fetchUsers () {
     const { data } = await UserService.get('/all')
     return data

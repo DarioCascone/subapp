@@ -1,18 +1,38 @@
 <template>
   <q-table
-    title="Lista utenti"
+    title="Lista RDO"
     :data="data"
     :columns="columns"
-    :filter="filter"
     row-key="name"
     bordered
     separator="cell"
   >
+    <template v-slot:body="props">
+      <q-tr :props="props">
+        <q-td :auto-width="true" key="rdos" :props="props">
+          <div v-for="(rdo, index) in props.row.rdo.rdos" :key="index" >
+            {{rdo.description}}
+          </div>
+        </q-td>
+        <q-td :auto-width="true" key="regionOfInterest" :props="props">
+          {{ props.row.rdo.regionOfInterest.description }}
+        </q-td>
+        <q-td :auto-width="true" key="imports" :props="props">
+          <div v-for="(item, index) in props.row.rdo.imports" :key="index" >
+            {{item}}
+          </div>
+        </q-td>
+        <q-td :auto-width="true" key="expirationDate" :props="props">
+          {{ date.formatDate(props.row.rdo.expirationDate, 'MM-DD-YYYY') }}
+        </q-td>
+      </q-tr>
+    </template>
   </q-table>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
+import { date } from 'quasar'
 
 export default {
   name: 'TableRdo',
@@ -24,40 +44,28 @@ export default {
         { name: 'imports', required: true, label: 'Importo', align: 'center' },
         { name: 'expirationDate', required: true, label: 'Scadenza', align: 'center' }
       ],
-      data: []
+      data: [],
+      date: date
     }
   },
   methods: {
-    ...mapActions([
-      'fetchUserRdos'
-    ]),
     getData () {
       if (this.data.length > 0) this.data = []
-      this.userRdos.forEach((rdo) => {
+      this.userLogged.loadedRdos.forEach((rdo) => {
         const obj = {
           rdo: rdo
         }
         this.data.push(obj)
       })
-    },
-    async loadRdos () {
-      const obj = {
-        pathParam: this.userLogged._id
-      }
-      await this.fetchUserRdos(obj)
-      this.getData()
-      this.$q.loading.hide()
     }
   },
   computed: {
     ...mapGetters({
-      userLogged: 'user',
-      userRods: 'userRdos'
+      userLogged: 'user'
     })
   },
   mounted () {
-    this.$q.loading.show()
-    this.loadRdos()
+    this.getData()
   }
 }
 </script>

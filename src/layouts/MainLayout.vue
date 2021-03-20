@@ -33,8 +33,8 @@
                     <div class="column items-start">
                       <div class="text-h6 q-mb-xs q-ml-sm">Impostazioni</div>
                       <q-btn v-if="user && user.admin" class="no-padding" flat color="primary" size="md" label="Admin" @click="openAdminConsole" icon="admin_panel_settings" />
-                      <q-btn flat  color="primary" size="md" label="profilo" @click="editProfile" icon="perm_identity" />
-                      <q-btn flat  color="primary" size="md" label="RDO"  @click="goToUserRdos" icon="list" />
+                      <q-btn flat  color="primary" size="md" v-if="user && !user.admin" label="profilo" @click="editProfile" icon="perm_identity" />
+                      <q-btn flat  color="primary" size="md" v-if="user && !user.admin" label="RDO"  @click="goToUserRdos" icon="list" />
                     </div>
                     <q-separator vertical inset class="q-mx-md" />
 

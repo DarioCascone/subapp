@@ -302,6 +302,7 @@ export default {
       'getRegions',
       'getCountries',
       'updateRdo',
+      'fetchUser',
       'createRdo'
     ]),
     async getRegionOptions () {
@@ -326,7 +327,12 @@ export default {
         this.rdo.expirationDate = date.extractDate(this.expirationDate, 'DD/MM/YYYY')
         this.rdo.startDate = date.extractDate(this.startDate, 'DD/MM/YYYY')
         this.rdo.endDate = date.extractDate(this.endDate, 'DD/MM/YYYY')
-        await this.createRdo(this.rdo)
+        const obj = {
+          pathParam: this.userLogged._id,
+          body: this.rdo
+        }
+        await this.createRdo(obj)
+        await this.fetchUser(obj)
         this.$q.loading.hide()
       }
     },

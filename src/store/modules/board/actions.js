@@ -2,8 +2,8 @@ import { ApiFactory } from 'src/common/api/apiFactory'
 const BoardService = ApiFactory.get('board')
 
 export default {
-  async createRdo ({ commit }, body) {
-    const { data } = await BoardService.post('/rdo', body)
+  async createRdo ({ commit }, { pathParam, body }) {
+    const { data } = await BoardService.post('/rdo/' + pathParam, body)
     return data
   },
   async updateRdo ({ commit }, { pathParam, body }) {
