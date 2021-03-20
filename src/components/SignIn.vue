@@ -549,7 +549,7 @@
             </div>
           </div>
           <div class="col-md-9 q-pt-md">
-            Ai sensi dell’art. 46 del D.P.R. 28 dicembre 2000 n. 445, nella quale la Ditta, consapevole delle sanzioni penali, previste dall’art. 76 del D.P.R. n. 445/2000, per le ipotesi di falsità in atti e dichiarazioni mendaci ivi indicate, dichiara:
+            Ai sensi dell’art. 46 del D.P.R. 28 dicembre 2000 n. 445, la Ditta, consapevole delle sanzioni penali, previste dall’art. 76 del D.P.R. n. 445/2000, per le ipotesi di falsità in atti e dichiarazioni mendaci ivi indicate, dichiara:
             <ul>
               <li>di non trovarsi nelle condizioni previste dall’art. 80 del Decreto Legislativo 18 aprile 2016 n. 50 e s.m.i.</li>
               <li>di non essere oggetto di provvedimenti di sospensione o interdittivi di cui all’art. 14, comma 1, D.Lgs. 81/08</li>

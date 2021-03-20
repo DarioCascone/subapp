@@ -18,7 +18,7 @@ const imports = [
 
 const compCatOptions = [
   {
-    label: 'Mirco impresa',
+    label: 'Micro impresa',
     value: 'xs'
   },
   {
