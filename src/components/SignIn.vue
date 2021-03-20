@@ -514,7 +514,20 @@
             </template>
           </q-input>
           <div class="desktop-only col-md-4"></div>
-
+          <div v-if="isEditing" class=" col-md-9 q-pt-md row">
+            <div class="col-12 company-category">
+              <div>
+                Ai sensi dell’art. 3 – aa, Decreto Legislativo n. 50/2016 e s.m.i., appartiene alla categoria:
+              </div>
+              <div class="q-pt-md q-pb-md">
+                <q-option-group
+                  v-model="user.companyCategory"
+                  :options="compCatOptions"
+                  color="primary"
+                />
+              </div>
+            </div>
+          </div>
         </div>
 
       </q-step>
@@ -589,7 +602,7 @@
             <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Indietro" class="q-ml-sm" />
           </div>
           <div>
-            <q-btn type="submit" :disable="(termAndCondition === 'false' || regulation === 'false' || compDeclaration !== 'true' || companyCategory === '') && step === 3"
+            <q-btn type="submit" :disable="(termAndCondition === 'false' || regulation === 'false' || compDeclaration !== 'true' || user.companyCategory === '') && step === 3"
                    color="primary" :label="getBtnLabel" />
           </div>
         </q-stepper-navigation>
