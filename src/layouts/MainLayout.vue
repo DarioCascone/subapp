@@ -17,7 +17,7 @@
               <q-tab v-if="$route.name==='home'" @click="scrollToElement('contact_us')" label="Contatti" />
               <q-tab v-if="!isAuthenticated" @click="openModal('login', 'accedi', false, loginClassObj, false)" label="Accedi"/>
               <q-tab v-if="!isAuthenticated" @click="openModal('sign-in', 'registrati', true, singInClassObj, false)" label="Registrati"/>
-              <q-tab v-if="isAuthenticated && user" :disable="user.blocked" @click="openBulletinBoard"  label="Bacheca">
+              <q-tab v-if="isAuthenticated && user && $route.name!= 'board'" :disable="user.blocked" @click="openBoard"  label="Bacheca">
                 <q-tooltip v-if="user.blocked"
                            transition-show="fade"
                            transition-hide="fade"
@@ -212,8 +212,10 @@ export default {
         this.$router.push('/admin')
       }
     },
-    openBulletinBoard () {
-      console.log('BACHECA')
+    openBoard () {
+      if (this.$route.name !== 'board') {
+        this.$router.push('/board')
+      }
     },
     refreshAos () {
       this.aosNeedRefresh = true

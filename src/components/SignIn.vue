@@ -602,7 +602,7 @@
             <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Indietro" class="q-ml-sm" />
           </div>
           <div>
-            <q-btn type="submit" :disable="(termAndCondition === 'false' || regulation === 'false' || compDeclaration !== 'true' || user.companyCategory === '') && step === 3"
+            <q-btn type="submit" :disable="(termAndCondition === 'false' || regulation === 'false' || compDeclaration !== 'true' || !user.companyCategory) && step === 3"
                    color="primary" :label="getBtnLabel" />
           </div>
         </q-stepper-navigation>
@@ -915,7 +915,7 @@ export default {
     await this.getMacroRdo()
   },
   async mounted () {
-    // this.$v.$touch()
+    this.$v.$touch()
     if (this.isEditing) {
       await this.buildEditProfilePage()
     }
