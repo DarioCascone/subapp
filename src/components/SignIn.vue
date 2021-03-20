@@ -528,6 +528,9 @@
       >
         <div class="row wrap justify-center content-center no-padding no-margin q-gutter-x-md q-gutter-y-xs">
           <div class="col-md-9 q-pt-md">
+           * Tutti i campi sono obbligatori.
+          </div>
+          <div class="col-md-9 q-pt-md">
            Al termine, riceverai una mail con le istruzioni da seguire per effettuare il pagamento e completare il processo di registrazione.
           </div>
           <div class="col-md-9 q-pt-md">
@@ -553,8 +556,8 @@
             <ul>
               <li>di non trovarsi nelle condizioni previste dall’art. 80 del Decreto Legislativo 18 aprile 2016 n. 50 e s.m.i.</li>
               <li>di non essere oggetto di provvedimenti di sospensione o interdittivi di cui all’art. 14, comma 1, D.Lgs. 81/08</li>
-              <li>di essere in regola con quanto previsto con il DLGS 81/08</li>
-              <li>di conoscere i limiti previsti della disciplina del subappalto</li>
+              <li>di essere in regola con quanto previsto con il D.Lgs 81/08, in materia di sicurezza</li>
+              <li>di conoscere i limiti previsti dalla disciplina del subappalto</li>
             </ul>
           </div>
           <div class="col-md-9 q-pb-md">
@@ -566,7 +569,7 @@
           <div class=" col-md-9 q-pt-md row">
             <div class="col-12 company-category">
               <div>
-              Ai sensi dell’art. 13 della Legge n. 180/2011 e art. 3 – aa), Decreto Legislativo n. 50/2016 e s.m.i., appartiene alla categoria:
+              Ai sensi dell’art. 3 – aa, Decreto Legislativo n. 50/2016 e s.m.i., appartiene alla categoria:
               </div>
               <div class="q-pt-md q-pb-md">
                 <q-option-group
