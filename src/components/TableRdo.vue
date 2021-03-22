@@ -1,12 +1,25 @@
 <template>
   <q-table
-    title="Lista RDO"
     :data="data"
     :columns="columns"
     row-key="name"
     bordered
+    :filter="filter"
     separator="cell"
   >
+    <template v-slot:top="props">
+      <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+        <template v-slot:append>
+          <q-icon name="search" />
+        </template>
+      </q-input>
+      <q-btn
+        flat round dense
+        :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
+        @click="props.toggleFullscreen"
+        class="q-ml-auto"
+      />
+    </template>
     <template v-slot:body="props">
       <q-tr :props="props">
         <q-td :auto-width="true" key="rdos" :props="props">
@@ -25,6 +38,12 @@
         <q-td :auto-width="true" key="expirationDate" :props="props">
           {{ date.formatDate(props.row.rdo.expirationDate, 'MM-DD-YYYY') }}
         </q-td>
+        <q-td :auto-width="true" key="viewRdo" :props="props">
+          <q-icon style="font-size: 2rem;" name="visibility" class="text-secondary cursor-pointer"></q-icon>
+        </q-td>
+        <q-td v-if="!allRdos" :auto-width="true" key="deleteRdo" :props="props">
+          <q-icon style="font-size: 2rem;" name="delete_forever" class="text-negative cursor-pointer"></q-icon>
+        </q-td>
       </q-tr>
     </template>
   </q-table>
@@ -36,22 +55,25 @@ import { date } from 'quasar'
 
 export default {
   name: 'TableRdo',
+  props: ['allRdos'],
   data () {
     return {
+      filter: '',
       columns: [
         { name: 'rdos', required: true, label: 'Descrizione', align: 'center' },
         { name: 'regionOfInterest', required: true, label: 'Regione', align: 'center' },
         { name: 'imports', required: true, label: 'Importo', align: 'center' },
-        { name: 'expirationDate', required: true, label: 'Scadenza', align: 'center' }
+        { name: 'expirationDate', required: true, label: 'Scadenza', align: 'center' },
+        { name: 'viewRdo', required: true, label: 'Visualizza RDO', align: 'center' }
       ],
       data: [],
       date: date
     }
   },
   methods: {
-    getData () {
+    getData (data) {
       if (this.data.length > 0) this.data = []
-      this.userLogged.loadedRdos.forEach((rdo) => {
+      data.forEach((rdo) => {
         const obj = {
           rdo: rdo
         }
@@ -61,11 +83,17 @@ export default {
   },
   computed: {
     ...mapGetters({
-      userLogged: 'user'
+      userLogged: 'user',
+      boardRdos: 'boardRdos'
     })
   },
   mounted () {
-    this.getData()
+    if (!this.allRdos) {
+      this.getData(this.userLogged.loadedRdos)
+      this.columns.push({ name: 'deleteRdo', required: true, label: 'Elimina RDO', align: 'center' })
+    } else {
+      this.getData(this.boardRdos)
+    }
   }
 }
 </script>

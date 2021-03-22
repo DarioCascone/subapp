@@ -27,7 +27,7 @@
       <div>
         <q-btn push
                :ripple="false"
-               class="button-login full-width"
+               class="full-width"
                label="Log In"
                color="secondary"
                type='submit'/>

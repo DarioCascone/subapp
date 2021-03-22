@@ -1,6 +1,9 @@
 <template>
   <q-page>
-    <table-rdo v-if="userLogged"></table-rdo>
+    <h5 class="text-center">Lista RDO caricate</h5>
+    <div class="q-px-lg">
+      <table-rdo v-if="userLogged"></table-rdo>
+    </div>
   </q-page>
 </template>
 
