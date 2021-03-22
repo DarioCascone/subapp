@@ -314,9 +314,16 @@ export default {
     async postFilesAndUpdateRdo (rdo) {
       const formData = new FormData()
       formData.append('file', this.cmeFile, 'cmeFile')
+      this.images.forEach((image) => {
+        formData.append('file', image, 'images')
+      })
       const uploadedFiles = await this.uploadFile(formData)
       uploadedFiles.forEach((file) => {
-        rdo[file.originalname] = file
+        if (file.originalname === 'images') {
+          rdo[file.originalname].push(file)
+        } else {
+          rdo[file.originalname] = file
+        }
       })
       const obj = {
         pathParam: rdo._id + '/' + this.userLogged._id,

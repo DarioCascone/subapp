@@ -1,6 +1,6 @@
 <template>
 <q-page>
-  <load-rdo v-if="true"></load-rdo>
+  <load-rdo v-if="userLogged"></load-rdo>
   <div v-if="userLogged && this.boardRdos.length>0" >
     <h5 class="text-center">Lista RDO di tuo interesse</h5>
     <div class="q-px-lg">
