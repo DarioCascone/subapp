@@ -1,22 +1,20 @@
 <template>
 <q-page>
-  <div v-if="userLogged && this.boardRdos.length>0" >
+  <div v-if="userLogged && boardRdosLoaded" >
     <h5 class="text-center">Lista RDO di tuo interesse</h5>
     <div class="q-px-lg">
-      <table-rdo :allRdos="true"></table-rdo>
+      <table-rdo @openModal="openModal('load-rdo', 'Carica RDO', true, loadRdoClassObj, false)" :allRdos="true"></table-rdo>
     </div>
   </div>
-  <div v-if="this.boardRdos && this.boardRdos.length === 0">
-    <h5 class="text-center">Ancora nessuna richiesta di offerta caricata.</h5>
-    <div class="flex justify-center">
-      <q-btn push
+  <div v-if="userLogged && !boardRdosLoaded" class="flex column justify-center items-center q-pt-xl" >
+    <h5 class="text-center no-margin q-pb-lg">Ancora nessuna richiesta di offerta caricata.</h5>
+    <q-btn push
              :ripple="false"
              label="Carica RDO"
              class="q-pa-xs"
              @click="openModal('load-rdo', 'Carica RDO', true, loadRdoClassObj, false)"
              color="secondary"
-      />
-    </div>
+    />
   </div>
   <modal  :class-obj="classObj" :modal.sync="modal" :is-maximized="isMaximized" :component="modalComponent" :title="modalTitle"/>
 </q-page>
@@ -39,7 +37,8 @@ export default {
       modalTitle: undefined,
       isMaximized: false,
       modal: false,
-      classObj: {}
+      classObj: {},
+      boardRdosLoaded: true
     }
   },
   methods: {
@@ -60,8 +59,9 @@ export default {
       boardRdos: 'boardRdos'
     })
   },
-  async created () {
+  async mounted () {
     await this.fetchRdos()
+    this.boardRdosLoaded = this.boardRdos.length > 0
   }
 }
 </script>

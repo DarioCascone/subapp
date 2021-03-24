@@ -225,7 +225,7 @@
           <q-btn push
                  :ripple="false"
                  class="full-width"
-                 label="Carica RDO"
+                 label="Conferma"
                  color="secondary"
                  type='submit'/>
         </div>
@@ -277,7 +277,8 @@ export default {
       'updateRdo',
       'fetchUser',
       'createRdo',
-      'uploadFile'
+      'uploadFile',
+      'fetchRdos'
     ]),
     async getRegionOptions () {
       await this.getRegions(this.country._id)
@@ -308,6 +309,8 @@ export default {
         const data = await this.createRdo(obj)
         await this.postFilesAndUpdateRdo(data.rdo)
         await this.fetchUser(obj)
+        await this.fetchRdos()
+        this.$emit('loadRdoSuccess', false)
         this.$q.loading.hide()
       }
     },

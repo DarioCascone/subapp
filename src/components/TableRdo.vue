@@ -13,12 +13,20 @@
           <q-icon name="search" />
         </template>
       </q-input>
-      <q-btn
-        flat round dense
-        :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
-        @click="props.toggleFullscreen"
-        class="q-ml-auto"
-      />
+      <div  class="q-ml-auto">
+        <q-btn push
+               :ripple="false"
+               label="Carica RDO"
+               @click="$emit('openModal')"
+               color="secondary">
+        </q-btn>
+        <q-btn
+          flat round dense
+          :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
+          @click="props.toggleFullscreen"
+          class="q-ml-md"
+        />
+      </div>
     </template>
     <template v-slot:body="props">
       <q-tr :props="props">
@@ -39,7 +47,7 @@
           {{ date.formatDate(props.row.rdo.expirationDate, 'MM-DD-YYYY') }}
         </q-td>
         <q-td :auto-width="true" key="viewRdo" :props="props">
-          <q-icon style="font-size: 2rem;" name="visibility" class="text-secondary cursor-pointer"></q-icon>
+          <q-icon style="font-size: 2rem;" name="search" class="text-accent cursor-pointer"></q-icon>
         </q-td>
         <q-td v-if="!allRdos" :auto-width="true" key="deleteRdo" :props="props">
           <q-icon style="font-size: 2rem;" name="delete_forever" class="text-negative cursor-pointer"></q-icon>
@@ -93,6 +101,14 @@ export default {
       this.columns.push({ name: 'deleteRdo', required: true, label: 'Elimina RDO', align: 'center' })
     } else {
       this.getData(this.boardRdos)
+    }
+  },
+  watch: {
+    boardRdos: {
+      deep: true,
+      handler (newVal, oldVal) {
+        this.getData(newVal)
+      }
     }
   }
 }
