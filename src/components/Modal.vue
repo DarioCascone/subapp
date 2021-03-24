@@ -15,6 +15,7 @@
         <q-card-section :class="classObj">
           <login @loginSuccess="loginSuccess" v-if="component === 'login'" />
           <sign-in :is-editing="isEditing" @signupSuccess="signupSuccess" @editSuccess="editSuccess" v-if="component === 'sign-in'" ></sign-in>
+          <load-rdo v-if="component==='load-rdo'"></load-rdo>
         </q-card-section>
       </q-card>
   </q-dialog>
@@ -24,10 +25,11 @@
 
 import Login from 'components/Login'
 import SignIn from 'components/SignIn'
+import LoadRdo from 'components/LoadRdo'
 
 export default {
   name: 'Modal',
-  components: { SignIn, Login },
+  components: { LoadRdo, SignIn, Login },
   props: ['component', 'modal', 'title', 'isMaximized', 'classObj', 'isEditing'],
   data () {
     return {

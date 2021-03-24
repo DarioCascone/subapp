@@ -155,11 +155,11 @@ import CookieLaw from 'vue-cookie-law'
 const { getScrollTarget, setScrollPosition } = scroll
 
 export default {
+  name: 'MainLayout',
   components: { Modal, CookieLaw },
   data () {
     return {
       aosNeedRefresh: false,
-      name: 'MainLayout',
       isEditing: false,
       modal: false,
       modalComponent: undefined,
