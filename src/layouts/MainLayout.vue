@@ -34,7 +34,8 @@
                       <div class="text-h6 q-mb-xs q-ml-sm">Impostazioni</div>
                       <q-btn v-if="user && user.admin" class="no-padding" flat color="primary" size="md" label="Admin" @click="openAdminConsole" icon="admin_panel_settings" />
                       <q-btn flat  color="primary" size="md" v-if="user && !user.admin" label="profilo" @click="editProfile" icon="perm_identity" />
-                      <q-btn flat  color="primary" size="md" v-if="user && !user.admin" label="RDO"  @click="goToUserRdos" icon="list" />
+                      <q-btn flat  color="primary" size="md" v-if="user && !user.admin" label="RDO" :disable="user.blocked"  @click="goToUserRdos" icon="list" >
+                      </q-btn>
                     </div>
                     <q-separator vertical inset class="q-mx-md" />
 
@@ -50,6 +51,14 @@
                       />
                     </div>
                   </div>
+                  <q-tooltip v-if="user.blocked"
+                             transition-show="fade"
+                             transition-hide="fade"
+                             content-class="bg-accent"
+                             content-style="font-size: 16px"
+                             anchor="bottom middle" self="top middle">
+                    Aggiorna il tuo profilo per continuare l'esperienza su Subapp.it
+                  </q-tooltip>
                 </q-menu>
               </q-tab>
           </q-tabs>
@@ -146,11 +155,11 @@ import CookieLaw from 'vue-cookie-law'
 const { getScrollTarget, setScrollPosition } = scroll
 
 export default {
+  name: 'MainLayout',
   components: { Modal, CookieLaw },
   data () {
     return {
       aosNeedRefresh: false,
-      name: 'MainLayout',
       isEditing: false,
       modal: false,
       modalComponent: undefined,

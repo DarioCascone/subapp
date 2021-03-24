@@ -24,7 +24,7 @@ export default {
       this.$store.commit('DESTROY_AUTH')
     }
     const obj = { pathParam: userId }
-    await this.fetchUser(obj)
+    const data = await this.fetchUser(obj)
     const remainingMilliseconds = new Date(expiryDate).getTime() - new Date().getTime()
     setTimeout(() => {
       this.$store.commit('DESTROY_AUTH')
@@ -36,6 +36,9 @@ export default {
         message: 'Sessione scaduta! Effettua nuovamente il login'
       })
     }, remainingMilliseconds)
+    if (data && data.user.blocked) {
+      this.$router.push('/')
+    }
   }
 }
 </script>
