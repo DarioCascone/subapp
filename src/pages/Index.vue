@@ -351,7 +351,6 @@ export default {
     ]),
     openModal (component, title, isMaximized, classObj) {
       this.modalComponent = component
-      console.log(this.modalComponent)
       this.modalTitle = title
       this.isMaximized = isMaximized
       this.modal = true

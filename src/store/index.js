@@ -18,16 +18,20 @@ Vue.use(Vuex)
  * with the Store instance.
  */
 
+const store = new Vuex.Store({
+  modules: {
+    authModule,
+    geoModule,
+    optionModule,
+    userModule,
+    emailModule,
+    boardModule
+  },
+  strict: process.env.NODE_ENV !== 'production'
+})
+
 export default function (/* { ssrContext } */) {
-  return new Vuex.Store({
-    modules: {
-      authModule,
-      geoModule,
-      optionModule,
-      userModule,
-      emailModule,
-      boardModule
-    },
-    strict: process.env.NODE_ENV !== 'production'
-  })
+  return store
 }
+
+export { store }
