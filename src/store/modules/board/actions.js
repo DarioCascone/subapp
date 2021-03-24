@@ -14,5 +14,10 @@ export default {
     const { data } = await BoardService.get('/rdo/all')
     commit('SET_BOARD_RDOS', data)
     return data
+  },
+  async fetchRdo ({ commit }, { pathParam }) {
+    const { data } = await BoardService.get('/rdo/' + pathParam)
+    commit('SET_RDO', data)
+    return data
   }
 }

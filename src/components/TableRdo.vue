@@ -17,7 +17,7 @@
         <q-btn push
                :ripple="false"
                label="Carica RDO"
-               @click="$emit('openModal')"
+               @click="loadRdo()"
                color="secondary">
         </q-btn>
         <q-btn
@@ -47,7 +47,7 @@
           {{ date.formatDate(props.row.rdo.expirationDate, 'MM-DD-YYYY') }}
         </q-td>
         <q-td :auto-width="true" key="viewRdo" :props="props">
-          <q-icon style="font-size: 2rem;" name="search" class="text-accent cursor-pointer"></q-icon>
+          <q-icon style="font-size: 2rem;" name="search" @click="openRdo(props.row.rdo)" class="text-accent cursor-pointer"></q-icon>
         </q-td>
         <q-td v-if="!allRdos" :auto-width="true" key="deleteRdo" :props="props">
           <q-icon style="font-size: 2rem;" name="delete_forever" class="text-negative cursor-pointer"></q-icon>
@@ -87,6 +87,13 @@ export default {
         }
         this.data.push(obj)
       })
+    },
+    openRdo (rdo) {
+      this.$emit('openSelectedRdo', rdo)
+    },
+    loadRdo () {
+      this.$emit('resetSelectedRdo')
+      this.$emit('openModal')
     }
   },
   computed: {

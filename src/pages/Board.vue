@@ -3,7 +3,7 @@
   <div v-if="userLogged && boardRdosLoaded" >
     <h5 class="text-center">Lista RDO di tuo interesse</h5>
     <div class="q-px-lg">
-      <table-rdo @openModal="openModal('load-rdo', 'Carica RDO', true, loadRdoClassObj, false)" :allRdos="true"></table-rdo>
+      <table-rdo @resetSelectedRdo="selectedRdo= null" @openSelectedRdo="openSelectedRdo" @openModal="openModal('load-rdo', 'Carica RDO', true, loadRdoClassObj, false)" :allRdos="true"></table-rdo>
     </div>
   </div>
   <div v-if="userLogged && !boardRdosLoaded" class="flex column justify-center items-center q-pt-xl" >
@@ -16,7 +16,7 @@
              color="secondary"
     />
   </div>
-  <modal  :class-obj="classObj" :modal.sync="modal" :is-maximized="isMaximized" :component="modalComponent" :title="modalTitle"/>
+  <modal :selected-rdo="selectedRdo" :class-obj="classObj" :modal.sync="modal" :is-maximized="isMaximized" :component="modalComponent" :title="modalTitle"/>
 </q-page>
 </template>
 
@@ -38,7 +38,8 @@ export default {
       isMaximized: false,
       modal: false,
       classObj: {},
-      boardRdosLoaded: true
+      boardRdosLoaded: true,
+      selectedRdo: null
     }
   },
   methods: {
@@ -51,6 +52,14 @@ export default {
       this.isMaximized = isMaximized
       this.modal = true
       this.classObj = classObj
+    },
+    openSelectedRdo (rdo) {
+      this.selectedRdo = rdo
+      this.openModal('load-rdo', 'RDO di ' + rdo.contractor, true, this.loadRdoClassObj, false)
+    },
+    async loadBoard () {
+      await this.fetchRdos()
+      this.boardRdosLoaded = this.boardRdos.length > 0
     }
   },
   computed: {
@@ -59,9 +68,16 @@ export default {
       boardRdos: 'boardRdos'
     })
   },
+  watch: {
+    boardRdos: {
+      deep: true,
+      handler (newVal, oldVal) {
+        this.loadBoard()
+      }
+    }
+  },
   async mounted () {
-    await this.fetchRdos()
-    this.boardRdosLoaded = this.boardRdos.length > 0
+    await this.loadBoard()
   }
 }
 </script>

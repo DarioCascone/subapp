@@ -15,7 +15,7 @@
         <q-card-section :class="classObj">
           <login @loginSuccess="loginSuccess" v-if="component === 'login'" />
           <sign-in :is-editing="isEditing" @signupSuccess="signupSuccess" @editSuccess="editSuccess" v-if="component === 'sign-in'" ></sign-in>
-          <load-rdo @loadRdoSuccess="signupSuccess"  v-if="component==='load-rdo'"></load-rdo>
+          <load-rdo :selected-rdo="selectedRdo" @loadRdoSuccess="signupSuccess"  v-if="component==='load-rdo'"></load-rdo>
         </q-card-section>
       </q-card>
   </q-dialog>
@@ -30,7 +30,7 @@ import LoadRdo from 'components/LoadRdo'
 export default {
   name: 'Modal',
   components: { LoadRdo, SignIn, Login },
-  props: ['component', 'modal', 'title', 'isMaximized', 'classObj', 'isEditing'],
+  props: ['component', 'modal', 'title', 'isMaximized', 'classObj', 'isEditing', 'selectedRdo'],
   data () {
     return {
       localModal: this.modal
