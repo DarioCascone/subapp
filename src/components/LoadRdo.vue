@@ -10,11 +10,11 @@
                    reactive-rules name="contractor"
                    :rules="[ (val) => isValid('contractor', val, $v.rdo) ]"/>
 
-        <q-input class="col-md-2" label="Data scadenza *" :rules="[ (val) => isValid('expirationDate', val, $v) ]" outlined v-model="expirationDate" mask="##/##/####">
+        <q-input @click="$refs.qDateProxy.show()" onkeydown="return false" class="col-md-2" label="Data scadenza *" :rules="[ (val) => isValid('expirationDate', val, $v) ]" outlined v-model="expirationDate" mask="##/##/####">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                <q-date :locale="currentLocale" v-model="expirationDate" :options="calendarOption"  mask="DD/MM/YYYY">
+                <q-date @input="resetStartEndDate"  :locale="currentLocale" v-model="expirationDate" :options="calendarDataScadenza"  mask="DD/MM/YYYY">
                   <div class="row items-center justify-end q-gutter-sm">
                     <q-btn label="Annulla" color="primary" flat v-close-popup />
                     <q-btn label="OK" color="primary" flat v-close-popup />
@@ -191,11 +191,11 @@
                      v-model="rdo.peculiarity"/>
         </div>
 
-        <q-input class="col-md-2" label=" Data prevista per inizio *" :rules="[ (val) => isValid('startDate', val, $v) ]" outlined v-model="startDate" mask="##/##/####">
+        <q-input @click="$refs.startDateProxy.show()" onkeydown="return false" :disable="expirationDate == null" class="col-md-2" label=" Data prevista per inizio *" :rules="[ (val) => isValid('startDate', val, $v) ]" outlined v-model="startDate" mask="##/##/####">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                <q-date :locale="currentLocale" v-model="startDate" :options="calendarOption"  mask="DD/MM/YYYY">
+              <q-popup-proxy ref="startDateProxy" transition-show="scale" transition-hide="scale">
+                <q-date @input="resetEndDate" :disable="expirationDate == null" :locale="currentLocale" v-model="startDate" :options="calendarDataInizio"  mask="DD/MM/YYYY">
                   <div class="row items-center justify-end q-gutter-sm">
                     <q-btn label="Annulla" color="primary" flat v-close-popup />
                     <q-btn label="OK" color="primary" flat v-close-popup />
@@ -206,12 +206,12 @@
           </template>
         </q-input>
 
-        <q-input class="col-md-2" label=" Data presunta fine *" :rules="[ (val) => isValid('endDate', val, $v) ]" outlined v-model="endDate" mask="##/##/####">
+        <q-input @click="$refs.endDateProxy.show()" onkeydown="return false" :disable="expirationDate == null || startDate == null" class="col-md-2" label=" Data presunta fine *" :rules="[ (val) => isValid('endDate', val, $v) ]" outlined v-model="endDate" mask="##/##/####">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                <q-date :locale="currentLocale" v-model="endDate" :options="calendarOption"  mask="DD/MM/YYYY">
-                  <div class="row items-center justify-end q-gutter-sm">
+              <q-popup-proxy ref="endDateProxy" transition-show="scale" transition-hide="scale">
+                <q-date :locale="currentLocale" v-model="endDate" :options="calendarDataFine"  mask="DD/MM/YYYY">
+                  <div :disable="expirationDate == null || startDate == null" class="row items-center justify-end q-gutter-sm">
                     <q-btn label="Annulla" color="primary" flat v-close-popup />
                     <q-btn label="OK" color="primary" flat v-close-popup />
                   </div>
@@ -331,9 +331,40 @@ export default {
       }
       await this.updateRdo(obj)
     },
-    calendarOption (date) {
+    calendarDataScadenza (date) {
       const currentTime = new Date()
       return date >= currentTime.toLocaleDateString('fr-CA').replaceAll('-', '/')
+    },
+    calendarDataInizio (date) {
+      let dataScadenza
+      if (this.expirationDate == null) {
+        dataScadenza = new Date()
+      } else {
+        const dd = this.expirationDate.substr(0, 2)
+        const mm = this.expirationDate.substr(3, 2)
+        const yyyy = this.expirationDate.substr(6, 4)
+        dataScadenza = new Date(mm + '/' + dd + '/' + yyyy)
+      }
+      return date >= dataScadenza.toLocaleDateString('fr-CA').replaceAll('-', '/')
+    },
+    calendarDataFine (date) {
+      let dataInizio
+      if (this.startDate == null) {
+        dataInizio = new Date()
+      } else {
+        const dd = this.startDate.substr(0, 2)
+        const mm = this.startDate.substr(3, 2)
+        const yyyy = this.startDate.substr(6, 4)
+        dataInizio = new Date(mm + '/' + dd + '/' + yyyy)
+      }
+      return date >= dataInizio.toLocaleDateString('fr-CA').replaceAll('-', '/')
+    },
+    resetStartEndDate () {
+      this.startDate = undefined
+      this.endDate = undefined
+    },
+    resetEndDate () {
+      this.endDate = undefined
     }
   },
   computed: {
