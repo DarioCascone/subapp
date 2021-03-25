@@ -225,7 +225,7 @@
           <q-btn push
                  :ripple="false"
                  class="full-width"
-                 label="Carica RDO"
+                 label="Conferma"
                  color="secondary"
                  type='submit'/>
         </div>
@@ -244,6 +244,7 @@ import { required } from 'vuelidate/lib/validators'
 
 export default {
   name: 'LoadRdo',
+  props: ['selectedRdo'],
   data () {
     return {
       rdo: new Rdo(),
@@ -277,7 +278,8 @@ export default {
       'updateRdo',
       'fetchUser',
       'createRdo',
-      'uploadFile'
+      'uploadFile',
+      'fetchRdos'
     ]),
     async getRegionOptions () {
       await this.getRegions(this.country._id)
@@ -310,6 +312,8 @@ export default {
         const data = await this.createRdo(obj)
         await this.postFilesAndUpdateRdo(data.rdo)
         await this.fetchUser(obj)
+        await this.fetchRdos()
+        this.$emit('loadRdoSuccess', false)
         this.$q.loading.hide()
       }
     },
@@ -380,12 +384,18 @@ export default {
     })
   },
   async created () {
-    await this.getCountries()
-    await this.getMacroRdo()
+    if (this.selectedRdo) {
+      this.rdo = JSON.parse(JSON.stringify(this.selectedRdo)) // to avoid reference
+    } else {
+      await this.getCountries()
+      await this.getMacroRdo()
+    }
   },
   async mounted () {
-    this.rdo.contractor = this.userLogged.companyName
-    this.$v.$touch()
+    if (!this.selectedRdo) {
+      this.rdo.contractor = this.userLogged.companyName
+      this.$v.$touch()
+    }
   },
   validations () {
     return {

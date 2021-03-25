@@ -13,12 +13,20 @@
           <q-icon name="search" />
         </template>
       </q-input>
-      <q-btn
-        flat round dense
-        :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
-        @click="props.toggleFullscreen"
-        class="q-ml-auto"
-      />
+      <div  class="q-ml-auto">
+        <q-btn push
+               :ripple="false"
+               label="Carica RDO"
+               @click="loadRdo()"
+               color="secondary">
+        </q-btn>
+        <q-btn
+          flat round dense
+          :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
+          @click="props.toggleFullscreen"
+          class="q-ml-md"
+        />
+      </div>
     </template>
     <template v-slot:body="props">
       <q-tr :props="props">
@@ -39,10 +47,10 @@
           {{ date.formatDate(props.row.rdo.expirationDate, 'MM-DD-YYYY') }}
         </q-td>
         <q-td :auto-width="true" key="viewRdo" :props="props">
-          <q-icon style="font-size: 2rem;" name="visibility" class="text-secondary cursor-pointer"></q-icon>
+          <q-icon style="font-size: 2rem;" name="search" @click="openRdo(props.row.rdo)" class="text-accent cursor-pointer"></q-icon>
         </q-td>
         <q-td v-if="!allRdos" :auto-width="true" key="deleteRdo" :props="props">
-          <q-icon style="font-size: 2rem;" name="delete_forever" class="text-negative cursor-pointer"></q-icon>
+          <q-icon style="font-size: 2rem;" name="delete_forever" class="text-negative cursor-pointer" @click="cancelRdo(props.row.rdo)"></q-icon>
         </q-td>
       </q-tr>
     </template>
@@ -50,7 +58,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { date } from 'quasar'
 
 export default {
@@ -71,6 +79,11 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'deleteRdo',
+      'fetchRdos',
+      'fetchUser'
+    ]),
     getData (data) {
       if (this.data.length > 0) this.data = []
       data.forEach((rdo) => {
@@ -79,6 +92,26 @@ export default {
         }
         this.data.push(obj)
       })
+    },
+    openRdo (rdo) {
+      this.$emit('openSelectedRdo', rdo)
+    },
+    loadRdo () {
+      this.$emit('resetSelectedRdo')
+      this.$emit('openModal')
+    },
+    async cancelRdo (rdo) {
+      this.$q.loading.show()
+      const objDelete = {
+        pathParam: rdo._id + '/' + this.userLogged._id
+      }
+      const objUser = {
+        pathParam: this.userLogged._id
+      }
+      await this.deleteRdo(objDelete)
+      await this.fetchUser(objUser)
+      this.getData(this.userLogged.loadedRdos)
+      this.$q.loading.hide()
     }
   },
   computed: {
@@ -93,6 +126,16 @@ export default {
       this.columns.push({ name: 'deleteRdo', required: true, label: 'Elimina RDO', align: 'center' })
     } else {
       this.getData(this.boardRdos)
+    }
+  },
+  watch: {
+    boardRdos: {
+      deep: true,
+      handler (newVal, oldVal) {
+        if (this.allRdos) {
+          this.getData(newVal)
+        }
+      }
     }
   }
 }
