@@ -18,7 +18,7 @@
                :ripple="false"
                label="Carica RDO"
                @click="loadRdo()"
-               color="secondary">
+               color="accent">
         </q-btn>
         <q-btn
           flat round dense
@@ -134,6 +134,14 @@ export default {
       handler (newVal, oldVal) {
         if (this.allRdos) {
           this.getData(newVal)
+        }
+      }
+    },
+    userLogged: {
+      deep: true,
+      handler (newVal, oldVal) {
+        if (!this.allRdos) {
+          this.getData(newVal.loadedRdos)
         }
       }
     }
