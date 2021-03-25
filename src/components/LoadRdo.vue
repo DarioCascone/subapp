@@ -298,6 +298,8 @@ export default {
     async loadRdo () {
       if (!this.$v.$invalid) {
         this.$q.loading.show()
+        this.rdo.user_id = this.userLogged._id
+        this.rdo.rdos = this.rdosSubcategories
         this.rdo.expirationDate = date.extractDate(this.expirationDate, 'DD/MM/YYYY')
         this.rdo.startDate = date.extractDate(this.startDate, 'DD/MM/YYYY')
         this.rdo.endDate = date.extractDate(this.endDate, 'DD/MM/YYYY')

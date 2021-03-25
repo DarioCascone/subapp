@@ -17,8 +17,8 @@
               <q-tab v-if="$route.name==='home'" @click="scrollToElement('contact_us')" label="Contatti" />
               <q-tab v-if="!isAuthenticated" @click="openModal('login', 'accedi', false, loginClassObj, false)" label="Accedi"/>
               <q-tab v-if="!isAuthenticated" @click="openModal('sign-in', 'registrati', true, singInClassObj, false)" label="Registrati"/>
-              <q-tab v-if="isAuthenticated && user && $route.name!= 'board'" :disable="user.blocked" @click="openBoard"  label="Bacheca">
-                <q-tooltip v-if="user.blocked"
+              <q-tab v-if="isAuthenticated && user && $route.name!= 'board'" :disable="user && user.blocked" @click="openBoard"  label="Bacheca">
+                <q-tooltip v-if="user && user.blocked"
                            transition-show="fade"
                            transition-hide="fade"
                            content-class="bg-accent"
@@ -34,7 +34,7 @@
                       <div class="text-h6 q-mb-xs q-ml-sm">Impostazioni</div>
                       <q-btn v-if="user && user.admin" class="no-padding" flat color="primary" size="md" label="Admin" @click="openAdminConsole" icon="admin_panel_settings" />
                       <q-btn flat  color="primary" size="md" v-if="user && !user.admin" label="profilo" @click="editProfile" icon="perm_identity" />
-                      <q-btn flat  color="primary" size="md" v-if="user && !user.admin" label="RDO" :disable="user.blocked"  @click="goToUserRdos" icon="list" >
+                      <q-btn flat  color="primary" size="md" v-if="user && !user.admin" label="RDO" :disable="user && user.blocked"  @click="goToUserRdos" icon="list" >
                       </q-btn>
                     </div>
                     <q-separator vertical inset class="q-mx-md" />
@@ -51,7 +51,7 @@
                       />
                     </div>
                   </div>
-                  <q-tooltip v-if="user.blocked"
+                  <q-tooltip v-if="user && user.blocked"
                              transition-show="fade"
                              transition-hide="fade"
                              content-class="bg-accent"
