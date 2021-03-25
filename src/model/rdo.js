@@ -15,5 +15,6 @@ export default class rdo {
     this.reference = undefined
     this.requiredDocuments = undefined
     this.technicalFiles = []
+    this.description = undefined
   }
 }

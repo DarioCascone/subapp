@@ -221,6 +221,49 @@
           </template>
         </q-input>
 
+        <div class="col-md-3 q-pt-md">
+          Immagini
+        </div>
+
+        <div class="col-md-3">
+          <q-file
+            v-model="technicalFiles"
+            label="Carica quì eventuali file"
+            accept=".pdf"
+            multiple
+            outlined
+            use-chips
+          >
+            <template v-slot:prepend>
+              <q-icon name="attach_file" />
+            </template>
+          </q-file>
+        </div>
+
+        <div class="col-md-3 q-pt-md">
+          Documenti necessari
+        </div>
+        <div class="col-md-3 q-pb-md">
+          <q-input   outlined
+                     label="Testo"
+                     class="col-12"
+                     type="textarea"
+                     name="requiredDocuments"
+                     v-model="rdo.requiredDocuments"/>
+        </div>
+
+        <div class="col-md-3 q-pt-md">
+          Descrizione
+        </div>
+        <div class="col-md-3 q-pb-md">
+          <q-input   outlined
+                     label="Testo"
+                     class="col-12"
+                     type="textarea"
+                     name="description"
+                     v-model="rdo.description"/>
+        </div>
+
         <div class="q-pa-xl">
           <q-btn push
                  :ripple="false"
@@ -255,6 +298,7 @@ export default {
       imports: imports,
       country: undefined,
       images: [],
+      technicalFiles: [],
       cmeFile: undefined,
       expirationDate: undefined,
       startDate: undefined,
@@ -323,9 +367,12 @@ export default {
       this.images.forEach((image) => {
         formData.append('file', image, 'images')
       })
+      this.technicalFiles.forEach((techFile) => {
+        formData.append('file', techFile, 'technicalFiles')
+      })
       const uploadedFiles = await this.uploadFile(formData)
       uploadedFiles.forEach((file) => {
-        if (file.originalname === 'images') {
+        if (file.originalname === 'images' || file.originalname === 'technicalFiles') {
           rdo[file.originalname].push(file)
         } else {
           rdo[file.originalname] = file
