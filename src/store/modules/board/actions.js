@@ -19,5 +19,10 @@ export default {
     const { data } = await BoardService.get('/rdo/' + pathParam)
     commit('SET_RDO', data)
     return data
+  },
+  async deleteRdo ({ commit }, { pathParam }) {
+    const { data } = await BoardService.delete('/rdo/' + pathParam)
+    commit('SET_RDO', data)
+    return data
   }
 }

@@ -58,7 +58,9 @@ export default {
       this.openModal('load-rdo', 'RDO di ' + rdo.contractor, true, this.loadRdoClassObj, false)
     },
     async loadBoard () {
+      this.$q.loading.show()
       await this.fetchRdos()
+      this.$q.loading.hide()
       this.boardRdosLoaded = this.boardRdos.length > 0
     }
   },
@@ -72,7 +74,9 @@ export default {
     boardRdos: {
       deep: true,
       handler (newVal, oldVal) {
-        this.loadBoard()
+        if (newVal.length !== oldVal.length) {
+          this.boardRdosLoaded = newVal.length > 0
+        }
       }
     }
   },
