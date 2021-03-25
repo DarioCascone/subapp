@@ -1,6 +1,6 @@
 <template>
   <q-page v-if="userLogged">
-    <h5 class="text-center">Lista RDO caricate</h5>
+    <h5 class="text-center no-margin q-py-lg">Lista RDO caricate</h5>
     <div class="q-px-lg">
       <table-rdo @openSelectedRdo="openSelectedRdo" @resetSelectedRdo="selectedRdo= null" @openModal="openModal('load-rdo', 'Carica RDO', true, loadRdoClassObj, false)"></table-rdo>
     </div>
