@@ -253,7 +253,7 @@
         </div>
 
         <div class="col-md-3 q-pt-md">
-          Descrizione
+          Descrizione *
         </div>
         <div class="col-md-3 q-pb-md">
           <q-input   outlined
@@ -261,7 +261,9 @@
                      class="col-12"
                      type="textarea"
                      name="description"
-                     v-model="rdo.description"/>
+                     v-model="rdo.description"
+                     reactive-rules
+                     :rules="[ (val) => isValid('description', val, $v.rdo) ]" />
         </div>
 
         <div class="q-pa-xl">
@@ -460,6 +462,9 @@ export default {
           required
         },
         reference: {
+          required
+        },
+        description: {
           required
         }
       },

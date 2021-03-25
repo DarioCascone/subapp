@@ -30,10 +30,13 @@
     </template>
     <template v-slot:body="props">
       <q-tr :props="props">
-        <q-td :auto-width="true" key="rdos" :props="props">
-          <div v-for="(rdo, index) in props.row.rdo.rdos" :key="index" >
+        <!-- <q-td :auto-width="true" key="rdos" :props="props">
+         <div v-for="(rdo, index) in props.row.rdo.rdos" :key="index" >
             {{rdo.description}}
           </div>
+        </q-td>-->
+        <q-td :auto-width="true" key="rdos" :props="props">
+          {{ props.row.rdo.description }}
         </q-td>
         <q-td :auto-width="true" key="regionOfInterest" :props="props">
           {{ props.row.rdo.regionOfInterest.description }}
