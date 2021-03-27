@@ -142,7 +142,7 @@
                 transition-hide="scale"/>
 
       <q-select class="col-12 col-md-3"
-                :disable="(!(country && regions.length>0))" :readonly="!(country && regions.length>0 && selectedRdo)"
+                :disable="(!(country && regions.length>0))" :readonly="!(country && regions.length>0 && !selectedRdo)"
                 :options="regions" option-label="description"  :options-dense="true"
                 outlined
                 v-model="rdo.regionOfInterest"
