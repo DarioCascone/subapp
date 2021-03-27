@@ -57,7 +57,7 @@
           <q-select v-model="user.legalForm"
                     :options="legalFormOptions"
                     name="legalForm"
-                    :disable="isEditing"
+                    :disable="isEditing && !isAdmin"
                     outlined
                     class="col-12 col-md-3"
                     option-dense
@@ -79,7 +79,7 @@
           <q-select @input="getRegionOptions"
                     class="col-12 col-md-3"
                     outlined
-                    :disable="isEditing"
+                    :disable="isEditing && !isAdmin"
                     :options-dense="true"
                     v-model="user.country"
                     label="Nazione *"
@@ -94,7 +94,7 @@
           />
           <q-select @input="getProvinceOptions"
                     class="col-12 col-md-3"
-                    :disable="(!(user.country && regions.length>0)) || isEditing" :readonly="!(user.country && regions.length>0)"
+                    :disable="(!(user.country && regions.length>0)) || (isEditing && !isAdmin)" :readonly="!(user.country && regions.length>0)"
                     :options="regions" option-label="description"  :options-dense="true"
                     outlined
                     v-model="user.region"
@@ -110,7 +110,7 @@
 
           <q-select @input="getCityOptions"
                     class="col-12 col-md-3"
-                    :disable="(!(user.region && provinces.length>0)) || isEditing" :readonly="!(user.region && provinces.length>0)"
+                    :disable="(!(user.region && provinces.length>0)) || (isEditing && !isAdmin)" :readonly="!(user.region && provinces.length>0)"
                     option-label="description" option-dense v-model="user.province" :options="provinces"
                     label="Provincia *"
                     reactive-rules name="region"
@@ -122,7 +122,7 @@
                     transition-hide="scale"
           />
 
-          <q-select :disable="(!(user.province && cities.length>0)) || isEditing" :readonly="!(user.province && cities.length>0)"
+          <q-select :disable="(!(user.province && cities.length>0)) || (isEditing && !isAdmin)" :readonly="!(user.province && cities.length>0)"
                     class="col-12 col-md-3"
                     option-label="description" option-dense :options="cities"
                     name="city"
@@ -139,7 +139,7 @@
 
           <q-input outlined
                    v-model="user.vatNumber"
-                   :disable="isEditing"
+                   :disable="isEditing && !isAdmin"
                    class="col-12 col-md-3"
                    type="text"
                    label="Partita IVA *"
@@ -149,7 +149,7 @@
           <q-input outlined
                    v-model="user.fiscalCode"
                    type="text"
-                   :disable="isEditing"
+                   :disable="isEditing && !isAdmin"
                    class="col-12 col-md-3"
                    label="Codice Fiscale *"
                    reactive-rules name="fiscalCode"
@@ -158,14 +158,14 @@
           <q-input outlined
                    v-model="user.registeredOfficeAddress"
                    type="text"
-                   :disable="isEditing"
+                   :disable="isEditing && !isAdmin"
                    label="Indirizzo sede legale *"
                    reactive-rules name="registeredOfficeAddress"
                    class="col-12 col-md-3"
                    :rules="[ (val) => isValid('registeredOfficeAddress', val, $v.user) ]" />
 
           <q-input outlined
-                   :disable="isEditing"
+                   :disable="isEditing && !isAdmin"
                    v-model="user.postalCode"
                    type="number" label="CAP *"
                    class="col-12 col-md-3"
@@ -181,7 +181,7 @@
           <q-input v-model="user.companyName"
                    outlined
                    type="text"
-                   :disable="isEditing"
+                   :disable="isEditing && !isAdmin"
                    class="col-12 col-md-3"
                    name="companyName"
                    label="Ragione sociale *"
@@ -664,7 +664,7 @@ export default {
 
     }
   },
-  props: ['showAlert', 'isEditing'],
+  props: ['showAlert', 'isEditing', 'isAdmin', 'selectedUser'],
   methods: {
     ...mapActions([
       'getCountries',
@@ -685,7 +685,11 @@ export default {
       window.open('', '_blank ')
     },
     async buildEditProfilePage () {
-      this.user = JSON.parse(JSON.stringify(this.userLogged)) // to avoid reference
+      if (!this.isAdmin) {
+        this.user = JSON.parse(JSON.stringify(this.userLogged)) // to avoid reference
+      } else {
+        this.user = JSON.parse(JSON.stringify(this.selectedUser)) // to avoid reference
+      }
 
       this.loadUserLoggedFile()
 
@@ -781,6 +785,9 @@ export default {
           if (this.isEditing) {
             this.$emit('editSuccess', false)
           }
+          if (this.isAdmin) {
+            this.$emit('editSelectedUserSuccess')
+          }
           this.user.certificateDate = tempCertificateDate
           this.user.durcRegolarityDate = tempDurcRegolarityDate
           this.$q.loading.hide()
@@ -871,7 +878,9 @@ export default {
         obj = {
           pathParam: user._id
         }
-        await this.fetchUser(obj)
+        if (!this.isAdmin) {
+          await this.fetchUser(obj)
+        }
       } else {
         await this.putUser(user)
       }
@@ -910,15 +919,13 @@ export default {
       await this.getSubRdo(queryparams)
     }
   },
-  async created () {
+  async mounted () {
     await this.getCountries()
     await this.getMacroRdo()
-  },
-  async mounted () {
-    this.$v.$touch()
     if (this.isEditing) {
       await this.buildEditProfilePage()
     }
+    this.$v.$touch()
   },
   computed: {
     ...mapGetters({

@@ -26,7 +26,10 @@
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td :auto-width="true" key="user" :props="props">
-            {{ props.row.user.username }}
+            <div>
+              {{ props.row.user.username }}
+            </div>
+            <q-icon style="font-size: 2rem;" name="search" class="text-secondary cursor-pointer" @click="viewSelectedProfile(props.row.user)"/>
           </q-td>
           <q-td :auto-width="true" key="registrationDate" :props="props">
             {{ date.formatDate(props.row.user.createdAt, 'MM-DD-YYYY') }}
@@ -86,17 +89,30 @@
         </q-tr>
       </template>
     </q-table>
+    <modal @editSelectedUserSuccess="editSelectedUserSuccess" :class-obj="classObj" :modal.sync="modal" :is-maximized="isMaximized" :is-editing="isEditing" :component="modalComponent" :title="modalTitle" :is-admin="true" :selected-user="selectedUser"/>
   </q-page>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
 import { date } from 'quasar'
+import Modal from 'components/Modal'
 
 export default {
   name: 'Admin',
+  components: { Modal },
   data () {
     return {
+      selectedUser: undefined,
+      isEditing: false,
+      modal: false,
+      modalComponent: undefined,
+      modalTitle: undefined,
+      isMaximized: false,
+      classObj: {},
+      viewProfileClassObj: {
+        'bg-white': true
+      },
       filter: '',
       date: date,
       users: [],
@@ -138,6 +154,17 @@ export default {
       'updateLoggedUser',
       'deleteUser'
     ]),
+    async editSelectedUserSuccess () {
+      await this.loadUsers()
+    },
+    openModal (component, title, isMaximized, classObj, isEditing) {
+      this.modalComponent = component
+      this.modalTitle = title
+      this.isMaximized = isMaximized
+      this.modal = true
+      this.classObj = classObj
+      this.isEditing = isEditing
+    },
     getData () {
       if (this.data.length > 0) this.data = []
       this.users.forEach((user) => {
@@ -148,6 +175,10 @@ export default {
           this.data.push(obj)
         }
       })
+    },
+    viewSelectedProfile (user) {
+      this.selectedUser = user
+      this.openModal('sign-in', 'MODIFICA UTENTE - VISTA ADMIN', true, this.viewProfileClassObj, true)
     },
     downloadFile (path) {
       window.open('http://localhost:3000/' + path)
@@ -206,9 +237,9 @@ export default {
       }
     }
   },
-  mounted () {
+  async mounted () {
     this.$q.loading.show()
-    this.loadUsers()
+    await this.loadUsers()
   }
 }
 </script>
