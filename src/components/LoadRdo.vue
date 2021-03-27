@@ -11,7 +11,7 @@
                  reactive-rules name="contractor"
                  :rules="[ (val) => isValid('contractor', val, $v.rdo) ]"/>
 
-      <div v-if="(selectedRdo != null && rdo.user_id != userLogged._id)"
+      <div v-if="(selectedRdo != null && rdo.user._id != userLogged._id)"
            class="col-12 col-md-3">
         <div>Ribasso del <span style="color: #29ABF4; font-weight: bold">{{ribasso}}%</span></div>
         <template>
@@ -27,7 +27,7 @@
         </template>
       </div>
 
-      <div v-if="!(selectedRdo != null  && rdo.user_id != userLogged._id)"  class="desktop-only col-md-3"></div>
+      <div v-if="!(selectedRdo != null  && rdo.user._id != userLogged._id)"  class="desktop-only col-md-3"></div>
       <div class="desktop-only col-md-3"></div>
 
       <!-- Riga -->
@@ -334,7 +334,7 @@
       <div v-if="selectedRdo != null" class="desktop-only col-md-3"></div>
 
       <div class="col-12 row justify-center q-pt-xl q-pb-xl no-margin">
-        <q-btn  v-if="(selectedRdo == null && rdo.user_id != userLogged._id)"
+        <q-btn  v-if="(selectedRdo == null && rdo.user._id != userLogged._id)"
                 push
                 :ripple="false"
                 class="col-3"
@@ -342,7 +342,7 @@
                 color="secondary"
                 type='submit'/>
 
-        <q-btn  v-if="(selectedRdo != null && rdo.user_id != userLogged._id)"
+        <q-btn  v-if="(selectedRdo != null && rdo.user._id != userLogged._id)"
                 push
                 :ripple="false"
                 class="col-3"
@@ -410,7 +410,8 @@ export default {
       'fetchUser',
       'createRdo',
       'uploadFile',
-      'fetchRdos'
+      'fetchRdos',
+      'sendMail'
     ]),
     getData () {
       if (this.data.length > 0) this.data = []
@@ -454,7 +455,7 @@ export default {
     async loadRdo () {
       if (!this.$v.$invalid) {
         this.$q.loading.show()
-        this.rdo.user_id = this.userLogged._id
+        this.rdo.user = this.userLogged
         this.rdo.rdos = this.rdosSubcategories
         this.rdo.expirationDate = date.extractDate(this.expirationDate, 'DD/MM/YYYY')
         this.rdo.startDate = date.extractDate(this.startDate, 'DD/MM/YYYY')
@@ -529,8 +530,26 @@ export default {
     resetEndDate () {
       this.endDate = undefined
     },
-    inviaRibasso () {
-      console.log('ribasso inviato!')
+    async inviaRibasso () {
+      this.$q.loading.show()
+      const infoRibassoEmail = {
+        to: this.rdo.user.username,
+        from: 'dario.cascone93@gmail.com',
+        subject: 'Ricezione offerta per RDO: ' + this.rdo.description,
+        html: 'Spett.le ' + this.rdo.contractor + ', <br/>' +
+          'l\'operatore economico <strong>' + this.userLogged.companyName + '</strong> ha inviato la seguente offerta: <br/>' +
+          'Ribasso: <strong>' + this.ribasso + '%</strong><br/>' +
+          'Note: ' + this.rdo.peculiarity + '<br/>' + this.rdo.requiredDocuments + '<br/><br/>' +
+          'Di seguito trova i link ai file relativi all\'azienda: <br/>' +
+          '<a target="_blank" href="http://localhost:3000/' + this.rdo.user.durcRegolarityFile.path + '">Regolarità Durc</a><br/>' +
+          '<a target="_blank" href="http://localhost:3000/' + this.rdo.user.certificateFile.path + '">Certificato o Visura Camerale</a><br/>' +
+          '<a target="_blank" href="http://localhost:3000/' + this.rdo.user.lendingFile.path + '">Prestazione</a><br/>' +
+          '<a target="_blank" href="http://localhost:3000/' + this.rdo.user.antimafiaFile.path + '">Dichiarazione sostitutiva antimafia</a><br/>' +
+          '<br/>Distinti Saluti,<br/>' +
+          '<span style="color:#29ABF4">Subapp.it s.r.l.s</span>'
+      }
+      await this.sendMail(infoRibassoEmail)
+      this.$q.loading.hide()
     },
     async loadSelectedRdo () {
       this.rdo = JSON.parse(JSON.stringify(this.selectedRdo)) // to avoid reference

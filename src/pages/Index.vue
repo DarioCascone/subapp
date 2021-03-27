@@ -166,7 +166,7 @@
           <div class="wrapper">
             <div class="package">
               <div class="name">ANNUALE</div>
-              <div class="price one-year">€140</div>
+              <div class="price one-year">€170</div>
               <div class="trial">Offerta lancio</div>
               <hr>
               <ul>
@@ -190,7 +190,7 @@
             </div>
             <div class="package">
               <div class="name">BIENNALE</div>
-              <div class="price two-years">€250</div>
+              <div class="price two-years">€305</div>
               <div class="trial">Offerta lancio</div>
               <hr>
               <ul>

@@ -4,7 +4,7 @@ export default class rdo {
     this.imports = []
     this.regionOfInterest = undefined
     this.expirationDate = undefined
-    this.user_id = undefined
+    this.user = {}
     this.contractor = undefined
     this.cmeFile = {}
     this.images = []

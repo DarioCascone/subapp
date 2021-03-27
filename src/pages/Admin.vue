@@ -51,7 +51,7 @@
             <q-btn push class="bg-accent text-white" :disable="props.row.user.payed"  @click="openConfirmDialog(props.row.user,'Sicuro di voler attivare l\'abbonamento di un anno?', confirmUser, undefined, 1)">Attiva</q-btn>
           </q-td>
           <q-td key="biennial" :props="props">
-            <q-btn push class="bg-secondary text-white" :disable="props.row.user.payed"  @click="openConfirmDialog(props.row.user,'Sicuro di voler attivare l\'abbonamento di un anno?', confirmUser, undefined, 2)">Attiva</q-btn>
+            <q-btn push class="bg-secondary text-white" :disable="props.row.user.payed"  @click="openConfirmDialog(props.row.user,'Sicuro di voler attivare l\'abbonamento di due anni?', confirmUser, undefined, 2)">Attiva</q-btn>
           </q-td>
           <q-td  key="soaFile" :props="props">
             <q-icon v-if="props.row.user.soaFile" class="text-accent cursor-pointer" name="file_download" style="font-size: 2rem" @click="downloadFile(props.row.user.soaFile.path)"></q-icon>
