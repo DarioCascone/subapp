@@ -300,7 +300,7 @@
 
       <div class="desktop-only col-md-3"></div>
 
-      <div class="col-12 row justify-center q-pb-xl">
+      <div class="col-12 row justify-center q-pt-xl q-pb-xl">
         <q-btn  v-if="!(selectedRdo && rdo.user_id != userLogged._id)"
                 push
                 :ripple="false"
