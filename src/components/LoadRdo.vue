@@ -286,15 +286,16 @@
                :readonly="selectedRdo"
                :rules="[ (val) => isValid('reference', val, $v.rdo) ]" />
 
-      <div class="col-12 col-md-3">
-        <span>Disponibilità sopralluoghi</span>
-        <q-toggle
-          v-model="rdo.needInspection"
-          checked-icon="check"
-          color="accent"
-          unchecked-icon="clear"
-          :readonly="selectedRdo"
-        />
+      <div class="col-12 col-md-3 flex column justify-center" style="height: 56px">
+        <div>
+          <span>Disponibilità sopralluoghi</span>
+          <q-toggle
+            v-model="rdo.needInspection"
+            checked-icon="check"
+            color="accent"
+            unchecked-icon="clear"
+            :readonly="selectedRdo" />
+        </div>
       </div>
 
       <div class="desktop-only col-md-3"></div>
