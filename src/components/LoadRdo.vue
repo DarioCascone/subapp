@@ -582,6 +582,9 @@ export default {
       },
       expirationDate: {
         required
+      },
+      cmeFile: {
+        required
       }
     }
   }
