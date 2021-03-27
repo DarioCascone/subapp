@@ -7,7 +7,7 @@
         swipeable
         padding
         infinite
-        :autoplay="true"
+        :autoplay="8000"
         control-color="white"
         class="home-carousel"
       >
@@ -165,7 +165,7 @@
           <div class="wrapper">
             <div class="package">
               <div class="name">ANNUALE</div>
-              <div class="price">€140</div>
+              <div class="price one-year">€140</div>
               <div class="trial">Offerta lancio</div>
               <hr>
               <ul>
@@ -189,7 +189,7 @@
             </div>
             <div class="package">
               <div class="name">BIENNALE</div>
-              <div class="price">€250</div>
+              <div class="price two-years">€250</div>
               <div class="trial">Offerta lancio</div>
               <hr>
               <ul>

@@ -1,281 +1,325 @@
 <template>
   <q-form @submit="loadRdo">
-    <div class="row wrap justify-center content-center no-padding no-margin q-gutter-x-md q-gutter-y-xs">
-      <div class="col-md-3">
-        <q-input   outlined
-                   v-model="rdo.contractor"
-                   type="text"
-                   label="Appaltatore *"
-                   class="col-12 col-md-3"
-                   reactive-rules name="contractor"
-                   :rules="[ (val) => isValid('contractor', val, $v.rdo) ]"/>
+    <div class="row wrap justify-center content-center q-pt-lg no-margin q-gutter-x-md q-gutter-y-xs">
 
-        <q-input @click="$refs.qDateProxy.show()" onkeydown="return false" class="col-md-2" label="Data scadenza *" :rules="[ (val) => isValid('expirationDate', val, $v) ]" outlined v-model="expirationDate" mask="##/##/####">
-          <template v-slot:append>
-            <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                <q-date @input="resetStartEndDate"  :locale="currentLocale" v-model="expirationDate" :options="calendarDataScadenza"  mask="DD/MM/YYYY">
-                  <div class="row items-center justify-end q-gutter-sm">
-                    <q-btn label="Annulla" color="primary" flat v-close-popup />
-                    <q-btn label="OK" color="primary" flat v-close-popup />
-                  </div>
-                </q-date>
-              </q-popup-proxy>
-            </q-icon>
-          </template>
-        </q-input>
-        <q-input outlined
-                 v-model="rdo.reference"
-                 type="number"
-                 label="Contatto referente *"
+      <q-input   outlined
+                 :readonly="selectedRdo"
+                 v-model="rdo.contractor"
+                 type="text"
+                 label="Appaltatore *"
                  class="col-12 col-md-3"
-                 reactive-rules name="reference"
-                 :rules="[ (val) => isValid('reference', val, $v.rdo) ]" />
+                 reactive-rules name="contractor"
+                 :rules="[ (val) => isValid('contractor', val, $v.rdo) ]"/>
 
-        <div class="col-md-3">
-          <span>Disponibilità sopralluoghi</span>
-          <q-toggle
-            v-model="rdo.needInspection"
-            checked-icon="check"
-            color="accent"
-            unchecked-icon="clear"
-          />
-        </div>
-
-        <div class="col-md-3 q-pt-md">
-          Richieste di offerta *
-        </div>
-        <div class="desktop-only col-md-3"></div>
-        <div class="desktop-only col-md-3"></div>
-
-        <q-select @input="getCatRdoOption"
-                  class="col-md-3"
-                  multiple
-                  use-chips
-                  outlined option-dense
-                  v-model="rdosMacrocategories"
-                  :options="macroRdo" option-label="description"
-                  label="Macrocategoria"
-                  name="macrocategory"
-                  transition-show="scale"
-                  transition-hide="scale"
-                  emit-value
-                  map-options
-                  reactive-rules
-                  :rules="[ (val) => isValid('rdosMacrocategories', val, $v) ]"/>
-
-        <q-select @input="getSubcatRdoOption"
-                  class="col-md-3"
-                  :disable="!rdosMacrocategories.length>0"
-                  :readonly="!rdosMacrocategories.length>0"
-                  outlined
-                  :options="catRdo" option-label="description"
-                  :options-dense="true"
-                  v-model="rdosCategories"
-                  label="Categoria"
-                  multiple use-chips
-                  name="category"
-                  emit-value
-                  map-options
-                  transition-show="scale"
-                  transition-hide="scale"
-                  reactive-rules
-                  :rules="[ (val) => isValid('rdosCategories', val, $v) ]"/>
-
-        <q-select class="col-md-3"
-                  :disable="!rdosCategories.length>0"
-                  :readonly="!rdosCategories.length>0"
-                  outlined
-                  :options="subRdo" option-label="description"
-                  :options-dense="true"
-                  v-model="rdosSubcategories"
-                  label="Sottocategoria"
-                  multiple use-chips
-                  name="subcategory"
-                  emit-value
-                  map-options
-                  transition-show="scale"
-                  transition-hide="scale"
-                  reactive-rules
-                  :rules="[ (val) => isValid('rdosSubcategories', val, $v) ]"/>
-
-        <div class="desktop-only col-md-3"></div>
-
-        <q-select v-model="rdo.imports"
-                  :options="imports"
-                  name="imports"
-                  outlined
-                  class="col-md-3"
-                  option-dense
-                  multiple
-                  label="Importi *"
-                  use-chips
-                  transition-show="scale"
-                  transition-hide="scale"
-                  reactive-rules
-                  :rules="[ (val) => isValid('imports', val, $v.rdo) ]"/>
-
-        <q-select @input="getRegionOptions"
-                  class="col-12 col-md-3"
-                  outlined
-                  :options-dense="true"
-                  v-model="country"
-                  label="Nazione *"
-                  :options="countries" option-label="description"
-                  reactive-rules
-                  name="country"
-                  emit-value
-                  map-options
-                  :rules="[ (val) => isValid('country', val, $v) ]"
-                  transition-show="scale"
-                  transition-hide="scale"/>
-
-        <q-select class="col-12 col-md-3"
-                  :disable="(!(country && regions.length>0))" :readonly="!(country && regions.length>0)"
-                  :options="regions" option-label="description"  :options-dense="true"
-                  outlined
-                  v-model="rdo.regionOfInterest"
-                  label="Regione *"
-                  name="region"
-                  emit-value
-                  reactive-rules
-                  :rules="[ (val) => isValid('regionOfInterest', val, $v.rdo) ]"
-                  map-options
-                  transition-show="scale"
-                  transition-hide="scale"/>
-        <div class="col-md-3 q-pt-md">
-          CME *
-        </div>
-        <div class="col-md-3">
-          <q-file
-            v-model="cmeFile"
-            label="Carica quì il documento richiesto"
-            accept=".pdf"
-            outlined
-            use-chips
-          >
-            <template v-slot:prepend>
-              <q-icon name="attach_file" />
-            </template>
-          </q-file>
-        </div>
-
-        <div class="col-md-3 q-pt-md">
-          Immagini
-        </div>
-
-        <div class="col-md-3">
-          <q-file
-            v-model="images"
-            label="Carica quì eventuali immagini"
-            accept=".png, .jpeg, .jpg"
-            multiple
-            outlined
-            use-chips
-          >
-            <template v-slot:prepend>
-              <q-icon name="attach_file" />
-            </template>
-          </q-file>
-        </div>
-
-        <div class="col-md-3 q-pt-md">
-          Eventuali problematiche o particolarità
-        </div>
-        <div class="col-md-3 q-pb-md">
-          <q-input   outlined
-                     label="Testo"
-                     class="col-12"
-                     type="textarea"
-                     name="peculiarity"
-                     v-model="rdo.peculiarity"/>
-        </div>
-
-        <q-input @click="$refs.startDateProxy.show()" onkeydown="return false" :disable="expirationDate == null" class="col-md-2" label=" Data prevista per inizio *" :rules="[ (val) => isValid('startDate', val, $v) ]" outlined v-model="startDate" mask="##/##/####">
-          <template v-slot:append>
-            <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy ref="startDateProxy" transition-show="scale" transition-hide="scale">
-                <q-date @input="resetEndDate" :disable="expirationDate == null" :locale="currentLocale" v-model="startDate" :options="calendarDataInizio"  mask="DD/MM/YYYY">
-                  <div class="row items-center justify-end q-gutter-sm">
-                    <q-btn label="Annulla" color="primary" flat v-close-popup />
-                    <q-btn label="OK" color="primary" flat v-close-popup />
-                  </div>
-                </q-date>
-              </q-popup-proxy>
-            </q-icon>
-          </template>
-        </q-input>
-
-        <q-input @click="$refs.endDateProxy.show()" onkeydown="return false" :disable="expirationDate == null || startDate == null" class="col-md-2" label=" Data presunta fine *" :rules="[ (val) => isValid('endDate', val, $v) ]" outlined v-model="endDate" mask="##/##/####">
-          <template v-slot:append>
-            <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy ref="endDateProxy" transition-show="scale" transition-hide="scale">
-                <q-date :locale="currentLocale" v-model="endDate" :options="calendarDataFine"  mask="DD/MM/YYYY">
-                  <div :disable="expirationDate == null || startDate == null" class="row items-center justify-end q-gutter-sm">
-                    <q-btn label="Annulla" color="primary" flat v-close-popup />
-                    <q-btn label="OK" color="primary" flat v-close-popup />
-                  </div>
-                </q-date>
-              </q-popup-proxy>
-            </q-icon>
-          </template>
-        </q-input>
-
-        <div class="col-md-3 q-pt-md">
-          Immagini
-        </div>
-
-        <div class="col-md-3">
-          <q-file
-            v-model="technicalFiles"
-            label="Carica quì eventuali file"
-            accept=".pdf"
-            multiple
-            outlined
-            use-chips
-          >
-            <template v-slot:prepend>
-              <q-icon name="attach_file" />
-            </template>
-          </q-file>
-        </div>
-
-        <div class="col-md-3 q-pt-md">
-          Documenti necessari
-        </div>
-        <div class="col-md-3 q-pb-md">
-          <q-input   outlined
-                     label="Testo"
-                     class="col-12"
-                     type="textarea"
-                     name="requiredDocuments"
-                     v-model="rdo.requiredDocuments"/>
-        </div>
-
-        <div class="col-md-3 q-pt-md">
-          Descrizione *
-        </div>
-        <div class="col-md-3 q-pb-md">
-          <q-input   outlined
-                     label="Testo"
-                     class="col-12"
-                     type="textarea"
-                     name="description"
-                     v-model="rdo.description"
-                     reactive-rules
-                     :rules="[ (val) => isValid('description', val, $v.rdo) ]" />
-        </div>
-
-        <div class="q-pa-xl">
-          <q-btn push
-                 :ripple="false"
-                 class="full-width"
-                 label="Conferma"
-                 color="secondary"
-                 type='submit'/>
-        </div>
+      <div v-if="(selectedRdo && rdo.user_id != userLogged._id)"
+           class="col-12 col-md-3">
+        <div>Ribasso del <span style="color: #29ABF4; font-weight: bold">{{ribasso}}%</span></div>
+        <template>
+                <q-slider
+                  v-model="ribasso"
+                  :min="0"
+                  :max="100"
+                  :step="1"
+                  label
+                  :label-value="ribasso + '%'"
+                  color="accent"
+                />
+        </template>
       </div>
-    </div>
+
+      <div v-if="!(selectedRdo && rdo.user_id != userLogged._id)"  class="desktop-only col-md-3"></div>
+      <div class="desktop-only col-md-3"></div>
+
+      <!-- Riga -->
+
+      <q-input   outlined
+                 label="Descrizione"
+                 class="col-12 col-md-3 "
+                 type="textarea"
+                 name="description"
+                 v-model="rdo.description"
+                 :readonly="selectedRdo"
+                 reactive-rules
+                 :rules="[ (val) => isValid('description', val, $v.rdo) ]" />
+
+      <q-input   outlined
+                 label="Documenti necessari"
+                 class="col-12 col-md-3"
+                 type="textarea"
+                 name="requiredDocuments"
+                 :readonly="selectedRdo"
+                 v-model="rdo.requiredDocuments"
+                 reactive-rules
+                 :rules="[ (val) => {return true} ]" />
+
+      <q-input   outlined
+                 label="Eventuali problematiche o peculiarità"
+                 class="col-12 col-md-3"
+                 type="textarea"
+                 name="peculiarity"
+                 :readonly="selectedRdo"
+                 v-model="rdo.peculiarity"
+                 reactive-rules
+                 :rules="[ (val) => {return true} ]" />
+
+      <!-- Riga -->
+
+      <q-input @click="$refs.qDateProxy.show()"
+               onkeydown="return false"
+               :readonly="selectedRdo"
+               class="col-12 col-md-3" label="Data scadenza *"
+               :rules="[ (val) => isValid('expirationDate', val, $v) ]"
+               outlined v-model="expirationDate" mask="##/##/####">
+        <template v-slot:append>
+          <q-icon name="event" class="cursor-pointer">
+            <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+              <q-date :readonly="selectedRdo" @input="resetStartEndDate"  :locale="currentLocale" v-model="expirationDate" :options="calendarDataScadenza"  mask="DD/MM/YYYY">
+                <div class="row items-center justify-end q-gutter-sm">
+                  <q-btn label="Annulla" color="primary" flat v-close-popup />
+                  <q-btn label="OK" color="primary" flat v-close-popup />
+                </div>
+              </q-date>
+            </q-popup-proxy>
+          </q-icon>
+        </template>
+      </q-input>
+
+      <q-input @click="$refs.startDateProxy.show()"
+               onkeydown="return false" :disable="expirationDate == null"
+               :readonly="selectedRdo"
+               class="col-12 col-md-3" label=" Data prevista per inizio *"
+               :rules="[ (val) => isValid('startDate', val, $v) ]"
+               outlined v-model="startDate" mask="##/##/####">
+        <template v-slot:append>
+          <q-icon name="event" class="cursor-pointer">
+            <q-popup-proxy ref="startDateProxy" transition-show="scale" transition-hide="scale">
+              <q-date :readonly="selectedRdo" @input="resetEndDate" :disable="expirationDate == null" :locale="currentLocale" v-model="startDate" :options="calendarDataInizio"  mask="DD/MM/YYYY">
+                <div class="row items-center justify-end q-gutter-sm">
+                  <q-btn label="Annulla" color="primary" flat v-close-popup />
+                  <q-btn label="OK" color="primary" flat v-close-popup />
+                </div>
+              </q-date>
+            </q-popup-proxy>
+          </q-icon>
+        </template>
+      </q-input>
+
+      <q-input @click="$refs.endDateProxy.show()" onkeydown="return false"
+               :readonly="selectedRdo"
+               :disable="expirationDate == null || startDate == null"
+               class="col-12 col-md-3" label=" Data presunta fine *"
+               :rules="[ (val) => isValid('endDate', val, $v) ]" outlined v-model="endDate" mask="##/##/####">
+        <template v-slot:append>
+          <q-icon name="event" class="cursor-pointer">
+            <q-popup-proxy ref="endDateProxy" transition-show="scale" transition-hide="scale">
+              <q-date :readonly="selectedRdo" :locale="currentLocale" v-model="endDate" :options="calendarDataFine"  mask="DD/MM/YYYY">
+                <div :disable="expirationDate == null || startDate == null" class="row items-center justify-end q-gutter-sm">
+                  <q-btn label="Annulla" color="primary" flat v-close-popup />
+                  <q-btn label="OK" color="primary" flat v-close-popup />
+                </div>
+              </q-date>
+            </q-popup-proxy>
+          </q-icon>
+        </template>
+      </q-input>
+
+      <!-- Riga -->
+
+      <q-select @input="getRegionOptions"
+                class="col-12 col-md-3"
+                outlined
+                :options-dense="true"
+                v-if="!selectedRdo"
+                v-model="country"
+                label="Nazione *"
+                :options="countries" option-label="description"
+                reactive-rules
+                name="country"
+                emit-value
+                map-options
+                :rules="[ (val) => isValid('country', val, $v) ]"
+                transition-show="scale"
+                transition-hide="scale"/>
+
+      <q-select class="col-12 col-md-3"
+                :disable="(!(country && regions.length>0))" :readonly="!(country && regions.length>0 && selectedRdo)"
+                :options="regions" option-label="description"  :options-dense="true"
+                outlined
+                v-model="rdo.regionOfInterest"
+                label="Regione *"
+                name="region"
+                emit-value
+                reactive-rules
+                :rules="[ (val) => isValid('regionOfInterest', val, $v.rdo) ]"
+                map-options
+                transition-show="scale"
+                transition-hide="scale"/>
+
+      <q-select v-model="rdo.imports"
+                :options="imports"
+                :readonly="selectedRdo"
+                name="imports"
+                outlined
+                class="col-12 col-md-3"
+                option-dense
+                multiple
+                label="Importi *"
+                use-chips
+                transition-show="scale"
+                transition-hide="scale"
+                reactive-rules
+                :rules="[ (val) => isValid('imports', val, $v.rdo) ]"/>
+
+      <div v-if="selectedRdo" class="desktop-only col-md-3"></div>
+      <!-- Riga -->
+
+      <q-select @input="getCatRdoOption"
+                class="col-12 col-md-3"
+                multiple
+                use-chips
+                outlined option-dense
+                :readonly="selectedRdo"
+                v-model="rdosMacrocategories"
+                :options="macroRdo" option-label="description"
+                label="Macrocategoria RDO"
+                name="macrocategory"
+                transition-show="scale"
+                transition-hide="scale"
+                emit-value
+                map-options
+                reactive-rules
+                :rules="[ (val) => isValid('rdosMacrocategories', val, $v) ]"/>
+
+      <q-select @input="getSubcatRdoOption"
+                class="col-12 col-md-3"
+                :disable="!rdosMacrocategories.length>0"
+                :readonly="!rdosMacrocategories.length>0 && selectedRdo"
+                outlined
+                :options="catRdo" option-label="description"
+                :options-dense="true"
+                v-model="rdosCategories"
+                label="Categoria RDO"
+                multiple use-chips
+                name="category"
+                emit-value
+                map-options
+                transition-show="scale"
+                transition-hide="scale"
+                reactive-rules
+                :rules="[ (val) => isValid('rdosCategories', val, $v) ]"/>
+
+      <q-select class="col-12 col-md-3"
+                :disable="!rdosCategories.length>0"
+                :readonly="!rdosCategories.length>0 && selectedRdo"
+                outlined
+                :options="subRdo" option-label="description"
+                :options-dense="true"
+                v-model="rdosSubcategories"
+                label="Sottocategoria RDO"
+                multiple use-chips
+                name="subcategory"
+                emit-value
+                map-options
+                transition-show="scale"
+                transition-hide="scale"
+                reactive-rules
+                :rules="[ (val) => isValid('rdosSubcategories', val, $v) ]"/>
+
+      <!-- Riga -->
+
+      <div class="col-12 col-md-3">
+        <q-file
+          v-model="cmeFile"
+          label="Carica quì il CME *"
+          accept=".pdf"
+          outlined
+          use-chips
+          :readonly="selectedRdo"
+          :rules="[ (val) => isValid('cmeFile', val, $v) ]"
+        >
+          <template v-slot:prepend>
+            <q-icon name="attach_file" />
+          </template>
+        </q-file>
+      </div>
+
+      <div class="col-12 col-md-3">
+        <q-file
+          v-model="images"
+          label="Carica quì eventuali immagini"
+          accept=".png, .jpeg, .jpg"
+          multiple
+          outlined
+          use-chips
+          :readonly="selectedRdo"
+        >
+          <template v-slot:prepend>
+            <q-icon name="attach_file" />
+          </template>
+        </q-file>
+      </div>
+
+      <div class="col-12 col-md-3">
+        <q-file
+          v-model="technicalFiles"
+          label="Carica quì eventuali file tecnici"
+          accept=".pdf"
+          multiple
+          outlined
+          use-chips
+          :readonly="selectedRdo"
+        >
+          <template v-slot:prepend>
+            <q-icon name="attach_file" />
+          </template>
+        </q-file>
+      </div>
+
+      <!-- Riga -->
+
+      <q-input outlined
+               v-model="rdo.reference"
+               type="number"
+               label="Contatto referente *"
+               class="col-12 col-md-3"
+               reactive-rules name="reference"
+               :readonly="selectedRdo"
+               :rules="[ (val) => isValid('reference', val, $v.rdo) ]" />
+
+      <div class="col-12 col-md-3">
+        <span>Disponibilità sopralluoghi</span>
+        <q-toggle
+          v-model="rdo.needInspection"
+          checked-icon="check"
+          color="accent"
+          unchecked-icon="clear"
+          :readonly="selectedRdo"
+        />
+      </div>
+
+      <div class="desktop-only col-md-3"></div>
+
+      <div class="col-12 row justify-center q-pb-xl">
+        <q-btn  v-if="!(selectedRdo && rdo.user_id != userLogged._id)"
+                push
+                :ripple="false"
+                class="col-3"
+                label="Conferma"
+                color="secondary"
+                type='submit'/>
+
+        <q-btn  v-if="(selectedRdo && rdo.user_id != userLogged._id)"
+                push
+                :ripple="false"
+                class="col-3"
+                label="Invia Ribasso"
+                color="secondary"
+                @click="inviaRibasso"
+                type='submit'/>
+        </div>
+
+      </div>
+
   </q-form>
 </template>
 
@@ -311,7 +355,8 @@ export default {
         months: 'Gennaio_Febbraio_Marzo_Aprile_Maggio_Giugno_Luglio_Agosto_Settembre_Ottobre_Novembre_Dicembre'.split('_'),
         monthsShort: 'Gen_Feb_Mar_Apr_Mag_Giu_Lug_Ago_Set_Ott_Nov_Dic'.split('_'),
         firstDayOfWeek: 0
-      }
+      },
+      ribasso: 0
     }
   },
   methods: {
@@ -420,6 +465,9 @@ export default {
     },
     resetEndDate () {
       this.endDate = undefined
+    },
+    inviaRibasso () {
+      console.log('ribasso inviato!')
     }
   },
   computed: {

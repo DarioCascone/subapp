@@ -320,10 +320,19 @@
       font-weight: bold;
       color: $primary;
       font-size: 1.5rem;
-      &::after {
-        content: " / una tantum";
-        font-weight: normal;
-        font-size: 1rem;
+      &.one-year {
+        &::after {
+          content: " / un anno";
+          font-weight: normal;
+          font-size: 1rem;
+        }
+      }
+      &.two-years {
+        &::after {
+          content: " / due anni";
+          font-weight: normal;
+          font-size: 1rem;
+        }
       }
     }
     hr {
