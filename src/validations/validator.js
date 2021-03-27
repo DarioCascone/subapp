@@ -112,6 +112,11 @@ export default {
             return 'Email: ' + val + ' non valida!'
           }
           break
+        case 'reference':
+          if (!validator[input].isTelephoneNumber) {
+            return 'Numero: ' + val + ' non valido!'
+          }
+          break
       }
     }
     return true

@@ -35,8 +35,8 @@
             {{ date.formatDate(props.row.user.createdAt, 'MM-DD-YYYY') }}
           </q-td>
           <q-td  key="blocked" :props="props">
-            <q-btn v-if="props.row.user.blocked" push class="bg-warning text-white" @click="openConfirmDialog(props.row.user, 'Sicuro di voler sbloccare l utente selezionato?', update , false, null)">Sblocca</q-btn>
-            <q-btn v-else push class="bg-warning text-white" @click="openConfirmDialog(props.row.user, 'Sicuro di voler bloccare l utente selezionato?', update, true, null)">Blocca</q-btn>
+            <q-btn v-if="props.row.user.blocked" push class="bg-warning text-white" @click="openConfirmDialog(props.row.user, 'Sicuro di voler sbloccare l\'utente selezionato?', update , false, null)">Sblocca</q-btn>
+            <q-btn v-else push class="bg-warning text-white" @click="openConfirmDialog(props.row.user, 'Sicuro di voler bloccare l\'utente selezionato?', update, true, null)">Blocca</q-btn>
           </q-td>
           <q-td  key="payed" :props="props">
             <div v-if="props.row.user.payed" class="flex column items-center justify-around full-width">
@@ -48,10 +48,10 @@
             </div>
           </q-td>
           <q-td key="annual" :props="props">
-            <q-btn push class="bg-accent text-white" :disable="props.row.user.payed"  @click="openConfirmDialog(props.row.user,'Sicuro di voler attivare l abbonamento di un anno?', confirmUser, undefined, 1)">Attiva</q-btn>
+            <q-btn push class="bg-accent text-white" :disable="props.row.user.payed"  @click="openConfirmDialog(props.row.user,'Sicuro di voler attivare l\'abbonamento di un anno?', confirmUser, undefined, 1)">Attiva</q-btn>
           </q-td>
           <q-td key="biennial" :props="props">
-            <q-btn push class="bg-secondary text-white" :disable="props.row.user.payed"  @click="openConfirmDialog(props.row.user,'Sicuro di voler attivare l abbonamento di un anno?', confirmUser, undefined, 2)">Attiva</q-btn>
+            <q-btn push class="bg-secondary text-white" :disable="props.row.user.payed"  @click="openConfirmDialog(props.row.user,'Sicuro di voler attivare l\'abbonamento di un anno?', confirmUser, undefined, 2)">Attiva</q-btn>
           </q-td>
           <q-td  key="soaFile" :props="props">
             <q-icon v-if="props.row.user.soaFile" class="text-accent cursor-pointer" name="file_download" style="font-size: 2rem" @click="downloadFile(props.row.user.soaFile.path)"></q-icon>
@@ -84,7 +84,7 @@
             </div>
           </q-td>
           <q-td key="delete" :props="props" >
-            <q-icon style="font-size: 2rem;" name="delete_forever" class="text-negative cursor-pointer" @click="openConfirmDialog(props.row.user, 'Sicuro di voler eliminare l utente selezionato?', removeUser)"></q-icon>
+            <q-icon style="font-size: 2rem;" name="delete_forever" class="text-negative cursor-pointer" @click="openConfirmDialog(props.row.user, 'Sicuro di voler eliminare l\'utente selezionato?', removeUser)"></q-icon>
           </q-td>
         </q-tr>
       </template>

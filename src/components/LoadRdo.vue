@@ -240,6 +240,7 @@
             <q-icon name="attach_file" />
           </template>
         </q-file>
+
       </div>
 
       <div class="col-12 col-md-3">
@@ -257,6 +258,7 @@
             <q-icon name="attach_file" />
           </template>
         </q-file>
+
       </div>
 
       <div class="col-12 col-md-3">
@@ -274,6 +276,7 @@
             <q-icon name="attach_file" />
           </template>
         </q-file>
+
       </div>
 
       <!-- Riga -->
@@ -300,6 +303,35 @@
       </div>
 
       <div class="desktop-only col-md-3"></div>
+
+      <div v-if="selectedRdo != null" class="col-12 col-md-3">
+        <q-table
+          title="Lista file"
+          :data="data"
+          :columns="columns"
+          row-key="name"
+          bordered
+          separator="cell"
+        >
+          <template>
+            <div class="col-2 q-table__title">Lista file</div>
+          </template>
+          <template v-slot:body="props">
+            <q-tr :props="props">
+              <q-td  key="description" :props="props">
+                <div>
+                  {{ props.row.file.originalname }} <span v-if="props.row.file.index != null"> n. {{ props.row.file.index+1 }}</span>
+                </div>
+              </q-td>
+              <q-td key="download" :props="props" >
+                <q-icon v-if="props.row.file.path" class="text-accent cursor-pointer" name="file_download" style="font-size: 2rem" @click="downloadFile(props.row.file.path)"></q-icon>  </q-td>
+            </q-tr>
+          </template>
+        </q-table>
+      </div>
+
+      <div v-if="selectedRdo != null" class="desktop-only col-md-3"></div>
+      <div v-if="selectedRdo != null" class="desktop-only col-md-3"></div>
 
       <div class="col-12 row justify-center q-pt-xl q-pb-xl no-margin">
         <q-btn  v-if="(selectedRdo == null && rdo.user_id != userLogged._id)"
@@ -358,7 +390,13 @@ export default {
         monthsShort: 'Gen_Feb_Mar_Apr_Mag_Giu_Lug_Ago_Set_Ott_Nov_Dic'.split('_'),
         firstDayOfWeek: 0
       },
-      ribasso: 0
+      ribasso: 0,
+      columns: [
+        { name: 'description', label: 'File', align: 'center' },
+        { name: 'download', label: 'Download', align: 'center' }
+      ],
+      data: [],
+      isTelephoneNumber: validator.isTelephoneNumber
     }
   },
   methods: {
@@ -374,6 +412,29 @@ export default {
       'uploadFile',
       'fetchRdos'
     ]),
+    getData () {
+      if (this.data.length > 0) this.data = []
+      this.rdo.images.forEach((img, index) => {
+        img.index = index
+        const obj = {
+          file: img
+        }
+        this.data.push(obj)
+      })
+      this.rdo.technicalFiles.forEach((file, index) => {
+        file.index = index
+        const obj = {
+          file: file
+        }
+        this.data.push(obj)
+      })
+      if (this.rdo.cmeFile) {
+        const obj = {
+          file: this.rdo.cmeFile
+        }
+        this.data.push(obj)
+      }
+    },
     async getRegionOptions () {
       await this.getRegions(this.country._id)
     },
@@ -513,6 +574,9 @@ export default {
         })
       })
       return array
+    },
+    downloadFile (path) {
+      window.open('http://localhost:3000/' + path)
     }
   },
   computed: {
@@ -529,6 +593,7 @@ export default {
     if (this.selectedRdo) {
       await this.getMacroRdo()
       await this.loadSelectedRdo()
+      this.getData()
     } else {
       await this.getCountries()
       await this.getMacroRdo()
@@ -556,7 +621,8 @@ export default {
           required
         },
         reference: {
-          required
+          required,
+          isTelephoneNumber: validator.isTelephoneNumber
         },
         description: {
           required
