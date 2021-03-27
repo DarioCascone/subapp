@@ -84,6 +84,7 @@
           <q-btn class="full-width q-pa-xs"
                  push
                  :ripple="false"
+                 v-if="!userLogged"
                  @click="openModal('login', 'accedi', false, loginClassObj)"
                  style="background: #29ABF4; color: white" label="Sei gia' registrato? Clicca quì"/>
         </footer>
@@ -181,7 +182,7 @@
               </ul>
               <br>
               <div class="text-center q-px-lg">
-                <q-btn size="md" class="full-width q-pa-xs"
+                <q-btn v-if="!userLogged" size="md" class="full-width q-pa-xs"
                        @click="openModal('sign-in', 'registrati', true, singInClassObj)"
                        style="background: #29ABF4; color: white" label="Scegli il piano"/>
                 <br>
@@ -205,7 +206,7 @@
               </ul>
               <br>
               <div class="text-center q-px-lg">
-                <q-btn size="md" class="full-width q-pa-xs"
+                <q-btn v-if="!userLogged" size="md" class="full-width q-pa-xs"
                        @click="openModal('sign-in', 'registrati', true, singInClassObj)"
                        style="background: #29ABF4; color: white" label="Scegli il piano"/>
                 <br>
@@ -297,7 +298,7 @@
 import Modal from 'components/Modal'
 import validator from 'src/validations/validator'
 import { required, email } from 'vuelidate/lib/validators'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   components: { Modal },
@@ -338,6 +339,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      userLogged: 'user'
+    }),
     heroImage () {
       return {
         background: `linear-gradient(rgba(10,10,10,.5), rgba(10,10,10,.5)), url(${require('../assets/handshake.jpg')})`,
