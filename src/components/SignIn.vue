@@ -910,15 +910,13 @@ export default {
       await this.getSubRdo(queryparams)
     }
   },
-  async created () {
+  async mounted () {
     await this.getCountries()
     await this.getMacroRdo()
-  },
-  async mounted () {
-    this.$v.$touch()
     if (this.isEditing) {
       await this.buildEditProfilePage()
     }
+    this.$v.$touch()
   },
   computed: {
     ...mapGetters({

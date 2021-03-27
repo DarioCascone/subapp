@@ -420,6 +420,49 @@ export default {
     },
     resetEndDate () {
       this.endDate = undefined
+    },
+    async loadSelectedRdo () {
+      this.rdo = JSON.parse(JSON.stringify(this.selectedRdo)) // to avoid reference
+
+      this.expirationDate = new Date(this.rdo.expirationDate).toLocaleDateString('fr')
+      this.startDate = new Date(this.rdo.startDate).toLocaleDateString('fr')
+      this.endDate = new Date(this.rdo.endDate).toLocaleDateString('fr')
+
+      let macroOpt = []
+      macroOpt = this.loadSelectedRdoOptions('macroRdo', macroOpt)
+      this.rdosMacrocategories = macroOpt.filter((item, i, ar) => ar.indexOf(item) === i) // unique
+      await this.getCatRdoOption()
+
+      let catOpt = []
+      catOpt = this.loadSelectedRdoOptions('catRdo', catOpt)
+      this.rdosCategories = catOpt.filter((item, i, ar) => ar.indexOf(item) === i) // unique
+      await this.getSubcatRdoOption()
+
+      let subOpt = []
+      subOpt = this.loadSelectedRdoOptions('subRdo', subOpt)
+      this.rdosSubcategories = subOpt.filter((item, i, ar) => ar.indexOf(item) === i) // unique
+    },
+    loadSelectedRdoOptions (key, array) {
+      this.rdo.rdos.forEach((rdo) => {
+        this[key].forEach((item) => {
+          if (key === 'macroRdo') {
+            if (item._id === rdo.macrocategory) {
+              array.push(item)
+            }
+          }
+          if (key === 'catRdo') {
+            if (item._id === rdo.category) {
+              array.push(item)
+            }
+          }
+          if (key === 'subRdo') {
+            if (item._id === rdo._id) {
+              array.push(item)
+            }
+          }
+        })
+      })
+      return array
     }
   },
   computed: {
@@ -434,7 +477,8 @@ export default {
   },
   async created () {
     if (this.selectedRdo) {
-      this.rdo = JSON.parse(JSON.stringify(this.selectedRdo)) // to avoid reference
+      await this.getMacroRdo()
+      await this.loadSelectedRdo()
     } else {
       await this.getCountries()
       await this.getMacroRdo()
