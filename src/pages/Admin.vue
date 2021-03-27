@@ -35,8 +35,8 @@
             {{ date.formatDate(props.row.user.createdAt, 'MM-DD-YYYY') }}
           </q-td>
           <q-td  key="blocked" :props="props">
-            <q-btn v-if="props.row.user.blocked" push class="bg-warning text-white" @click="update(props.row.user, false)">Sblocca</q-btn>
-            <q-btn v-else push class="bg-warning text-white" @click="update(props.row.user, true)">Blocca</q-btn>
+            <q-btn v-if="props.row.user.blocked" push class="bg-warning text-white" @click="openConfirmDialog(props.row.user, 'Sicuro di voler sbloccare l utente selezionato?', update , false, null)">Sblocca</q-btn>
+            <q-btn v-else push class="bg-warning text-white" @click="openConfirmDialog(props.row.user, 'Sicuro di voler bloccare l utente selezionato?', update, true, null)">Blocca</q-btn>
           </q-td>
           <q-td  key="payed" :props="props">
             <div v-if="props.row.user.payed" class="flex column items-center justify-around full-width">
@@ -48,10 +48,10 @@
             </div>
           </q-td>
           <q-td key="annual" :props="props">
-            <q-btn push class="bg-accent text-white" :disable="props.row.user.payed"  @click="confirmUser(props.row.user, 1)">Attiva</q-btn>
+            <q-btn push class="bg-accent text-white" :disable="props.row.user.payed"  @click="openConfirmDialog(props.row.user,'Sicuro di voler attivare l abbonamento di un anno?', confirmUser, undefined, 1)">Attiva</q-btn>
           </q-td>
           <q-td key="biennial" :props="props">
-            <q-btn push class="bg-secondary text-white" :disable="props.row.user.payed"  @click="confirmUser(props.row.user, 2)">Attiva</q-btn>
+            <q-btn push class="bg-secondary text-white" :disable="props.row.user.payed"  @click="openConfirmDialog(props.row.user,'Sicuro di voler attivare l abbonamento di un anno?', confirmUser, undefined, 2)">Attiva</q-btn>
           </q-td>
           <q-td  key="soaFile" :props="props">
             <q-icon v-if="props.row.user.soaFile" class="text-accent cursor-pointer" name="file_download" style="font-size: 2rem" @click="downloadFile(props.row.user.soaFile.path)"></q-icon>
@@ -84,12 +84,13 @@
             </div>
           </q-td>
           <q-td key="delete" :props="props" >
-            <q-icon style="font-size: 2rem;" name="delete_forever" class="text-negative cursor-pointer" @click="removeUser(props.row.user)"></q-icon>
+            <q-icon style="font-size: 2rem;" name="delete_forever" class="text-negative cursor-pointer" @click="openConfirmDialog(props.row.user, 'Sicuro di voler eliminare l utente selezionato?', removeUser)"></q-icon>
           </q-td>
         </q-tr>
       </template>
     </q-table>
     <modal @editSelectedUserSuccess="editSelectedUserSuccess" :class-obj="classObj" :modal.sync="modal" :is-maximized="isMaximized" :is-editing="isEditing" :component="modalComponent" :title="modalTitle" :is-admin="true" :selected-user="selectedUser"/>
+    <confirm-dialog :message="message" :data-obj="dataObj" :callback="callback" :confirm.sync="confirm"></confirm-dialog>
   </q-page>
 </template>
 
@@ -97,12 +98,19 @@
 import { mapActions } from 'vuex'
 import { date } from 'quasar'
 import Modal from 'components/Modal'
+import ConfirmDialog from 'components/ConfirmDialog'
 
 export default {
   name: 'Admin',
-  components: { Modal },
+  components: { ConfirmDialog, Modal },
   data () {
     return {
+      subscriptionPeriod: null,
+      haveToBlock: false,
+      message: undefined,
+      dataObj: undefined,
+      callback: undefined,
+      confirm: false,
       selectedUser: undefined,
       isEditing: false,
       modal: false,
@@ -157,6 +165,18 @@ export default {
     async editSelectedUserSuccess () {
       await this.loadUsers()
     },
+    openConfirmDialog (data, message, callback, haveToBlock, period) {
+      if (haveToBlock) {
+        this.haveToBlock = haveToBlock
+      }
+      if (period) {
+        this.subscriptionPeriod = period
+      }
+      this.callback = callback
+      this.dataObj = data
+      this.message = message
+      this.confirm = true
+    },
     openModal (component, title, isMaximized, classObj, isEditing) {
       this.modalComponent = component
       this.modalTitle = title
@@ -183,11 +203,11 @@ export default {
     downloadFile (path) {
       window.open('http://localhost:3000/' + path)
     },
-    confirmUser (user, period) {
+    confirmUser (user) {
       if (user) {
         user.payed = true
         user.subscriptionDate = new Date()
-        if (period === 1) {
+        if (this.subscriptionPeriod === 1) {
           user.annual = true
         } else {
           user.biennial = true
@@ -195,8 +215,9 @@ export default {
         this.update(user)
       }
     },
-    async update (user, blocked = false) {
-      user.blocked = blocked
+    async update (user) {
+      console.log('this.haveToBlock', this.haveToBlock)
+      user.blocked = this.haveToBlock
       const obj = {
         pathParam: user._id,
         body: user
