@@ -166,12 +166,8 @@ export default {
       await this.loadUsers()
     },
     openConfirmDialog (data, message, callback, haveToBlock, period) {
-      if (haveToBlock) {
-        this.haveToBlock = haveToBlock
-      }
-      if (period) {
-        this.subscriptionPeriod = period
-      }
+      this.haveToBlock = haveToBlock
+      this.subscriptionPeriod = period
       this.callback = callback
       this.dataObj = data
       this.message = message
