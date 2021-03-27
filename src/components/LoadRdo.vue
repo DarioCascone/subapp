@@ -3,7 +3,7 @@
     <div class="row wrap justify-center content-center q-pt-lg no-margin q-gutter-x-md q-gutter-y-xs">
 
       <q-input   outlined
-                 :readonly="selectedRdo"
+                 :disable="selectedRdo != null"
                  v-model="rdo.contractor"
                  type="text"
                  label="Appaltatore *"
@@ -11,7 +11,7 @@
                  reactive-rules name="contractor"
                  :rules="[ (val) => isValid('contractor', val, $v.rdo) ]"/>
 
-      <div v-if="(selectedRdo && rdo.user_id != userLogged._id)"
+      <div v-if="(selectedRdo != null && rdo.user_id != userLogged._id)"
            class="col-12 col-md-3">
         <div>Ribasso del <span style="color: #29ABF4; font-weight: bold">{{ribasso}}%</span></div>
         <template>
@@ -27,7 +27,7 @@
         </template>
       </div>
 
-      <div v-if="!(selectedRdo && rdo.user_id != userLogged._id)"  class="desktop-only col-md-3"></div>
+      <div v-if="!(selectedRdo != null  && rdo.user_id != userLogged._id)"  class="desktop-only col-md-3"></div>
       <div class="desktop-only col-md-3"></div>
 
       <!-- Riga -->
@@ -38,7 +38,7 @@
                  type="textarea"
                  name="description"
                  v-model="rdo.description"
-                 :readonly="selectedRdo"
+                 :disable="selectedRdo != null"
                  reactive-rules
                  :rules="[ (val) => isValid('description', val, $v.rdo) ]" />
 
@@ -47,7 +47,7 @@
                  class="col-12 col-md-3"
                  type="textarea"
                  name="requiredDocuments"
-                 :readonly="selectedRdo"
+                 :disable="selectedRdo != null"
                  v-model="rdo.requiredDocuments"
                  reactive-rules
                  :rules="[ (val) => {return true} ]" />
@@ -57,7 +57,7 @@
                  class="col-12 col-md-3"
                  type="textarea"
                  name="peculiarity"
-                 :readonly="selectedRdo"
+                 :disable="selectedRdo != null"
                  v-model="rdo.peculiarity"
                  reactive-rules
                  :rules="[ (val) => {return true} ]" />
@@ -66,7 +66,7 @@
 
       <q-input @click="$refs.qDateProxy.show()"
                onkeydown="return false"
-               :readonly="selectedRdo"
+               :disable="selectedRdo != null"
                class="col-12 col-md-3" label="Data scadenza *"
                :rules="[ (val) => isValid('expirationDate', val, $v) ]"
                outlined v-model="expirationDate" mask="##/##/####">
@@ -85,8 +85,8 @@
       </q-input>
 
       <q-input @click="$refs.startDateProxy.show()"
-               onkeydown="return false" :disable="expirationDate == null"
-               :readonly="selectedRdo"
+               onkeydown="return false"
+               :disable="selectedRdo != null || expirationDate == null"
                class="col-12 col-md-3" label=" Data prevista per inizio *"
                :rules="[ (val) => isValid('startDate', val, $v) ]"
                outlined v-model="startDate" mask="##/##/####">
@@ -105,14 +105,13 @@
       </q-input>
 
       <q-input @click="$refs.endDateProxy.show()" onkeydown="return false"
-               :readonly="selectedRdo"
-               :disable="expirationDate == null || startDate == null"
+               :disable="selectedRdo != null || expirationDate == null || startDate == null"
                class="col-12 col-md-3" label=" Data presunta fine *"
                :rules="[ (val) => isValid('endDate', val, $v) ]" outlined v-model="endDate" mask="##/##/####">
         <template v-slot:append>
           <q-icon name="event" class="cursor-pointer">
             <q-popup-proxy ref="endDateProxy" transition-show="scale" transition-hide="scale">
-              <q-date :readonly="selectedRdo" :locale="currentLocale" v-model="endDate" :options="calendarDataFine"  mask="DD/MM/YYYY">
+              <q-date :locale="currentLocale" v-model="endDate" :options="calendarDataFine"  mask="DD/MM/YYYY">
                 <div :disable="expirationDate == null || startDate == null" class="row items-center justify-end q-gutter-sm">
                   <q-btn label="Annulla" color="primary" flat v-close-popup />
                   <q-btn label="OK" color="primary" flat v-close-popup />
@@ -157,7 +156,7 @@
 
       <q-select v-model="rdo.imports"
                 :options="imports"
-                :readonly="selectedRdo"
+                :disable="selectedRdo != null"
                 name="imports"
                 outlined
                 class="col-12 col-md-3"
@@ -178,7 +177,7 @@
                 multiple
                 use-chips
                 outlined option-dense
-                :readonly="selectedRdo"
+                :disable="selectedRdo != null"
                 v-model="rdosMacrocategories"
                 :options="macroRdo" option-label="description"
                 label="Macrocategoria RDO"
@@ -192,8 +191,8 @@
 
       <q-select @input="getSubcatRdoOption"
                 class="col-12 col-md-3"
-                :disable="!rdosMacrocategories.length>0"
-                :readonly="!rdosMacrocategories.length>0 && selectedRdo"
+                :disable="!rdosMacrocategories.length>0 || selectedRdo != null"
+                :readonly="!rdosMacrocategories.length>0 || selectedRdo != null"
                 outlined
                 :options="catRdo" option-label="description"
                 :options-dense="true"
@@ -209,8 +208,8 @@
                 :rules="[ (val) => isValid('rdosCategories', val, $v) ]"/>
 
       <q-select class="col-12 col-md-3"
-                :disable="!rdosCategories.length>0"
-                :readonly="!rdosCategories.length>0 && selectedRdo"
+                :disable="!rdosCategories.length>0 || selectedRdo != null"
+                :readonly="!rdosCategories.length>0 || selectedRdo != null"
                 outlined
                 :options="subRdo" option-label="description"
                 :options-dense="true"
@@ -229,12 +228,12 @@
 
       <div class="col-12 col-md-3">
         <q-file
+          v-if="!selectedRdo"
           v-model="cmeFile"
           label="Carica quì il CME *"
           accept=".pdf"
           outlined
           use-chips
-          :readonly="selectedRdo"
           :rules="[ (val) => isValid('cmeFile', val, $v) ]"
         >
           <template v-slot:prepend>
@@ -245,13 +244,14 @@
 
       <div class="col-12 col-md-3">
         <q-file
+          v-if="!selectedRdo"
           v-model="images"
           label="Carica quì eventuali immagini"
           accept=".png, .jpeg, .jpg"
           multiple
           outlined
           use-chips
-          :readonly="selectedRdo"
+          :rules="[ (val) => { return true }]"
         >
           <template v-slot:prepend>
             <q-icon name="attach_file" />
@@ -261,13 +261,14 @@
 
       <div class="col-12 col-md-3">
         <q-file
+          v-if="!selectedRdo"
           v-model="technicalFiles"
           label="Carica quì eventuali file tecnici"
           accept=".pdf"
           multiple
           outlined
           use-chips
-          :readonly="selectedRdo"
+          :rules="[ (val) => { return true }]"
         >
           <template v-slot:prepend>
             <q-icon name="attach_file" />
@@ -283,7 +284,7 @@
                label="Contatto referente *"
                class="col-12 col-md-3"
                reactive-rules name="reference"
-               :readonly="selectedRdo"
+               :disable="selectedRdo != null"
                :rules="[ (val) => isValid('reference', val, $v.rdo) ]" />
 
       <div class="col-12 col-md-3 flex column justify-center" style="height: 56px">
@@ -294,14 +295,14 @@
             checked-icon="check"
             color="accent"
             unchecked-icon="clear"
-            :readonly="selectedRdo" />
+            :disable="selectedRdo != null" />
         </div>
       </div>
 
       <div class="desktop-only col-md-3"></div>
 
-      <div class="col-12 row justify-center q-pt-xl q-pb-xl">
-        <q-btn  v-if="!(selectedRdo && rdo.user_id != userLogged._id)"
+      <div class="col-12 row justify-center q-pt-xl q-pb-xl no-margin">
+        <q-btn  v-if="(selectedRdo == null && rdo.user_id != userLogged._id)"
                 push
                 :ripple="false"
                 class="col-3"
@@ -309,7 +310,7 @@
                 color="secondary"
                 type='submit'/>
 
-        <q-btn  v-if="(selectedRdo && rdo.user_id != userLogged._id)"
+        <q-btn  v-if="(selectedRdo != null && rdo.user_id != userLogged._id)"
                 push
                 :ripple="false"
                 class="col-3"
