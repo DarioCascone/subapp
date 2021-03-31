@@ -595,7 +595,8 @@ export default {
       return array
     },
     downloadFile (path) {
-      window.open('http://localhost:3000/' + path)
+      const rootPath = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/' : '/'
+      window.open(rootPath + path)
     }
   },
   computed: {
