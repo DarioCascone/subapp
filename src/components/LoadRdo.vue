@@ -543,7 +543,7 @@ export default {
           'Di seguito trova i link ai file relativi all\'azienda: <br/>' +
           '<a target="_blank" href="http://localhost:3000/' + this.rdo.user.durcRegolarityFile.path + '">Regolarità Durc</a><br/>' +
           '<a target="_blank" href="http://localhost:3000/' + this.rdo.user.certificateFile.path + '">Certificato o Visura Camerale</a><br/>' +
-          '<a target="_blank" href="http://localhost:3000/' + this.rdo.user.lendingFile.path + '">Prestazione</a><br/>' +
+          '<a target="_blank" href="http://localhost:3000/' + this.rdo.user.lendingFile.path + '">Presentazione</a><br/>' +
           '<a target="_blank" href="http://localhost:3000/' + this.rdo.user.antimafiaFile.path + '">Dichiarazione sostitutiva antimafia</a><br/>' +
           '<br/>Distinti Saluti,<br/>' +
           '<span style="color:#29ABF4">Subapp.it s.r.l.s</span>'
@@ -595,7 +595,8 @@ export default {
       return array
     },
     downloadFile (path) {
-      window.open('http://localhost:3000/' + path)
+      const rootPath = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/' : '/'
+      window.open(rootPath + path)
     }
   },
   computed: {
