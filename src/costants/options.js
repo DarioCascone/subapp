@@ -9,11 +9,11 @@ const legalFormOptions = [
 ]
 
 const imports = [
-  'fino a 50000€',
-  'da 50000€ a 150000€',
-  'da 150000 a 258000€',
-  'da 258000 a 500000€',
-  'oltre 500000€'
+  'fino a 50.000€',
+  'da 50.000€ a 150.000€',
+  'da 150.000 a 258.000€',
+  'da 258.000 a 500.000€',
+  'oltre 500.000€'
 ]
 
 const compCatOptions = [

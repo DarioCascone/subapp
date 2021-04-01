@@ -69,7 +69,7 @@ export default {
           break
         case 'password':
           if (!validator[input].isPassword) {
-            return 'Password non valida!'
+            return 'La password deve contentere almeno 6 caratteri, 1 maiuscola, 1 minuscola, 1 numero e 1 carattere speciale!'
           }
           break
         case 'SDICode':

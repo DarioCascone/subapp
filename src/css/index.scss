@@ -111,6 +111,7 @@
   -ms-flex-flow: row wrap;
   flex-flow: row wrap;
   max-width: 100%;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
   padding-left: 0;
@@ -322,14 +323,14 @@
       font-size: 1.5rem;
       &.one-year {
         &::after {
-          content: " / un anno";
+          content: " + IVA / un anno";
           font-weight: normal;
           font-size: 1rem;
         }
       }
       &.two-years {
         &::after {
-          content: " / due anni";
+          content: " + IVA / due anni";
           font-weight: normal;
           font-size: 1rem;
         }

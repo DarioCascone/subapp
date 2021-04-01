@@ -7,7 +7,7 @@ export default class user {
     this.province = undefined
     this.city = undefined
     this.companyName = '' // Ragione sociale
-    this.legalForm = ''
+    // this.legalForm = ''
     this.SDICode = ''
     this.vatNumber = ''
     this.fiscalCode = ''

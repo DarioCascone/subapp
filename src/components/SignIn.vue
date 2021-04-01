@@ -19,7 +19,7 @@
         title="Informazioni generali"
         icon="settings"
         :done="step > 1">
-        <div class="row wrap justify-center content-center no-padding no-margin q-gutter-x-md q-gutter-y-sm">
+        <div class="row wrap justify-center content-center no-padding no-margin q-gutter-x-md q-gutter-y-md">
           <q-input   outlined
                      v-model="user.username"
                      type="text"
@@ -53,7 +53,7 @@
                    class="col-12 col-md-3"
                    reactive-rules name="pec"
                    :rules="[ (val) => isValid('pec', val, $v.user) ]" />
-
+<!--
           <q-select v-model="user.legalForm"
                     :options="legalFormOptions"
                     name="legalForm"
@@ -67,19 +67,28 @@
                     transition-show="scale"
                     transition-hide="scale"
           />
-
-          <q-input outlined
-                   v-model="user.telephoneNumber"
-                   type="number"
-                   label="Telefono *"
+-->
+          <q-input v-model="user.companyName"
+                   outlined
+                   type="text"
+                   :disable="isEditing && !isAdmin"
                    class="col-12 col-md-3"
-                   reactive-rules name="telephoneNumber"
-                   :rules="[ (val) => isValid('telephoneNumber', val, $v.user) ]" />
+                   name="companyName"
+                   label="Ragione sociale *"
+                   reactive-rules
+                   :rules="[ (val) => isValid('companyName', val, $v.user) ]" >
+            <template v-slot:append>
+              <q-icon class="desktop-only text-secondary" name="info">
+                <q-tooltip anchor="top middle" self="bottom middle" content-class="bg-accent"  :offset="[10, 10]">
+                  {{$t('signin.tooltip.companyName')}}
+                </q-tooltip>
+              </q-icon>
+            </template>
+          </q-input>
 
-          <q-select @input="getRegionOptions"
-                    class="col-12 col-md-3"
+          <q-select class="col-12 col-md-3"
                     outlined
-                    :disable="isEditing && !isAdmin"
+                    :disable="true"
                     :options-dense="true"
                     v-model="user.country"
                     label="Nazione *"
@@ -138,6 +147,24 @@
           />
 
           <q-input outlined
+                   :disable="isEditing && !isAdmin"
+                   v-model="user.postalCode"
+                   type="number" label="CAP *"
+                   class="col-12 col-md-3"
+                   name="postalCode"
+                   reactive-rules
+                   :rules="[ (val) => isValid('postalCode', val, $v.user) ]" />
+
+          <q-input outlined
+                   v-model="user.registeredOfficeAddress"
+                   type="text"
+                   :disable="isEditing && !isAdmin"
+                   label="Indirizzo sede legale *"
+                   reactive-rules name="registeredOfficeAddress"
+                   class="col-12 col-md-3"
+                   :rules="[ (val) => isValid('registeredOfficeAddress', val, $v.user) ]" />
+
+          <q-input outlined
                    v-model="user.vatNumber"
                    :disable="isEditing && !isAdmin"
                    class="col-12 col-md-3"
@@ -155,46 +182,18 @@
                    reactive-rules name="fiscalCode"
                    :rules="[ (val) => isValid('fiscalCode', val, $v.user) ]" />
 
-          <q-input outlined
-                   v-model="user.registeredOfficeAddress"
-                   type="text"
-                   :disable="isEditing && !isAdmin"
-                   label="Indirizzo sede legale *"
-                   reactive-rules name="registeredOfficeAddress"
-                   class="col-12 col-md-3"
-                   :rules="[ (val) => isValid('registeredOfficeAddress', val, $v.user) ]" />
-
-          <q-input outlined
-                   :disable="isEditing && !isAdmin"
-                   v-model="user.postalCode"
-                   type="number" label="CAP *"
-                   class="col-12 col-md-3"
-                   name="postalCode"
-                   reactive-rules
-                   :rules="[ (val) => isValid('postalCode', val, $v.user) ]" />
-
           <q-input outlined v-model="user.webSite" type="text" label="Sito Web"
                    class="col-12 col-md-3"
                    reactive-rules name="webSite"
                    :rules="[ (val) => isValid('webSite', val, $v.user) ]" />
 
-          <q-input v-model="user.companyName"
-                   outlined
-                   type="text"
-                   :disable="isEditing && !isAdmin"
+          <q-input outlined
+                   v-model="user.telephoneNumber"
+                   type="number"
+                   label="Telefono *"
                    class="col-12 col-md-3"
-                   name="companyName"
-                   label="Ragione sociale *"
-                   reactive-rules
-                   :rules="[ (val) => isValid('companyName', val, $v.user) ]" >
-            <template v-slot:append>
-              <q-icon class="desktop-only text-secondary" name="info">
-                <q-tooltip anchor="top middle" self="bottom middle" content-class="bg-accent"  :offset="[10, 10]">
-                  {{$t('signin.tooltip.companyName')}}
-                </q-tooltip>
-              </q-icon>
-            </template>
-          </q-input>
+                   reactive-rules name="telephoneNumber"
+                   :rules="[ (val) => isValid('telephoneNumber', val, $v.user) ]" />
 
           <q-input outlined
                    v-model="user.SDICode"
@@ -613,7 +612,7 @@
 
 <script>
 import { required, email } from 'vuelidate/lib/validators'
-import { legalFormOptions, imports, compCatOptions } from '../costants/options'
+import { imports, compCatOptions } from '../costants/options'
 import { mapActions, mapGetters } from 'vuex'
 import validator from '../validations/validator'
 import User from '../model/user'
@@ -624,7 +623,7 @@ export default {
   data () {
     return {
       user: new User(),
-      legalFormOptions: legalFormOptions,
+      // legalFormOptions: legalFormOptions,
       imports: imports,
       compCatOptions: compCatOptions,
       step: 1,
@@ -921,6 +920,10 @@ export default {
   },
   async mounted () {
     await this.getCountries()
+    this.user.country = this.countries.find((country) => {
+      return country.description === 'Italia'
+    })
+    await this.getRegionOptions()
     await this.getMacroRdo()
     if (this.isEditing) {
       await this.buildEditProfilePage()
@@ -959,9 +962,6 @@ export default {
     return {
       user: {
         companyName: {
-          required
-        },
-        legalForm: {
           required
         },
         SDICode: {

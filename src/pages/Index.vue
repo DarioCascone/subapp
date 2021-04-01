@@ -7,18 +7,18 @@
         swipeable
         padding
         infinite
-        :autoplay="8000"
+        :autoplay="10000"
         control-color="white"
         class="home-carousel"
       >
         <q-carousel-slide class="text-center column flex flex-center overflow-hidden" :name="1">
-              <div class="text-h2 main_line animation_2">BENVENUTO IN <span :style="'color:'+theme_color">SUBAPP.IT</span></div><br><br><br>
+              <div class="text-h2 main_line animation_2">BENVENUTO IN <span :style="'color:'+theme_color">SUBAPP</span></div><br><br><br>
               <div class="text-h4 second-line animation_1">Una piattaforma digitale che permette agli appaltatori di cercare potenziali subappaltatori per lavori, servizi e forniture, su tutto il territorio nazionale.</div><br><br><br>
               <img src="">
         </q-carousel-slide>
         <q-carousel-slide class="text-center column flex flex-center overflow-hidden" :name="2">
-              <div class="text-h2 main_line animation_2" style="font-size:65px;">PERCHÈ <span :style="'color:'+theme_color">SUBAPP.IT</span>?</div><br><br><br>
-              <div class="text-h4 second-line animation_1"> <br>A differenza di altre piattaforme, con SubApp.it le imprese appaltatrici ricercano imprese organizzate ed in regola con la documentazione, in grado di eseguire appalti pubblici e privati.</div><br><br><br>
+              <div class="text-h2 main_line animation_2" style="font-size:65px;">PERCHÈ <span :style="'color:'+theme_color">SUBAPP</span>?</div><br><br><br>
+              <div class="text-h4 second-line animation_1"> <br>A differenza di altre piattaforme, con SubApp le imprese appaltatrici ricercano imprese organizzate ed in regola con la documentazione, in grado di eseguire appalti pubblici e privati.</div><br><br><br>
         </q-carousel-slide>
       </q-carousel>
     </section>
@@ -27,7 +27,7 @@
       <div class="row flex flex-center how-works-section-container">
         <header>
           <p class="cutted_title">
-            <span class="cutted_title--text">COME FUNZIONA SUBAPP.IT</span>
+            <span class="cutted_title--text">COME FUNZIONA SUBAPP</span>
           </p>
         </header>
         <div class="how-works-section--grid">
@@ -41,9 +41,7 @@
                 REGISTRATI
               </p>
               <p>
-                Lorem ipsum dolor sit amet, consectetur
-                adipiscing elit, sed do eiusmod tempor incididunt ut
-                labore et dolore magna aliqua.
+                Inserisci i dati della tua impresa.
               </p>
             </div>
           </div>
@@ -54,12 +52,11 @@
             </div>
             <div class="step-description">
               <p class="step-title">
-                TROVA L'OFFERTA
+                CARICA LA RICHIESTA D'OFFERTA
               </p>
               <p>
-                Lorem ipsum dolor sit amet, consectetur
-                adipiscing elit, sed do eiusmod tempor incididunt ut
-                labore et dolore magna aliqua.
+                Carica descrizione, documenti
+                e foto relativi alla tua RDO.
               </p>
             </div>
           </div>
@@ -73,9 +70,7 @@
                 CONCLUDI L'AFFARE
               </p>
               <p>
-                Lorem ipsum dolor sit amet, consectetur
-                adipiscing elit, sed do eiusmod tempor incididunt ut
-                labore et dolore magna aliqua.
+                Scegli liberamente l'offerta più conveniente.
               </p>
             </div>
           </div>
@@ -106,7 +101,7 @@
                     Potresti avere bisogno di SubApp.it se:
                     <ul>
                       <li>
-                      perdi ore sui motori di ricerca o altre piattaforme
+                      perdi ore sui motori di ricerca o altre piattaforme alla ricerca di potenziali subappaltatori
                       </li>
                       <li>
                       trovi un’impresa interessata ma ti chiede più di quanto appaltato
@@ -166,7 +161,7 @@
           <div class="wrapper">
             <div class="package">
               <div class="name">ANNUALE</div>
-              <div class="price one-year">€170</div>
+              <div class="price one-year">€140</div>
               <div class="trial">Offerta lancio</div>
               <hr>
               <ul>
@@ -190,7 +185,7 @@
             </div>
             <div class="package">
               <div class="name">BIENNALE</div>
-              <div class="price two-years">€305</div>
+              <div class="price two-years">€250</div>
               <div class="trial">Offerta lancio</div>
               <hr>
               <ul>
@@ -274,7 +269,7 @@
           </div>
         </q-form>
         <br>
-        <div class="col-12 row justify-center social-container">
+        <div class="col-12 row justify-center social-container" style="display: none">
           <div class="text-center col-12">
             <div class="text-center text-h6">oppure chiama il</div>
             <div>

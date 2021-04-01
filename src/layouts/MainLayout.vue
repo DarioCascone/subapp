@@ -97,7 +97,7 @@
         <div class="flex column justify-center col-md-6">
           <div class="column">
             <div class="info">
-              <div>SubApp - P.IVA: 0123456789 | Copyright © 2021 - Tutti i diritti riservati</div>
+              <div>Subapp.it s.r.l.s. - P.IVA: 0123456789 | Copyright © 2021 - Tutti i diritti riservati</div>
               <div>
                 <a>
                   Termini e Condizioni
