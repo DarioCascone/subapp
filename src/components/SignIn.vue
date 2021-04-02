@@ -27,7 +27,15 @@
                      label="Username *"
                      class="col-12 col-md-3"
                      reactive-rules name="username"
-                     :rules="[ (val) => isValid('username', val, $v.user) ]" />
+                     :rules="[ (val) => isValid('username', val, $v.user) ]" >
+            <template v-slot:append>
+              <q-icon class="desktop-only text-secondary" name="info">
+                <q-tooltip anchor="top middle" self="bottom middle" content-class="bg-accent"  :offset="[10, 10]">
+                  {{$t('signin.tooltip.username')}}
+                </q-tooltip>
+              </q-icon>
+            </template>
+          </q-input>
 
             <q-input outlined
                      v-if="!isEditing"

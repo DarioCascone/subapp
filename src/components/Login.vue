@@ -1,6 +1,6 @@
 <template>
-  <div class="q-pa-lg">
-    <q-form @submit.prevent.stop="onSubmit" class="q-gutter-sm">
+  <div style="min-width: 330px" class="q-pa-lg">
+    <q-form @submit.prevent.stop="onSubmit" class="q-gutter-md">
       <q-input v-model="user.username"
                type="text"
                name="username"

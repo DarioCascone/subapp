@@ -130,6 +130,7 @@
                 :options-dense="true"
                 v-if="!selectedRdo"
                 v-model="country"
+                :disable="true"
                 label="Nazione *"
                 :options="countries" option-label="description"
                 reactive-rules
@@ -616,6 +617,11 @@ export default {
       this.getData()
     } else {
       await this.getCountries()
+      if (!this.selectedRdo) {
+        this.country = this.countries.find((country) => {
+          return country.description === 'Italia'
+        })
+      }
       await this.getMacroRdo()
     }
   },
