@@ -47,6 +47,15 @@ export default {
     return false
   },
 
+  isTelephoneOrEmail: (param) => {
+    if (param) {
+      const patternTel = new RegExp('^((00|\\+)39[\\. ]??)??[0-9]\\d{2}[\\. ]??\\d{7,9}$')
+      const patternEmail = new RegExp('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')
+      return (patternTel.test(param) || patternEmail.test(param))
+    }
+    return false
+  },
+
   // Minimum 6 characters, at least one uppercase letter, one lowercase letter, one number and one special character( ! , * , @ , ? , etc )
   isPassword: (param) => {
     if (param) {
@@ -113,8 +122,8 @@ export default {
           }
           break
         case 'reference':
-          if (!validator[input].isTelephoneNumber) {
-            return 'Numero: ' + val + ' non valido!'
+          if (!validator[input].isTelephoneOrEmail) {
+            return 'Contatto: ' + val + ' non valido!'
           }
           break
       }

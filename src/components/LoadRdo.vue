@@ -37,10 +37,19 @@
                  class="col-12 col-md-3 "
                  type="textarea"
                  name="description"
+
                  v-model="rdo.description"
                  :disable="selectedRdo != null"
                  reactive-rules
-                 :rules="[ (val) => isValid('description', val, $v.rdo) ]" />
+                 :rules="[ (val) => isValid('description', val, $v.rdo) ]" >
+        <template v-slot:append>
+          <q-icon class="desktop-only text-secondary" name="info">
+            <q-tooltip anchor="top middle" self="bottom middle" content-class="bg-accent" content-style="font-size: 13px" :offset="[10, 10]">
+              Fornici una breve descrizione dell’appalto
+            </q-tooltip>
+          </q-icon>
+        </template>
+      </q-input>
 
       <q-input   outlined
                  label="Documenti necessari"
@@ -50,7 +59,15 @@
                  :disable="selectedRdo != null"
                  v-model="rdo.requiredDocuments"
                  reactive-rules
-                 :rules="[ (val) => {return true} ]" />
+                 :rules="[ (val) => {return true} ]" >
+        <template v-slot:append>
+          <q-icon class="desktop-only text-secondary" name="info">
+            <q-tooltip anchor="top middle" self="bottom middle" content-class="bg-accent" content-style="font-size: 13px" :offset="[10, 10]">
+              Indica se vi sono documenti di primaria importanza ai fini del subappalto
+            </q-tooltip>
+          </q-icon>
+        </template>
+      </q-input>
 
       <q-input   outlined
                  label="Eventuali problematiche o peculiarità"
@@ -60,7 +77,15 @@
                  :disable="selectedRdo != null"
                  v-model="rdo.peculiarity"
                  reactive-rules
-                 :rules="[ (val) => {return true} ]" />
+                 :rules="[ (val) => {return true} ]" >
+        <template v-slot:append>
+          <q-icon class="desktop-only text-secondary" name="info">
+            <q-tooltip anchor="top middle" self="bottom middle" content-class="bg-accent" content-style="font-size: 13px" :offset="[10, 10]">
+              Indica se vi sono problematiche o peculiarità di cui il subappaltatore dovrà tenere conto nella formulazione dell’offerta
+            </q-tooltip>
+          </q-icon>
+        </template>
+      </q-input>
 
       <!-- Riga -->
 
@@ -87,7 +112,7 @@
       <q-input @click="$refs.startDateProxy.show()"
                onkeydown="return false"
                :disable="selectedRdo != null || expirationDate == null"
-               class="col-12 col-md-3" label=" Data prevista per inizio *"
+               class="col-12 col-md-3" label=" Data prevista per inizio appalto *"
                :rules="[ (val) => isValid('startDate', val, $v) ]"
                outlined v-model="startDate" mask="##/##/####">
         <template v-slot:append>
@@ -106,7 +131,7 @@
 
       <q-input @click="$refs.endDateProxy.show()" onkeydown="return false"
                :disable="selectedRdo != null || expirationDate == null || startDate == null"
-               class="col-12 col-md-3" label=" Data presunta fine *"
+               class="col-12 col-md-3" label=" Data presunta fine appalto *"
                :rules="[ (val) => isValid('endDate', val, $v) ]" outlined v-model="endDate" mask="##/##/####">
         <template v-slot:append>
           <q-icon name="event" class="cursor-pointer">
@@ -284,12 +309,19 @@
 
       <q-input outlined
                v-model="rdo.reference"
-               type="number"
                label="Contatto referente *"
                class="col-12 col-md-3"
                reactive-rules name="reference"
                :disable="selectedRdo != null"
-               :rules="[ (val) => isValid('reference', val, $v.rdo) ]" />
+               :rules="[ (val) => isValid('reference', val, $v.rdo) ]">
+        <template v-slot:append>
+          <q-icon class="desktop-only text-secondary" name="info">
+            <q-tooltip anchor="top middle" self="bottom middle" content-class="bg-accent" content-style="font-size: 13px" :offset="[10, 10]">
+              Contatto del responsabile al quale poter eventualmente richiedere maggiori informazioni
+            </q-tooltip>
+          </q-icon>
+        </template>
+      </q-input>
 
       <div class="col-12 col-md-3 flex column justify-center" style="height: 56px">
         <div>
@@ -648,7 +680,7 @@ export default {
         },
         reference: {
           required,
-          isTelephoneNumber: validator.isTelephoneNumber
+          isTelephoneOrEmail: validator.isTelephoneOrEmail
         },
         description: {
           required

@@ -30,7 +30,7 @@
                      :rules="[ (val) => isValid('username', val, $v.user) ]" >
             <template v-slot:append>
               <q-icon class="desktop-only text-secondary" name="info">
-                <q-tooltip anchor="top middle" self="bottom middle" content-class="bg-accent"  :offset="[10, 10]">
+                <q-tooltip anchor="top middle" self="bottom middle" content-class="bg-accent" content-style="font-size: 13px" :offset="[10, 10]">
                   {{$t('signin.tooltip.username')}}
                 </q-tooltip>
               </q-icon>
@@ -87,7 +87,7 @@
                    :rules="[ (val) => isValid('companyName', val, $v.user) ]" >
             <template v-slot:append>
               <q-icon class="desktop-only text-secondary" name="info">
-                <q-tooltip anchor="top middle" self="bottom middle" content-class="bg-accent"  :offset="[10, 10]">
+                <q-tooltip anchor="top middle" self="bottom middle" content-class="bg-accent" content-style="font-size: 13px" :offset="[10, 10]">
                   {{$t('signin.tooltip.companyName')}}
                 </q-tooltip>
               </q-icon>
@@ -213,7 +213,7 @@
                    :rules="[ (val) => isValid('SDICode', val, $v.user) ]" >
             <template v-slot:append>
               <q-icon name="info" class="desktop-only text-secondary">
-                <q-tooltip anchor="top middle" self="bottom middle" content-class="bg-accent" :offset="[10, 10]">
+                <q-tooltip anchor="top middle" self="bottom middle" content-class="bg-accent" content-style="font-size: 13px" :offset="[10, 10]">
                   {{$t('signin.tooltip.SDICode')}}
                 </q-tooltip>
               </q-icon>
@@ -235,7 +235,7 @@
         <div class="row wrap justify-center content-center no-padding no-margin q-gutter-x-md q-gutter-y-xs">
 
           <!--riga-->
-          <div class="col-md-3">
+          <div class="col-12 col-md-3">
             <span>SOA</span>
             <q-toggle
               v-model="soaToggle"
@@ -244,7 +244,7 @@
               unchecked-icon="clear"
             />
           </div>
-          <div class="col-md-3">
+          <div class="col-12 col-md-3">
 
             <span>ISO</span>
             <q-toggle
@@ -255,7 +255,7 @@
             />
 
           </div>
-          <div class="col-md-3">
+          <div class="col-12 col-md-3">
 
             <span>Patentino Fgas</span>
             <q-toggle
@@ -267,7 +267,7 @@
 
           </div>
           <!--riga-->
-          <div class="col-md-3">
+          <div class="col-12 col-md-3">
             <q-file
               :disable="!soaToggle"
               v-model="soaFile"
@@ -281,7 +281,7 @@
               </template>
             </q-file>
           </div>
-          <div class="col-md-3">
+          <div class="col-12 col-md-3">
             <q-file
               :disable="!isoToggle"
               v-model="isoFile"
@@ -295,7 +295,7 @@
               </template>
             </q-file>
           </div>
-          <div class="col-md-3">
+          <div class="col-12 col-md-3">
             <q-file
               :disable="!fgasToggle"
               v-model="fgasFile"
@@ -310,14 +310,14 @@
             </q-file>
           </div>
           <!--riga-->
-          <div class="col-md-3 q-pt-md">
+          <div class="col-12 col-md-3 q-pt-md">
             Richieste di offerta *
           </div>
-          <div class="desktop-only col-md-3"></div>
-          <div class="desktop-only col-md-3"></div>
+          <div class="desktop-only col-12 col-md-3"></div>
+          <div class="desktop-only col-12 col-md-3"></div>
           <!--riga-->
           <q-select @input="getCatRdoOption"
-                    class="col-md-3"
+                    class="col-12 col-md-3"
                     multiple
                     use-chips
                     outlined option-dense
@@ -334,7 +334,7 @@
           />
 
           <q-select @input="getSubcatRdoOption"
-                    class="col-md-3"
+                    class="col-12 col-md-3"
                     :disable="!rdosMacrocategories.length>0"
                     :readonly="!rdosMacrocategories.length>0"
                     outlined
@@ -352,7 +352,7 @@
                     :rules="[ (val) => isValid('rdosCategories', val, $v) ]"
           />
 
-          <q-select class="col-md-3"
+          <q-select class="col-12 col-md-3"
                     :disable="!rdosCategories.length>0"
                     :readonly="!rdosCategories.length>0"
                     outlined
@@ -370,19 +370,19 @@
                     :rules="[ (val) => isValid('rdosSubcategories', val, $v) ]"
           />
           <!--riga-->
-          <div class="col-md-3 q-pt-md">
+          <div class="col-12 col-md-3 q-pt-md">
             Importi *
           </div>
-          <div class="col-md-3 q-pt-md">
+          <div class="col-12 col-md-3 q-pt-md">
             Regioni di interesse *
           </div>
-          <div class="desktop-only col-md-3"></div>
+          <div class="desktop-only col-12 col-md-3"></div>
           <!--riga-->
           <q-select v-model="user.imports"
                     :options="imports"
                     name="imports"
                     outlined
-                    class="col-md-3"
+                    class="col-12 col-md-3"
                     option-dense
                     multiple
                     label="Importi *"
@@ -393,13 +393,12 @@
                     :rules="[ (val) => isValid('imports', val, $v.user) ]"
           />
 
-          <q-select  class="col-md-3"
+          <q-select  class="col-12 col-md-3"
                      :disable="!regions.length>0" :readonly="!regions.length>0"
                      outlined
                      :options-dense="true" :options="regions" option-label="description"
                      v-model="user.regionsOfInterest"
                      label="Regioni di interesse *"
-
                      multiple
                      use-chips
                      emit-value
@@ -410,17 +409,17 @@
                      :rules="[ (val) => isValid('regionsOfInterest', val, $v.user) ]"
           />
 
-          <div class="desktop-only col-md-3"></div>
+          <div class="desktop-only col-12 col-md-3"></div>
           <!--riga-->
-          <div class="col-md-3 q-pt-md">
-            Dichiarazione sostitutiva antimafia *
+          <div class="col-12 col-md-3 q-pt-md">
+            Iscrizione White List o Dichiarazione Antimafia *
           </div>
-          <div class="col-md-3 q-pt-md">
-            Prestazione *
+          <div class="col-12 col-md-3 q-pt-md">
+            Presentazione Aziendale *
           </div>
-          <div class="desktop-only col-md-3"></div>
+          <div class="desktop-only col-12 col-md-3"></div>
           <!--riga-->
-          <div class="col-md-3">
+          <div class="col-12 col-md-3">
             <q-file
               v-model="antimafiaFile"
               label="Carica quì il documento richiesto"
@@ -434,7 +433,7 @@
               </template>
             </q-file>
           </div>
-          <div class="col-md-3">
+          <div class="col-12 col-md-3">
             <q-file
               v-model="lendingFile"
               label="Carica quì il documento richiesto"
@@ -448,15 +447,15 @@
               </template>
             </q-file>
           </div>
-          <div class="desktop-only col-md-3"></div>
+          <div class="desktop-only col-12 col-md-3"></div>
           <!--riga-->
-          <div class="col-md-3 q-pt-md">
+          <div class="col-12 col-md-3 q-pt-md">
             Certificato o Visura Camerale *
           </div>
-          <div class="desktop-only col-md-3"></div>
-          <div class="desktop-only col-md-3"></div>
+          <div class="desktop-only col-12 col-md-3"></div>
+          <div class="desktop-only col-12 col-md-3"></div>
           <!--riga-->
-          <div class="col-md-3">
+          <div class="col-12 col-md-3">
             <q-file
               v-model="certificateFile"
               label="Carica quì il documento richiesto"
@@ -470,11 +469,11 @@
               </template>
             </q-file>
           </div>
-          <q-input class="col-md-2" label="Data Scadenza" :rules="[ (val) => isValid('certificateDate', val, $v.user) ]" outlined v-model="user.certificateDate" mask="##/##/####">
+          <q-input class="col-12 col-md-2" label="Data Scadenza" :rules="[ (val) => isValid('certificateDate', val, $v.user) ]" outlined v-model="user.certificateDate" mask="##/##/####">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                  <q-date :locale="currentLocale" v-model="user.certificateDate" :options="calendarOption"  mask="DD/MM/YYYY">
+                  <q-date :locale="currentLocale" v-model="user.certificateDate" :options="calendarOptionCertificate"  mask="DD/MM/YYYY">
                     <div class="row items-center justify-end q-gutter-sm">
                       <q-btn label="Annulla" color="primary" flat v-close-popup />
                       <q-btn label="OK" color="primary" flat v-close-popup />
@@ -484,15 +483,15 @@
               </q-icon>
             </template>
           </q-input>
-          <div class="desktop-only col-md-4"></div>
+          <div class="desktop-only col-12 col-md-4"></div>
           <!--riga-->
-          <div class="col-md-3 q-pt-md">
+          <div class="col-12 col-md-3 q-pt-md">
             Regolarità Durc *
           </div>
-          <div class="desktop-only col-md-3"></div>
-          <div class="desktop-only col-md-3"></div>
+          <div class="desktop-only col-12 col-md-3"></div>
+          <div class="desktop-only col-12 col-md-3"></div>
           <!--riga-->
-          <div class="col-md-3">
+          <div class="col-12 col-md-3">
             <q-file
               v-model="durcRegolarityFile"
               label="Carica quì il documento richiesto"
@@ -506,11 +505,11 @@
               </template>
             </q-file>
           </div>
-          <q-input class="col-md-2" label="Data Scadenza" :rules="[ (val) => isValid('durcRegolarityDate', val, $v.user) ]" outlined v-model="user.durcRegolarityDate" mask="##/##/####">
+          <q-input class="col-12 col-md-2" label="Data Scadenza" :rules="[ (val) => isValid('durcRegolarityDate', val, $v.user) ]" outlined v-model="user.durcRegolarityDate" mask="##/##/####">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
-                  <q-date :locale="currentLocale" v-model="user.durcRegolarityDate" :options="calendarOption"  mask="DD/MM/YYYY">
+                  <q-date :locale="currentLocale" v-model="user.durcRegolarityDate" :options="calendarOptionDurc"  mask="DD/MM/YYYY">
                     <div class="row items-center justify-end q-gutter-sm">
                       <q-btn label="Annulla" color="primary" flat v-close-popup />
                       <q-btn label="OK" color="primary" flat v-close-popup />
@@ -520,8 +519,8 @@
               </q-icon>
             </template>
           </q-input>
-          <div class="desktop-only col-md-4"></div>
-          <div v-if="isEditing" class=" col-md-9 q-pt-md row">
+          <div class="desktop-only col-12 col-md-4"></div>
+          <div v-if="isEditing" class=" col-12 col-md-9 q-pt-md row">
             <div class="col-12 company-category">
               <div>
                 Ai sensi dell’art. 3 – aa, Decreto Legislativo n. 50/2016 e s.m.i., appartiene alla categoria:
@@ -547,31 +546,31 @@
         icon="add_comment"
       >
         <div class="row wrap justify-center content-center no-padding no-margin q-gutter-x-md q-gutter-y-xs">
-          <div class="col-md-9 q-pt-md">
+          <div class="col-12 col-md-9 q-pt-md">
            * Tutti i campi sono obbligatori.
           </div>
-          <div class="col-md-9 q-pt-md">
+          <div class="col-12 col-md-9 q-pt-md">
            Al termine, riceverai una mail con le istruzioni da seguire per effettuare il pagamento e completare il processo di registrazione.
           </div>
-          <div class="col-md-9 q-pt-md">
+          <div class="col-12 col-md-9 q-pt-md">
             Leggi e accetta il <a class="hyperlink"  @click="goToTeC">regolamento</a> per godere dei vantaggi di Subapp.
           </div>
-          <div class="col-md-9 q-pt-md q-pb-md">
+          <div class="col-12 col-md-9 q-pt-md q-pb-md">
             <div class="q-gutter-sm">
               <q-radio dense v-model="regulation" val="true" label="Accetto" />
               <q-radio dense v-model="regulation" val="false" label="Non Accetto" />
             </div>
           </div>
-          <div class="col-md-9 q-pt-md">
+          <div class="col-12 col-md-9 q-pt-md">
             Leggi e accetta i <a class="hyperlink" @click="goToTeC">Termini e Condizioni</a> per proseguire con la registrazione.
           </div>
-          <div class="col-md-9 q-pt-md q-pb-md">
+          <div class="col-12 col-md-9 q-pt-md q-pb-md">
             <div class="q-gutter-sm">
               <q-radio dense v-model="termAndCondition" val="true" label="Accetto" />
               <q-radio dense v-model="termAndCondition" val="false" label="Non Accetto" />
             </div>
           </div>
-          <div class="col-md-9 q-pt-md">
+          <div class="col-12 col-md-9 q-pt-md">
             Ai sensi dell’art. 46 del D.P.R. 28 dicembre 2000 n. 445, la Ditta, consapevole delle sanzioni penali, previste dall’art. 76 del D.P.R. n. 445/2000, per le ipotesi di falsità in atti e dichiarazioni mendaci ivi indicate, dichiara:
             <ul>
               <li>di non trovarsi nelle condizioni previste dall’art. 80 del Decreto Legislativo 18 aprile 2016 n. 50 e s.m.i.</li>
@@ -580,13 +579,13 @@
               <li>di conoscere i limiti previsti dalla disciplina del subappalto</li>
             </ul>
           </div>
-          <div class="col-md-9 q-pb-md">
+          <div class="col-12 col-md-9 q-pb-md">
             <div class="q-gutter-sm">
               <q-radio dense v-model="compDeclaration" val="true" label="Si" />
               <q-radio dense v-model="compDeclaration" val="false" label="No" />
             </div>
           </div>
-          <div class=" col-md-9 q-pt-md row">
+          <div v-if="false" class="col-12 col-md-9 q-pt-md row">
             <div class="col-12 company-category">
               <div>
               Ai sensi dell’art. 3 – aa, Decreto Legislativo n. 50/2016 e s.m.i., appartiene alla categoria:
@@ -609,7 +608,7 @@
             <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Indietro" class="q-ml-sm" />
           </div>
           <div>
-            <q-btn type="submit" :disable="(termAndCondition === 'false' || regulation === 'false' || compDeclaration !== 'true' || !user.companyCategory) && step === 3"
+            <q-btn type="submit" :disable="(termAndCondition === 'false' || regulation === 'false' || compDeclaration !== 'true') && step === 3"
                    color="primary" :label="getBtnLabel" />
           </div>
         </q-stepper-navigation>
@@ -768,9 +767,25 @@ export default {
     hideDialog () {
       this.$emit('update:showAlert', this.alert)
     },
-    calendarOption (date) {
+    calendarOptionCertificate (date) {
       const currentTime = new Date()
-      return date >= currentTime.toLocaleDateString('fr-CA').replaceAll('-', '/')
+      const expirationTime = new Date()
+      this.addMonths(expirationTime, 6)
+      return (date >= currentTime.toLocaleDateString('fr-CA').replaceAll('-', '/') && date <= expirationTime.toLocaleDateString('fr-CA').replaceAll('-', '/'))
+    },
+    calendarOptionDurc (date) {
+      const currentTime = new Date()
+      const expirationTime = new Date()
+      this.addMonths(expirationTime, 4)
+      return (date >= currentTime.toLocaleDateString('fr-CA').replaceAll('-', '/') && date <= expirationTime.toLocaleDateString('fr-CA').replaceAll('-', '/'))
+    },
+    addMonths (date, months) {
+      var d = date.getDate()
+      date.setMonth(date.getMonth() + +months)
+      if (date.getDate() !== d) {
+        date.setDate(0)
+      }
+      return date
     },
     async onSignup () {
       const tempCertificateDate = this.user.certificateDate

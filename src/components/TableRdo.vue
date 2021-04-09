@@ -5,10 +5,12 @@
     row-key="name"
     bordered
     :filter="filter"
+    :filter-method="customFilter"
     separator="cell"
+    pagination.sync="pagination"
   >
     <template v-slot:top="props">
-      <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+      <q-input borderless dense debounce="300" v-model="search" placeholder="Search">
         <template v-slot:append>
           <q-icon name="search" />
         </template>
@@ -35,6 +37,9 @@
             {{rdo.description}}
           </div>
         </q-td>-->
+        <q-td :auto-width="true" key="contractor" :props="props">
+          {{ props.row.rdo.contractor }}
+        </q-td>
         <q-td :auto-width="true" key="rdos" :props="props">
           {{ props.row.rdo.description }}
         </q-td>
@@ -47,7 +52,7 @@
           </div>
         </q-td>
         <q-td :auto-width="true" key="expirationDate" :props="props">
-          {{ date.formatDate(props.row.rdo.expirationDate, 'MM-DD-YYYY') }}
+          {{ date.formatDate(props.row.rdo.expirationDate, 'DD-MM-YYYY') }}
         </q-td>
         <q-td :auto-width="true" key="viewRdo" :props="props">
           <q-icon style="font-size: 2rem;" name="search" @click="openRdo(props.row.rdo)" class="text-accent cursor-pointer"></q-icon>
@@ -69,8 +74,9 @@ export default {
   props: ['allRdos'],
   data () {
     return {
-      filter: '',
+      search: '',
       columns: [
+        { name: 'contractor', required: true, label: 'Appaltatore', align: 'center' },
         { name: 'rdos', required: true, label: 'Descrizione', align: 'center' },
         { name: 'regionOfInterest', required: true, label: 'Regione', align: 'center' },
         { name: 'imports', required: true, label: 'Importo', align: 'center' },
@@ -115,13 +121,54 @@ export default {
       await this.fetchUser(objUser)
       this.getData(this.userLogged.loadedRdos)
       this.$q.loading.hide()
+    },
+    customFilter (rows, terms) {
+      const lowerSearch = terms.search ? terms.search.toLowerCase() : ''
+
+      const filteredRows = rows.filter(
+        (row, i) => {
+          debugger
+          let ans = false
+
+          let s1 = true
+
+          if (lowerSearch !== '') {
+            s1 = false
+
+            const s1Values = Object.values(row.rdo)
+
+            const s1Lower = s1Values.map(x => x.toString().toLowerCase())
+
+            for (let val = 0; val < s1Lower.length; val++) {
+              if (s1Lower[val].includes(lowerSearch)) {
+                s1 = true
+                break
+              }
+            }
+          }
+
+          ans = false
+
+          if (s1) {
+            ans = true
+          }
+
+          return ans
+        })
+
+      return filteredRows
     }
   },
   computed: {
     ...mapGetters({
       userLogged: 'user',
       boardRdos: 'boardRdos'
-    })
+    }),
+    filter () {
+      return {
+        search: this.search
+      }
+    }
   },
   mounted () {
     if (!this.allRdos) {

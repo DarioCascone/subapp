@@ -28,13 +28,13 @@
                 </q-tooltip>
               </q-tab>
               <q-tab v-if="isAuthenticated" label="Account">
-                <q-menu transition-show="jump-down" transition-hide="jump-up" fit>
+                <q-menu transition-show="jump-down" transition-hide="jump-up">
                   <div class="row no-wrap q-pa-sm">
                     <div class="column items-start">
                       <div class="text-h6 q-mb-xs q-ml-sm">Impostazioni</div>
                       <q-btn v-if="user && user.admin" class="no-padding" flat color="primary" size="md" label="Admin" @click="openAdminConsole" icon="admin_panel_settings" />
                       <q-btn flat  color="primary" size="md" v-if="user && !user.admin" label="profilo" @click="editProfile" icon="perm_identity" />
-                      <q-btn flat  color="primary" size="md" v-if="user && !user.admin" label="RDO" :disable="user && user.blocked"  @click="goToUserRdos" icon="list" >
+                      <q-btn flat  color="primary" size="md" v-if="user && !user.admin" label="RDO caricate" :disable="user && user.blocked"  @click="goToUserRdos" icon="list" >
                       </q-btn>
                     </div>
                     <q-separator vertical inset class="q-mx-md" />
@@ -126,12 +126,14 @@
               <q-btn round color="secondary">
                 <q-icon color="white" name="fab fa-instagram"></q-icon>
               </q-btn>
+              <!--
               <q-btn round color="secondary">
                 <q-icon color="white" name="fab fa-twitter"></q-icon>
               </q-btn>
               <q-btn round color="secondary">
                 <q-icon color="white" name="fab fa-linkedin-in"></q-icon>
               </q-btn>
+              -->
             </div>
           </div>
         </div>
