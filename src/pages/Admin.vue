@@ -4,14 +4,16 @@
       title="Lista utenti"
       :data="data"
       :columns="columns"
-      :filter="filter"
       row-key="name"
       bordered
+      :filter="filter"
+      :filter-method="customFilter"
       separator="cell"
+      pagination.sync="pagination"
     >
       <template v-slot:top="props">
         <div class="col-2 q-table__title">Lista utenti</div>
-        <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+        <q-input borderless dense debounce="300" v-model="search" placeholder="Search">
           <template v-slot:append>
             <q-icon name="search" />
           </template>
@@ -25,14 +27,19 @@
       </template>
       <template v-slot:body="props">
         <q-tr :props="props">
+          <q-td :auto-width="true" key="companyName" :props="props">
+            <div>
+              {{ props.row.user.companyName }}
+            </div>
+            <q-icon style="font-size: 2rem;" name="search" class="text-secondary cursor-pointer" @click="viewSelectedProfile(props.row.user)"/>
+          </q-td>
           <q-td :auto-width="true" key="user" :props="props">
             <div>
               {{ props.row.user.username }}
             </div>
-            <q-icon style="font-size: 2rem;" name="search" class="text-secondary cursor-pointer" @click="viewSelectedProfile(props.row.user)"/>
           </q-td>
           <q-td :auto-width="true" key="registrationDate" :props="props">
-            {{ date.formatDate(props.row.user.createdAt, 'MM-DD-YYYY') }}
+            {{ date.formatDate(props.row.user.createdAt, 'DD-MM-YYYY') }}
           </q-td>
           <q-td  key="blocked" :props="props">
             <q-btn v-if="props.row.user.blocked" push class="bg-warning text-white" @click="openConfirmDialog(props.row.user, 'Sicuro di voler sbloccare l\'utente selezionato?', update , false, null)">Sblocca</q-btn>
@@ -122,9 +129,18 @@ export default {
         'bg-white': true
       },
       filter: '',
+      search: '',
       date: date,
       users: [],
       columns: [
+        {
+          name: 'companyName',
+          required: true,
+          label: 'Ragione Sociale',
+          align: 'center',
+          sortable: true,
+          headerClasses: 'text-weight-bold'
+        },
         {
           name: 'user',
           required: true,
@@ -253,6 +269,36 @@ export default {
         user.needBlock = true
         return 'SCADUTO'
       }
+    },
+    customFilter (rows, terms) {
+      const lowerSearch = terms.search ? terms.search.toLowerCase() : ''
+      const filteredRows = rows.filter(
+        (row, i) => {
+          let ans = false
+          let s1 = true
+
+          if (lowerSearch !== '') {
+            s1 = false
+            const s1Values = Object.values(row.user)
+            const s1Lower = s1Values.map(x => x.toString().toLowerCase())
+
+            for (let val = 0; val < s1Lower.length; val++) {
+              if (s1Lower[val].includes(lowerSearch)) {
+                s1 = true
+                break
+              }
+            }
+          }
+
+          ans = false
+          if (s1) {
+            ans = true
+          }
+
+          return ans
+        })
+
+      return filteredRows
     }
   },
   async mounted () {
