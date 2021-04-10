@@ -506,15 +506,16 @@ export default {
     },
     async postFilesAndUpdateRdo (rdo) {
       const formData = new FormData()
-      formData.append('file', this.cmeFile, 'cmeFile')
+      formData.append('file', this.cmeFile, `cmeFile.${this.cmeFile.name.split('.')[1]}`)
       this.images.forEach((image) => {
-        formData.append('file', image, 'images')
+        formData.append('file', image, `images.${image.name.split('.')[1]}`)
       })
       this.technicalFiles.forEach((techFile) => {
-        formData.append('file', techFile, 'technicalFiles')
+        formData.append('file', techFile, `technicalFiles.${techFile.name.split('.')[1]}`)
       })
       const uploadedFiles = await this.uploadFile(formData)
-      uploadedFiles.forEach((file) => {
+      uploadedFiles.files.forEach((file) => {
+        file.originalname = file.originalname.split('.')[0]
         if (file.originalname === 'images' || file.originalname === 'technicalFiles') {
           rdo[file.originalname].push(file)
         } else {
