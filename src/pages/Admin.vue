@@ -277,7 +277,6 @@ export default {
       }
     },
     customFilter (rows, terms) {
-      debugger
       const lowerSearch = terms.search ? terms.search.toLowerCase() : ''
       const filteredRows = rows.filter(
         (row, i) => {

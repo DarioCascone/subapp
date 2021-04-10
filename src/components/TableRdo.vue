@@ -187,7 +187,7 @@ export default {
     userLogged: {
       deep: true,
       handler (newVal, oldVal) {
-        if (!this.allRdos) {
+        if (newVal && !this.allRdos) {
           this.getData(newVal.loadedRdos)
         }
       }
