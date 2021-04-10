@@ -11,7 +11,7 @@
                  reactive-rules name="contractor"
                  :rules="[ (val) => isValid('contractor', val, $v.rdo) ]"/>
 
-      <div v-if="(selectedRdo != null && rdo.user._id != userLogged._id)"
+      <div v-if="(selectedRdo != null && rdo.user._id != userLogged._id && !userLogged.admin)"
            class="col-12 col-md-3">
         <div>Ribasso del <span style="color: #29ABF4; font-weight: bold">{{ribasso}}%</span></div>
         <template>
@@ -27,13 +27,13 @@
         </template>
       </div>
 
-      <div v-if="!(selectedRdo != null  && rdo.user._id != userLogged._id)"  class="desktop-only col-md-3"></div>
+      <div v-if="!(selectedRdo != null  && rdo.user._id != userLogged._id && !userLogged.admin)"  class="desktop-only col-md-3"></div>
       <div class="desktop-only col-md-3"></div>
 
       <!-- Riga -->
 
       <q-input   outlined
-                 label="Descrizione"
+                 label="Descrizione *"
                  class="col-12 col-md-3 "
                  type="textarea"
                  name="description"
@@ -149,8 +149,7 @@
 
       <!-- Riga -->
 
-      <q-select @input="getRegionOptions"
-                class="col-12 col-md-3"
+      <q-select class="col-12 col-md-3"
                 outlined
                 :options-dense="true"
                 v-if="!selectedRdo"
@@ -375,7 +374,7 @@
                 color="secondary"
                 type='submit'/>
 
-        <q-btn  v-if="(selectedRdo != null && rdo.user._id != userLogged._id)"
+        <q-btn  v-if="(selectedRdo != null && rdo.user._id != userLogged._id && !userLogged.admin)"
                 push
                 :ripple="false"
                 class="col-3"
@@ -654,6 +653,7 @@ export default {
           return country.description === 'Italia'
         })
       }
+      await this.getRegionOptions()
       await this.getMacroRdo()
     }
   },

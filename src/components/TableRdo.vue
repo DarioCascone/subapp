@@ -127,16 +127,12 @@ export default {
 
       const filteredRows = rows.filter(
         (row, i) => {
-          debugger
           let ans = false
-
           let s1 = true
 
           if (lowerSearch !== '') {
             s1 = false
-
             const s1Values = Object.values(row.rdo)
-
             const s1Lower = s1Values.map(x => x.toString().toLowerCase())
 
             for (let val = 0; val < s1Lower.length; val++) {
@@ -148,7 +144,6 @@ export default {
           }
 
           ans = false
-
           if (s1) {
             ans = true
           }
@@ -175,7 +170,8 @@ export default {
       this.getData(this.userLogged.loadedRdos)
       this.columns.push({ name: 'deleteRdo', required: true, label: 'Elimina RDO', align: 'center' })
     } else {
-      this.getData(this.boardRdos)
+      const filteredRdos = this.boardRdos.filter((rdo) => { return rdo.user._id !== this.userLogged._id })
+      this.getData(filteredRdos)
     }
   },
   watch: {
@@ -183,7 +179,8 @@ export default {
       deep: true,
       handler (newVal, oldVal) {
         if (this.allRdos) {
-          this.getData(newVal)
+          const filteredRdos = newVal.filter((rdo) => { return rdo.user._id !== this.userLogged._id })
+          this.getData(filteredRdos)
         }
       }
     },

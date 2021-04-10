@@ -235,7 +235,7 @@
         <div class="row wrap justify-center content-center no-padding no-margin q-gutter-x-md q-gutter-y-xs">
 
           <!--riga-->
-          <div class="col-12 col-md-3">
+          <div class="col-12 col-md-3 order-1">
             <span>SOA</span>
             <q-toggle
               v-model="soaToggle"
@@ -244,7 +244,7 @@
               unchecked-icon="clear"
             />
           </div>
-          <div class="col-12 col-md-3">
+          <div class="col-12 col-md-3 order-3">
 
             <span>ISO</span>
             <q-toggle
@@ -255,7 +255,7 @@
             />
 
           </div>
-          <div class="col-12 col-md-3">
+          <div class="col-12 col-md-3 order-5">
 
             <span>Patentino Fgas</span>
             <q-toggle
@@ -267,7 +267,7 @@
 
           </div>
           <!--riga-->
-          <div class="col-12 col-md-3">
+          <div class="col-12 col-md-3 order-2">
             <q-file
               :disable="!soaToggle"
               v-model="soaFile"
@@ -281,7 +281,7 @@
               </template>
             </q-file>
           </div>
-          <div class="col-12 col-md-3">
+          <div class="col-12 col-md-3 order-4">
             <q-file
               :disable="!isoToggle"
               v-model="isoFile"
@@ -295,7 +295,7 @@
               </template>
             </q-file>
           </div>
-          <div class="col-12 col-md-3">
+          <div class="col-12 col-md-3 order-6">
             <q-file
               :disable="!fgasToggle"
               v-model="fgasFile"
@@ -310,14 +310,14 @@
             </q-file>
           </div>
           <!--riga-->
-          <div class="col-12 col-md-3 q-pt-md">
+          <div class="col-12 col-md-3 q-pt-md order-7">
             Richieste di offerta *
           </div>
           <div class="desktop-only col-12 col-md-3"></div>
           <div class="desktop-only col-12 col-md-3"></div>
           <!--riga-->
           <q-select @input="getCatRdoOption"
-                    class="col-12 col-md-3"
+                    class="col-12 col-md-3 order-8"
                     multiple
                     use-chips
                     outlined option-dense
@@ -334,7 +334,7 @@
           />
 
           <q-select @input="getSubcatRdoOption"
-                    class="col-12 col-md-3"
+                    class="col-12 col-md-3 order-9"
                     :disable="!rdosMacrocategories.length>0"
                     :readonly="!rdosMacrocategories.length>0"
                     outlined
@@ -352,7 +352,7 @@
                     :rules="[ (val) => isValid('rdosCategories', val, $v) ]"
           />
 
-          <q-select class="col-12 col-md-3"
+          <q-select class="col-12 col-md-3 order-10"
                     :disable="!rdosCategories.length>0"
                     :readonly="!rdosCategories.length>0"
                     outlined
@@ -370,10 +370,10 @@
                     :rules="[ (val) => isValid('rdosSubcategories', val, $v) ]"
           />
           <!--riga-->
-          <div class="col-12 col-md-3 q-pt-md">
+          <div class="col-12 col-md-3 q-pt-md order-11">
             Importi *
           </div>
-          <div class="col-12 col-md-3 q-pt-md">
+          <div class="col-12 col-md-3 q-pt-md order-13">
             Regioni di interesse *
           </div>
           <div class="desktop-only col-12 col-md-3"></div>
@@ -382,7 +382,7 @@
                     :options="imports"
                     name="imports"
                     outlined
-                    class="col-12 col-md-3"
+                    class="col-12 col-md-3 order-12"
                     option-dense
                     multiple
                     label="Importi *"
@@ -393,7 +393,7 @@
                     :rules="[ (val) => isValid('imports', val, $v.user) ]"
           />
 
-          <q-select  class="col-12 col-md-3"
+          <q-select  class="col-12 col-md-3 order-14"
                      :disable="!regions.length>0" :readonly="!regions.length>0"
                      outlined
                      :options-dense="true" :options="regions" option-label="description"
@@ -411,15 +411,15 @@
 
           <div class="desktop-only col-12 col-md-3"></div>
           <!--riga-->
-          <div class="col-12 col-md-3 q-pt-md">
+          <div class="col-12 col-md-3 q-pt-md order-15">
             Iscrizione White List o Dichiarazione Antimafia *
           </div>
-          <div class="col-12 col-md-3 q-pt-md">
+          <div class="col-12 col-md-3 q-pt-md order-17">
             Presentazione Aziendale *
           </div>
           <div class="desktop-only col-12 col-md-3"></div>
           <!--riga-->
-          <div class="col-12 col-md-3">
+          <div class="col-12 col-md-3 order-16">
             <q-file
               v-model="antimafiaFile"
               label="Carica quì il documento richiesto"
@@ -433,7 +433,7 @@
               </template>
             </q-file>
           </div>
-          <div class="col-12 col-md-3">
+          <div class="col-12 col-md-3 order-18">
             <q-file
               v-model="lendingFile"
               label="Carica quì il documento richiesto"
@@ -449,13 +449,13 @@
           </div>
           <div class="desktop-only col-12 col-md-3"></div>
           <!--riga-->
-          <div class="col-12 col-md-3 q-pt-md">
+          <div class="col-12 col-md-3 q-pt-md order-19">
             Certificato o Visura Camerale *
           </div>
           <div class="desktop-only col-12 col-md-3"></div>
           <div class="desktop-only col-12 col-md-3"></div>
           <!--riga-->
-          <div class="col-12 col-md-3">
+          <div class="col-12 col-md-3 order-20">
             <q-file
               v-model="certificateFile"
               label="Carica quì il documento richiesto"
@@ -469,7 +469,7 @@
               </template>
             </q-file>
           </div>
-          <q-input class="col-12 col-md-2" label="Data Scadenza" :rules="[ (val) => isValid('certificateDate', val, $v.user) ]" outlined v-model="user.certificateDate" mask="##/##/####">
+          <q-input class="col-12 col-md-2 order-21" label="Data Scadenza" :rules="[ (val) => isValid('certificateDate', val, $v.user) ]" outlined v-model="user.certificateDate" mask="##/##/####">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -485,13 +485,13 @@
           </q-input>
           <div class="desktop-only col-12 col-md-4"></div>
           <!--riga-->
-          <div class="col-12 col-md-3 q-pt-md">
+          <div class="col-12 col-md-3 q-pt-md order-22">
             Regolarità Durc *
           </div>
           <div class="desktop-only col-12 col-md-3"></div>
           <div class="desktop-only col-12 col-md-3"></div>
           <!--riga-->
-          <div class="col-12 col-md-3">
+          <div class="col-12 col-md-3 order-23">
             <q-file
               v-model="durcRegolarityFile"
               label="Carica quì il documento richiesto"
@@ -505,7 +505,7 @@
               </template>
             </q-file>
           </div>
-          <q-input class="col-12 col-md-2" label="Data Scadenza" :rules="[ (val) => isValid('durcRegolarityDate', val, $v.user) ]" outlined v-model="user.durcRegolarityDate" mask="##/##/####">
+          <q-input class="col-12 col-md-2 order-24" label="Data Scadenza" :rules="[ (val) => isValid('durcRegolarityDate', val, $v.user) ]" outlined v-model="user.durcRegolarityDate" mask="##/##/####">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">

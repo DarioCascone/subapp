@@ -441,3 +441,8 @@ body {
 
 
 
+@media (min-width: 1000px) and (max-width: 1400px) {
+  .section-card .my-card .q-card__section {
+    min-height: 320px;
+  }
+}
