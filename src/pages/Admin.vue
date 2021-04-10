@@ -128,7 +128,6 @@ export default {
       viewProfileClassObj: {
         'bg-white': true
       },
-      filter: '',
       search: '',
       date: date,
       users: [],
@@ -170,6 +169,13 @@ export default {
         { name: 'delete', required: true, label: 'Elimina', align: 'center' }
       ],
       data: []
+    }
+  },
+  computed: {
+    filter () {
+      return {
+        search: this.search
+      }
     }
   },
   methods: {
@@ -271,6 +277,7 @@ export default {
       }
     },
     customFilter (rows, terms) {
+      debugger
       const lowerSearch = terms.search ? terms.search.toLowerCase() : ''
       const filteredRows = rows.filter(
         (row, i) => {
