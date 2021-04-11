@@ -830,49 +830,49 @@ export default {
       let needUploadFile = false
       const fileToRemove = []
       if (this.antimafiaFile.size > 0) {
-        formData.append('file', this.antimafiaFile, 'antimafiaFile')
+        formData.append('file', this.antimafiaFile, `antimafiaFile.${this.antimafiaFile.name.split('.')[1]}`)
         needUploadFile = true
-        if (this.isEditing) {
+        if (this.isEditing && this.user.antimafiaFile && this.user.antimafiaFile.path) {
           fileToRemove.push(this.user.antimafiaFile.path)
         }
       }
       if (this.lendingFile.size > 0) {
-        formData.append('file', this.lendingFile, 'lendingFile')
+        formData.append('file', this.lendingFile, `lendingFile.${this.lendingFile.name.split('.')[1]}`)
         needUploadFile = true
         if (this.isEditing && this.user.lendingFile && this.user.lendingFile.path) {
           fileToRemove.push(this.user.lendingFile.path)
         }
       }
       if (this.certificateFile.size > 0) {
-        formData.append('file', this.certificateFile, 'certificateFile')
+        formData.append('file', this.certificateFile, `certificateFile.${this.certificateFile.name.split('.')[1]}`)
         needUploadFile = true
         if (this.isEditing && this.user.certificateFile && this.user.certificateFile.path) {
           fileToRemove.push(this.user.certificateFile.path)
         }
       }
       if (this.durcRegolarityFile.size > 0) {
-        formData.append('file', this.durcRegolarityFile, 'durcRegolarityFile')
+        formData.append('file', this.durcRegolarityFile, `durcRegolarityFile.${this.durcRegolarityFile.name.split('.')[1]}`)
         needUploadFile = true
         if (this.isEditing && this.user.durcRegolarityFile && this.user.durcRegolarityFile.path) {
           fileToRemove.push(this.user.durcRegolarityFile.path)
         }
       }
       if (this.soaFile && this.soaFile.size > 0) {
-        formData.append('file', this.soaFile, 'soaFile')
+        formData.append('file', this.soaFile, `soaFile.${this.soaFile.name.split('.')[1]}`)
         needUploadFile = true
         if (this.isEditing && this.user.soaFile && this.user.soaFile.path) {
           fileToRemove.push(this.user.soaFile.path)
         }
       }
       if (this.isoFile && this.isoFile.size > 0) {
-        formData.append('file', this.isoFile, 'isoFile')
+        formData.append('file', this.isoFile, `isoFile.${this.isoFile.name.split('.')[1]}`)
         needUploadFile = true
         if (this.isEditing && this.user.isoFile && this.user.isoFile.path) {
           fileToRemove.push(this.user.isoFile.path)
         }
       }
       if (this.fgasFile && this.fgasFile.size > 0) {
-        formData.append('file', this.fgasFile, 'fgasFile')
+        formData.append('file', this.fgasFile, `fgasFile.${this.fgasFile.name.split('.')[1]}`)
         needUploadFile = true
         if (this.isEditing && this.user.fgasFile && this.user.fgasFile.path) {
           fileToRemove.push(this.user.fgasFile.path)
@@ -887,8 +887,8 @@ export default {
           await this.deleteFiles(obj)
         }
         const uploadedFiles = await this.uploadFile(formData)
-        uploadedFiles.forEach((file) => {
-          user[file.originalname] = file
+        uploadedFiles.files.forEach((file) => {
+          user[file.Key.split('.')[1]] = file
         })
       }
       if (this.isEditing) {
@@ -904,10 +904,10 @@ export default {
           await this.fetchUser(obj)
         }
       } else {
-        await this.putUser(user)
+        await this.postUser(user)
       }
     },
-    async putUser (user) {
+    async postUser (user) {
       const obj = { pathParam: user._id }
       obj.body = user
       await this.updateUser(obj)

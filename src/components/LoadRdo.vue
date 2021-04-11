@@ -515,11 +515,10 @@ export default {
       })
       const uploadedFiles = await this.uploadFile(formData)
       uploadedFiles.files.forEach((file) => {
-        file.originalname = file.originalname.split('.')[0]
         if (file.originalname === 'images' || file.originalname === 'technicalFiles') {
-          rdo[file.originalname].push(file)
+          rdo[file.Key.split('.')[1]].push(file)
         } else {
-          rdo[file.originalname] = file
+          rdo[file.Key.split('.')[1]] = file
         }
       })
       const obj = {
